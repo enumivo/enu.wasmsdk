@@ -5,6 +5,3 @@
 [submodule "enumivo_llvm"]
 	path = enumivo_llvm
 	url = https://github.com/enumivo/llvm
-[submodule "libraries/libc++/libcxx"]
-	path = libraries/libc++/libcxx
-	url = https://github.com/enumivo/libcxx
