@@ -10,4 +10,4 @@ class hello : public enumivo::contract {
       }
 };
 
-EOSIO_ABI( hello, (hi) )
+ENUMIVO_ABI( hello, (hi) )

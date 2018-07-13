@@ -1,34 +1,34 @@
 # WasmSDK
 ## Version : 1.0.0
 
-WasmSDK is a toolchain for WebAssembly (WASM).  In addition to being a general purpose WebAssembly toolchain, [EOSIO](https://github.com/enumivo/eos) specific optimizations are available to support building EOSIO smart contracts.  This new toolchain is built around [Clang 7](https://github.com/enumivo/llvm), which means that the SDK has the most currently available optimizations and analyses from LLVM, but as the WASM target is still considered experimental, some optimizations are not available or incomplete.
+WasmSDK is a toolchain for WebAssembly (WASM).  In addition to being a general purpose WebAssembly toolchain, [Enumivo](https://github.com/enumivo/enumivo) specific optimizations are available to support building Enumivo smart contracts.  This new toolchain is built around [Clang 7](https://github.com/enumivo/llvm), which means that the SDK has the most currently available optimizations and analyses from LLVM, but as the WASM target is still considered experimental, some optimizations are not available or incomplete.
 
-## New Features from EOSIO
+## New Features from Enumivo
 - Compile (-c) option flag will compile to a WASM-elf object file
 - ranlib and ar support for static libraries for WASM
 - \_\_FILE\_\_ and \_\_BASE\_FILE\_\_ will now only return the file name and not the fullpath. This eliminates any non-determinism from location of the compiled binary
 - Global constructors and global destructors are now supported
 - _enumivo-cpp_, _enumivo-cc_, _enumivo-ld_, and _enumivo-pp_ are set the core set of tools that you will interact with.
     * These are the C++ compiler, C compiler, linker and postpass tools.
-- A simple CMake interface to build EOSIO smart contracts against WasmSDK
+- A simple CMake interface to build Enumivo smart contracts against WasmSDK
 - ABI generator (Coming Soon)
 
 ### Guided Installation
 First clone
 
 ```sh
-$ git clone --recursive https://github.com/enumivo/enumivo.wasmsdk
+$ git clone --recursive https://github.com/enumivo/enu.wasmsdk
 $ cd enumivo.wasmsdk
 ```
 
-Now run `build.sh` and give the core symbol for the EOSIO blockchain that intend to deploy to.
+Now run `build.sh` and give the core symbol for the Enumivo blockchain that intend to deploy to.
     *`build.sh` will install any dependencies that are needed.
 ```sh
 $ ./build.sh <CORE_SYMBOL>
 ```
 
 Finally, install the build
-    *This install will install the core to ```/usr/local/enumivo.wasmsdk``` and symlinks to the top level tools (compiler, ld, etc.) to ```/usr/local/bin```
+    *This install will install the core to ```/usr/local/enu.wasmsdk``` and symlinks to the top level tools (compiler, ld, etc.) to ```/usr/local/bin```
 ```sh
 $ cd build
 $ sudo make install
@@ -40,12 +40,12 @@ $ sudo make install
 First clone the repo and create a build directory
 
 ```sh
-$ git clone --recursive https://github.com/enumivo/wasmsdk
+$ git clone --recursive https://github.com/enumivo/enu.wasmsdk
 $ cd wasmsdk
 $ mkdir build && cd build
 ```
 
-Then configure with cmake to install to ```/usr/local/enumivo.wasmsdk```
+Then configure with cmake to install to ```/usr/local/enu.wasmsdk```
 
 ```sh
 $ cmake ..
@@ -74,7 +74,7 @@ $ make && make install
 
 ### Usage
 ---
-To compile an EOSIO smart contract, the perferred method is to use the template CMakeLists.txt in the examples folder.
+To compile an Enumivo smart contract, the perferred method is to use the template CMakeLists.txt in the examples folder.
 For example:
 ```CMakeLists.txt```
 ```
@@ -99,13 +99,13 @@ public:
    void test_action( account_name test ) {
    }
 };
-EOSIO_ABI( test, (test_action))
+ENUMIVO_ABI( test, (test_action))
 ```
 
 Since, EnumivoWasmToolchain overwrites `cmake` to cross-compile WASM, standard cmake commands of _add\_executable/ add\_library_ can then be used.  Also note, the __WASM_ROOT__ variable, this needs to be set if you decided to install to the non-default location.
 
 To manually compile source code:
-Use ```enumivo-cpp/enumivo-cc``` and ```enumivo-ld``` as if it were __clang__ and __lld__ , with all includes and options specific to EOSIO and WasmSDK being baked in.
+Use ```enumivo-cpp/enumivo-cc``` and ```enumivo-ld``` as if it were __clang__ and __lld__ , with all includes and options specific to Enumivo and WasmSDK being baked in.
 
 ### enumivo-cpp
 ---
