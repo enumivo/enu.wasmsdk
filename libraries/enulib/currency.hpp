@@ -1,5 +1,5 @@
 #pragma once
-#include <enulib/eosio.hpp>
+#include <enulib/enu.hpp>
 #include <enulib/asset.hpp>
 #include <enulib/multi_index.hpp>
 

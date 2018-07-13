@@ -1,4 +1,4 @@
-#include <enulib/eosio.hpp>
+#include <enulib/enu.hpp>
 using namespace eosio;
 class hello : public eosio::contract {
   public:

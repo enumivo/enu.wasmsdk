@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <string>
-#include <enulib/eosio.hpp>
+#include <enulib/enu.hpp>
 
 namespace eosio {
   class microseconds {
