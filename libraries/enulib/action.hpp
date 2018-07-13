@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eos/LICENSE.txt
+ *  @copyright defined in enumivo/LICENSE.txt
  */
 #pragma once
 #include <enulib/action.h>
@@ -37,7 +37,7 @@ namespace enumivo {
     *    unsigned long long b; //8
     *    int  c; //4
     *
-    *    EOSLIB_SERIALIZE( dummy_action, (a)(b)(c) )
+    *    ENULIB_SERIALIZE( dummy_action, (a)(b)(c) )
     *  };
     *  dummy_action msg = unpack_action_data<dummy_action>();
     *  @endcode
@@ -86,7 +86,7 @@ namespace enumivo {
          return std::tie( a.actor, a.permission ) == std::tie( b.actor, b.permission );
       }
 
-      EOSLIB_SERIALIZE( permission_level, (actor)(permission) )
+      ENULIB_SERIALIZE( permission_level, (actor)(permission) )
    };
 
    void require_auth(const permission_level& level) {
@@ -162,7 +162,7 @@ namespace enumivo {
       action( vector<permission_level> auths, account_name a, action_name n, T&& value )
       :account(a), name(n), authorization(std::move(auths)), data(pack(std::forward<T>(value))) {}
 
-      EOSLIB_SERIALIZE( action, (account)(name)(authorization)(data) )
+      ENULIB_SERIALIZE( action, (account)(name)(authorization)(data) )
 
       void send() const {
          auto serialize = pack(*this);

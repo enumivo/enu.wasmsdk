@@ -151,7 +151,7 @@ namespace enumivo {
          symbol.print(false);
       }
 
-      EOSLIB_SERIALIZE( asset, (amount)(symbol) )
+      ENULIB_SERIALIZE( asset, (amount)(symbol) )
    };
 
    struct extended_asset : public asset {
@@ -184,7 +184,7 @@ namespace enumivo {
          return {r, a.contract};
       }
 
-      EOSLIB_SERIALIZE( extended_asset, (amount)(symbol)(contract) )
+      ENULIB_SERIALIZE( extended_asset, (amount)(symbol)(contract) )
    };
 
 

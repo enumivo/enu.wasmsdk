@@ -85,7 +85,7 @@ namespace enumivo {
          }
       }
 
-      EOSLIB_SERIALIZE( symbol_type, (value) )
+      ENULIB_SERIALIZE( symbol_type, (value) )
    };
 
    struct extended_symbol : public symbol_type
@@ -106,7 +106,7 @@ namespace enumivo {
       friend bool operator != ( const extended_symbol& a, const extended_symbol& b ) {
         return std::tie( a.value, a.contract ) != std::tie( b.value, b.contract );
       }
-      EOSLIB_SERIALIZE( extended_symbol, (value)(contract) )
+      ENULIB_SERIALIZE( extended_symbol, (value)(contract) )
    };
 
 } /// namespace enumivo

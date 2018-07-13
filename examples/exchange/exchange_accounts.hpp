@@ -18,7 +18,7 @@ namespace enumivo {
       flat_map<extended_symbol, int64_t>   balances;
 
       uint64_t primary_key() const { return owner; }
-      EOSLIB_SERIALIZE( exaccount, (owner)(balances) )
+      ENULIB_SERIALIZE( exaccount, (owner)(balances) )
    };
 
    typedef enumivo::multi_index<N(exaccounts), exaccount> exaccounts;
