@@ -2,10 +2,6 @@
 	path = libraries/libc/musl
 	url = https://github.com/eosio/musl
 	branch = eosio
-[submodule "libraries/libc++/libcxx"]
-	path = libraries/libc++/libcxx
-	url = https://github.com/eosio/libcxx
-	branch = eosiosdk
 [submodule "enumivo_llvm"]
 	path = enumivo_llvm
 	url = https://github.com/enumivo/llvm
