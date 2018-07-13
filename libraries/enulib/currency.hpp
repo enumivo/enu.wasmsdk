@@ -1,7 +1,7 @@
 #pragma once
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/asset.hpp>
-#include <eosiolib/multi_index.hpp>
+#include <enulib/eosio.hpp>
+#include <enulib/asset.hpp>
+#include <enulib/multi_index.hpp>
 
 namespace eosio {
    using std::string;

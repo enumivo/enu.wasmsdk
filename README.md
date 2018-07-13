@@ -91,7 +91,7 @@ add_executable( test test.cpp )
 ```
 ```test.cpp```
 ```
-#include <eosiolib/eosio.hpp>
+#include <enulib/eosio.hpp>
 using namespace eosio;
 class test : public eosio::contract {
 public:

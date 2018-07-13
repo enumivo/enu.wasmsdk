@@ -17,12 +17,12 @@
 
 #include <boost/multi_index/mem_fun.hpp>
 
-#include <eosiolib/action.h>
-#include <eosiolib/types.hpp>
-#include <eosiolib/serialize.hpp>
-#include <eosiolib/datastream.hpp>
-#include <eosiolib/db.h>
-#include <eosiolib/fixed_key.hpp>
+#include <enulib/action.h>
+#include <enulib/types.hpp>
+#include <enulib/serialize.hpp>
+#include <enulib/datastream.hpp>
+#include <enulib/db.h>
+#include <enulib/fixed_key.hpp>
 
 namespace eosio {
 

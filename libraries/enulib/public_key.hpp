@@ -1,6 +1,6 @@
 #pragma once 
-#include <eosiolib/varint.hpp>
-#include <eosiolib/serialize.hpp>
+#include <enulib/varint.hpp>
+#include <enulib/serialize.hpp>
 
 namespace eosio {
    struct public_key {

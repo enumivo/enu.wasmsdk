@@ -4,7 +4,7 @@ file(GLOB HEADERS "*.hpp"
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core_symbol.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/core_symbol.hpp)
 
 add_library(eosio 
-            eosiolib.cpp 
+            enulib.cpp 
             ${HEADERS})
 
 target_include_directories(eosio PUBLIC 
@@ -17,4 +17,4 @@ install(TARGETS eosio EXPORT EosioLib
    LIBRARY DESTINATION ${SDK_INSTALL_PREFIX}/lib/
    ARCHIVE DESTINATION ${SDK_INSTALL_PREFIX}/lib/)
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../eosiolib DESTINATION ${SDK_INSTALL_PREFIX}/include)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../enulib DESTINATION ${SDK_INSTALL_PREFIX}/include)

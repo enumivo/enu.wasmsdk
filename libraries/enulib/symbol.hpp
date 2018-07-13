@@ -1,8 +1,8 @@
 #pragma once
-#include <eosiolib/core_symbol.hpp>
-#include <eosiolib/serialize.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/system.h>
+#include <enulib/core_symbol.hpp>
+#include <enulib/serialize.hpp>
+#include <enulib/print.hpp>
+#include <enulib/system.h>
 #include <tuple>
 #include <limits>
 

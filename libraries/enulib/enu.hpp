@@ -3,9 +3,9 @@
  *  @copyright defined in eos/LICENSE.txt
  */
 #pragma once
-#include <eosiolib/types.hpp>
-#include <eosiolib/action.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/dispatcher.hpp>
-#include <eosiolib/contract.hpp>
+#include <enulib/types.hpp>
+#include <enulib/action.hpp>
+#include <enulib/print.hpp>
+#include <enulib/multi_index.hpp>
+#include <enulib/dispatcher.hpp>
+#include <enulib/contract.hpp>

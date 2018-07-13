@@ -1,7 +1,7 @@
 #pragma once
 
-#include <eosiolib/asset.hpp>
-#include <eosiolib/multi_index.hpp>
+#include <enulib/asset.hpp>
+#include <enulib/multi_index.hpp>
 #include <cmath>
 
 namespace eosio {

@@ -4,8 +4,8 @@
  */
 #pragma once
 
-#include <eosiolib/permission.h>
-#include <eosiolib/transaction.hpp>
+#include <enulib/permission.h>
+#include <enulib/transaction.hpp>
 
 #include <set>
 #include <limits>
