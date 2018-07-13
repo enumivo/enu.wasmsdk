@@ -1,8 +1,8 @@
-message(STATUS "Setting up Eosio Wasm Toolchain")
+message(STATUS "Setting up Enumivo Wasm Toolchain")
 set(CMAKE_SYSTEM_NAME WebAssembly)
 
 set(WASM_INSTALL_ROOT "${CMAKE_INSTALL_PREFIX}")
-set(CLANG_DIR ${CMAKE_BINARY_DIR}/EosioClang-prefix/src/EosioClang-build)
+set(CLANG_DIR ${CMAKE_BINARY_DIR}/EnumivoClang-prefix/src/EnumivoClang-build)
 
 set(CMAKE_C_COMPILER "${CLANG_DIR}/bin/eosio-cc")
 set(CMAKE_CXX_COMPILER "${CLANG_DIR}/bin/eosio-cpp")

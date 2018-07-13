@@ -1,4 +1,4 @@
-message(STATUS "Setting up Eosio Wasm Toolchain")
+message(STATUS "Setting up Enumivo Wasm Toolchain")
 set(CMAKE_SYSTEM_NAME WebAssembly)
 
 if (WASM_ROOT STREQUAL "")

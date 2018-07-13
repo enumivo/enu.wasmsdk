@@ -11,7 +11,7 @@ if(NOT ${NO_WASM_COMPILER} STREQUAL "")
       ### include eosio clang 7 as external project
       include(ClangExternalProject.txt)
    else(NOT ${no_wasm_comp} STREQUAL "true")
-      add_custom_target(EosioClang)
+      add_custom_target(EnumivoClang)
    endif()
 else(NOT ${NO_WASM_COMPILER} STREQUAL "")
    set(no_wasm_comp "false")

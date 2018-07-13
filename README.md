@@ -110,7 +110,7 @@ Use ```eosio-cpp/eosio-cc``` and ```eosio-ld``` as if it were __clang__ and __ll
 ### eosio-cpp
 ---
 ```bash
-OVERVIEW: eosio-cpp (Eosio C++ -> WebAssembly compiler)
+OVERVIEW: eosio-cpp (Enumivo C++ -> WebAssembly compiler)
 USAGE: eosio-cpp [options] <input file> ...
 
 OPTIONS:
