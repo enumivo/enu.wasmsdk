@@ -85,7 +85,7 @@ if(WASM_ROOT STREQUAL "" OR NOT WASM_ROOT)
     set(WASM_ROOT ${CMAKE_INSTALL_PREFIX})
 endif()
 list(APPEND CMAKE_MODULE_PATH ${WASM_ROOT}/lib/cmake)
-include(EosioWasmToolchain)
+include(EnumivoWasmToolchain)
 
 add_executable( test test.cpp )
 ```
@@ -102,7 +102,7 @@ public:
 EOSIO_ABI( test, (test_action))
 ```
 
-Since, EosioWasmToolchain overwrites `cmake` to cross-compile WASM, standard cmake commands of _add\_executable/ add\_library_ can then be used.  Also note, the __WASM_ROOT__ variable, this needs to be set if you decided to install to the non-default location.
+Since, EnumivoWasmToolchain overwrites `cmake` to cross-compile WASM, standard cmake commands of _add\_executable/ add\_library_ can then be used.  Also note, the __WASM_ROOT__ variable, this needs to be set if you decided to install to the non-default location.
 
 To manually compile source code:
 Use ```eosio-cpp/eosio-cc``` and ```eosio-ld``` as if it were __clang__ and __lld__ , with all includes and options specific to EOSIO and WasmSDK being baked in.

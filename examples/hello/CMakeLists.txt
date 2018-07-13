@@ -10,6 +10,6 @@ endif()
 list(APPEND CMAKE_MODULE_PATH ${WASM_ROOT}/lib/cmake)
 
 #include the toolchain cmake
-include(EosioWasmToolchain)
+include(EnumivoWasmToolchain)
 
 add_executable( hello hello.cpp )
