@@ -10,7 +10,7 @@
 
 #include <enulib/system.h>
 
-namespace eosio {
+namespace enumivo {
 
    template<size_t Size>
    class fixed_key;
@@ -56,7 +56,7 @@ namespace eosio {
                    continue;
                }
 
-               eosio_assert( sub_words_left == 1, "unexpected error in fixed_key constructor" );
+               enumivo_assert( sub_words_left == 1, "unexpected error in fixed_key constructor" );
                temp_word |= static_cast<word_t>(w);
                sub_words_left = num_sub_words;
 

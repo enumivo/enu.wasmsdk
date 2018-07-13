@@ -8,7 +8,7 @@
 #include <tuple>
 #include <string>
 
-namespace eosio {
+namespace enumivo {
 
    typedef std::vector<std::tuple<uint16_t,std::vector<char>>> extensions_type;
 
@@ -64,7 +64,7 @@ namespace eosio {
     * @brief used to generate a compile time uint64_t from the base32 encoded string interpretation of X
     * @ingroup types
     */
-   #define N(X) ::eosio::string_to_name(#X)
+   #define N(X) ::enumivo::string_to_name(#X)
 
 
    static constexpr uint64_t name_suffix( uint64_t n ) {
@@ -109,7 +109,7 @@ namespace eosio {
    struct name {
       operator uint64_t()const { return value; }
 
-      // keep in sync with name::operator string() in eosio source code definition for name
+      // keep in sync with name::operator string() in enumivo source code definition for name
       std::string to_string() const {
          static const char* charmap = ".12345abcdefghijklmnopqrstuvwxyz";
 
@@ -138,7 +138,7 @@ namespace eosio {
    };
    /// @}
 
-} // namespace eosio
+} // namespace enumivo
 
 namespace std {
    /**

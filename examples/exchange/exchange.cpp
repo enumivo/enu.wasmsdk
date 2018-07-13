@@ -3,31 +3,31 @@
 
 #include <enulib/dispatcher.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    void exchange::deposit( account_name from, extended_asset quantity ) {
-      eosio_assert( quantity.is_valid(), "invalid quantity" );
+      enumivo_assert( quantity.is_valid(), "invalid quantity" );
       currency::inline_transfer( from, _this_contract, quantity, "deposit" );
       _accounts.adjust_balance( from, quantity, "deposit" );
    }
 
    void exchange::withdraw( account_name from, extended_asset quantity ) {
       require_auth( from );
-      eosio_assert( quantity.is_valid(), "invalid quantity" );
-      eosio_assert( quantity.amount >= 0, "cannot withdraw negative balance" ); // Redundant? inline_transfer will fail if quantity is not positive.
+      enumivo_assert( quantity.is_valid(), "invalid quantity" );
+      enumivo_assert( quantity.amount >= 0, "cannot withdraw negative balance" ); // Redundant? inline_transfer will fail if quantity is not positive.
       _accounts.adjust_balance( from, -quantity );
       currency::inline_transfer( _this_contract, from, quantity, "withdraw" );
    }
 
    void exchange::on( const trade& t ) {
       require_auth( t.seller );
-      eosio_assert( t.sell.is_valid(), "invalid sell amount" );
-      eosio_assert( t.sell.amount > 0, "sell amount must be positive" );
-      eosio_assert( t.min_receive.is_valid(), "invalid min receive amount" );
-      eosio_assert( t.min_receive.amount >= 0, "min receive amount cannot be negative" );
+      enumivo_assert( t.sell.is_valid(), "invalid sell amount" );
+      enumivo_assert( t.sell.amount > 0, "sell amount must be positive" );
+      enumivo_assert( t.min_receive.is_valid(), "invalid min receive amount" );
+      enumivo_assert( t.min_receive.amount >= 0, "min receive amount cannot be negative" );
 
       auto receive_symbol = t.min_receive.get_extended_symbol();
-      eosio_assert( t.sell.get_extended_symbol() != receive_symbol, "invalid conversion" );
+      enumivo_assert( t.sell.get_extended_symbol() != receive_symbol, "invalid conversion" );
 
       market_state market( _this_contract, t.market, _accounts );
 
@@ -44,7 +44,7 @@ namespace eosio {
       print( name{t.seller}, "   ", t.sell, "  =>  ", output, "\n" );
 
       if( t.min_receive.amount != 0 ) {
-         eosio_assert( t.min_receive.amount <= output.amount, "unable to fill" );
+         enumivo_assert( t.min_receive.amount <= output.amount, "unable to fill" );
       }
 
       _accounts.adjust_balance( t.seller, -t.sell, "sold" );
@@ -69,17 +69,17 @@ namespace eosio {
     */
    void exchange::on( const upmargin& b ) {
       require_auth( b.borrower );
-      eosio_assert( b.delta_borrow.is_valid(), "invalid borrow delta" );
-      eosio_assert( b.delta_collateral.is_valid(), "invalid collateral delta" );
+      enumivo_assert( b.delta_borrow.is_valid(), "invalid borrow delta" );
+      enumivo_assert( b.delta_collateral.is_valid(), "invalid collateral delta" );
 
       market_state market( _this_contract, b.market, _accounts );
 
-      eosio_assert( b.delta_borrow.amount != 0 || b.delta_collateral.amount != 0, "no effect" );
-      eosio_assert( b.delta_borrow.get_extended_symbol() != b.delta_collateral.get_extended_symbol(), "invalid args" );
-      eosio_assert( market.exstate.base.balance.get_extended_symbol() == b.delta_borrow.get_extended_symbol() ||
+      enumivo_assert( b.delta_borrow.amount != 0 || b.delta_collateral.amount != 0, "no effect" );
+      enumivo_assert( b.delta_borrow.get_extended_symbol() != b.delta_collateral.get_extended_symbol(), "invalid args" );
+      enumivo_assert( market.exstate.base.balance.get_extended_symbol() == b.delta_borrow.get_extended_symbol() ||
                     market.exstate.quote.balance.get_extended_symbol() == b.delta_borrow.get_extended_symbol(),
                     "invalid asset for market" );
-      eosio_assert( market.exstate.base.balance.get_extended_symbol() == b.delta_collateral.get_extended_symbol() ||
+      enumivo_assert( market.exstate.base.balance.get_extended_symbol() == b.delta_collateral.get_extended_symbol() ||
                     market.exstate.quote.balance.get_extended_symbol() == b.delta_collateral.get_extended_symbol(),
                     "invalid asset for market" );
 
@@ -96,8 +96,8 @@ namespace eosio {
 
    void exchange::on( const covermargin& c ) {
       require_auth( c.borrower );
-      eosio_assert( c.cover_amount.is_valid(), "invalid cover amount" );
-      eosio_assert( c.cover_amount.amount > 0, "cover amount must be positive" );
+      enumivo_assert( c.cover_amount.is_valid(), "invalid cover amount" );
+      enumivo_assert( c.cover_amount.amount > 0, "cover amount must be positive" );
 
       market_state market( _this_contract, c.market, _accounts );
 
@@ -113,13 +113,13 @@ namespace eosio {
                  extended_asset  quote_deposit
                ) {
       require_auth( creator );
-      eosio_assert( initial_supply.is_valid(), "invalid initial supply" );
-      eosio_assert( initial_supply.amount > 0, "initial supply must be positive" );
-      eosio_assert( base_deposit.is_valid(), "invalid base deposit" );
-      eosio_assert( base_deposit.amount > 0, "base deposit must be positive" );
-      eosio_assert( quote_deposit.is_valid(), "invalid quote deposit" );
-      eosio_assert( quote_deposit.amount > 0, "quote deposit must be positive" );
-      eosio_assert( base_deposit.get_extended_symbol() != quote_deposit.get_extended_symbol(),
+      enumivo_assert( initial_supply.is_valid(), "invalid initial supply" );
+      enumivo_assert( initial_supply.amount > 0, "initial supply must be positive" );
+      enumivo_assert( base_deposit.is_valid(), "invalid base deposit" );
+      enumivo_assert( base_deposit.amount > 0, "base deposit must be positive" );
+      enumivo_assert( quote_deposit.is_valid(), "invalid quote deposit" );
+      enumivo_assert( quote_deposit.amount > 0, "quote deposit must be positive" );
+      enumivo_assert( base_deposit.get_extended_symbol() != quote_deposit.get_extended_symbol(),
                     "must exchange between two different currencies" );
 
       print( "base: ", base_deposit.get_extended_symbol() );
@@ -131,7 +131,7 @@ namespace eosio {
       markets exstates( _this_contract, exchange_symbol );
       auto existing = exstates.find( exchange_symbol );
 
-      eosio_assert( existing == exstates.end(), "market already exists" );
+      enumivo_assert( existing == exstates.end(), "market already exists" );
       exstates.emplace( creator, [&]( auto& s ) {
           s.manager = creator;
           s.supply  = extended_asset(initial_supply, _this_contract);
@@ -167,8 +167,8 @@ namespace eosio {
 
    void exchange::lend( account_name lender, symbol_type market, extended_asset quantity ) {
       require_auth( lender );
-      eosio_assert( quantity.is_valid(), "invalid quantity" );
-      eosio_assert( quantity.amount > 0, "must lend a positive amount" );
+      enumivo_assert( quantity.is_valid(), "invalid quantity" );
+      enumivo_assert( quantity.amount > 0, "must lend a positive amount" );
 
       market_state m( _this_contract, market, _accounts );
       m.lend( lender, quantity );
@@ -177,7 +177,7 @@ namespace eosio {
 
    void exchange::unlend( account_name lender, symbol_type market, double interest_shares, extended_symbol interest_symbol ) {
       require_auth( lender );
-      eosio_assert( interest_shares > 0, "must unlend a positive amount" );
+      enumivo_assert( interest_shares > 0, "must unlend a positive amount" );
 
       market_state m( _this_contract, market, _accounts );
       m.unlend( lender, interest_shares, interest_symbol );
@@ -191,16 +191,16 @@ namespace eosio {
 
       if( t.to == _this_contract ) {
          auto a = extended_asset(t.quantity, code);
-         eosio_assert( a.is_valid(), "invalid quantity in transfer" );
-         eosio_assert( a.amount != 0, "zero quantity is disallowed in transfer");
-         eosio_assert( a.amount > 0 || t.memo == "withdraw", "withdrew tokens without withdraw in memo");
-         eosio_assert( a.amount < 0 || t.memo == "deposit", "received tokens without deposit in memo" );
+         enumivo_assert( a.is_valid(), "invalid quantity in transfer" );
+         enumivo_assert( a.amount != 0, "zero quantity is disallowed in transfer");
+         enumivo_assert( a.amount > 0 || t.memo == "withdraw", "withdrew tokens without withdraw in memo");
+         enumivo_assert( a.amount < 0 || t.memo == "deposit", "received tokens without deposit in memo" );
          _accounts.adjust_balance( t.from, a, t.memo );
       }
    }
 
 
-   #define N(X) ::eosio::string_to_name(#X)
+   #define N(X) ::enumivo::string_to_name(#X)
 
    void exchange::apply( account_name contract, account_name act ) {
 
@@ -233,14 +233,14 @@ namespace eosio {
       }
    }
 
-} /// namespace eosio
+} /// namespace enumivo
 
 
 
 extern "C" {
    [[noreturn]] void apply( uint64_t receiver, uint64_t code, uint64_t action ) {
-      eosio::exchange  ex( receiver );
+      enumivo::exchange  ex( receiver );
       ex.apply( code, action );
-      eosio_exit(0);
+      enumivo_exit(0);
    }
 }

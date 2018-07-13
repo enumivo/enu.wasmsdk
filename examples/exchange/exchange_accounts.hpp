@@ -2,7 +2,7 @@
 #include <enulib/asset.hpp>
 #include <enulib/multi_index.hpp>
 
-namespace eosio {
+namespace enumivo {
 
    using boost::container::flat_map;
    using namespace std;
@@ -21,7 +21,7 @@ namespace eosio {
       EOSLIB_SERIALIZE( exaccount, (owner)(balances) )
    };
 
-   typedef eosio::multi_index<N(exaccounts), exaccount> exaccounts;
+   typedef enumivo::multi_index<N(exaccounts), exaccount> exaccounts;
 
 
    /**
@@ -40,4 +40,4 @@ namespace eosio {
           */
          flat_map<account_name, exaccounts> exaccounts_cache;
    };
-} /// namespace eosio
+} /// namespace enumivo

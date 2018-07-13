@@ -4,7 +4,7 @@
 #include <enulib/multi_index.hpp>
 #include <cmath>
 
-namespace eosio {
+namespace enumivo {
 
    typedef double real_type;
 
@@ -41,8 +41,8 @@ namespace eosio {
          total_lendable.amount -= result.amount;
          interest_shares -= ishares;
 
-         eosio_assert( interest_shares >= 0, "underflow" );
-         eosio_assert( total_lendable.amount >= 0, "underflow" );
+         enumivo_assert( interest_shares >= 0, "underflow" );
+         enumivo_assert( total_lendable.amount >= 0, "underflow" );
 
          return result;
       }
@@ -84,6 +84,6 @@ namespace eosio {
       EOSLIB_SERIALIZE( exchange_state, (manager)(supply)(fee)(base)(quote) )
    };
 
-   typedef eosio::multi_index<N(markets), exchange_state> markets;
+   typedef enumivo::multi_index<N(markets), exchange_state> markets;
 
-} /// namespace eosio
+} /// namespace enumivo

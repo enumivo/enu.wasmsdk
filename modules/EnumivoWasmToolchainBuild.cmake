@@ -4,13 +4,13 @@ set(CMAKE_SYSTEM_NAME WebAssembly)
 set(WASM_INSTALL_ROOT "${CMAKE_INSTALL_PREFIX}")
 set(CLANG_DIR ${CMAKE_BINARY_DIR}/EnumivoClang-prefix/src/EnumivoClang-build)
 
-set(CMAKE_C_COMPILER "${CLANG_DIR}/bin/eosio-cc")
-set(CMAKE_CXX_COMPILER "${CLANG_DIR}/bin/eosio-cpp")
+set(CMAKE_C_COMPILER "${CLANG_DIR}/bin/enumivo-cc")
+set(CMAKE_CXX_COMPILER "${CLANG_DIR}/bin/enumivo-cpp")
 
-set(CMAKE_C_FLAGS " -O3 -eosio-imports=${CMAKE_BINARY_DIR}/eosio.imports ")
+set(CMAKE_C_FLAGS " -O3 -enumivo-imports=${CMAKE_BINARY_DIR}/enumivo.imports ")
 set(CMAKE_CXX_FLAGS " -O3 ")
 
-set(WASM_LINKER "${CLANG_DIR}/bin/eosio-ld")
+set(WASM_LINKER "${CLANG_DIR}/bin/enumivo-ld")
 
 set(CMAKE_C_LINK_EXECUTABLE "${WASM_LINKER} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 set(CMAKE_CXX_LINK_EXECUTABLE "${WASM_LINKER} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
@@ -25,4 +25,4 @@ set(STANDARD_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/libraries/libc++/libcxx/inclu
                       "${CMAKE_CURRENT_SOURCE_DIR}/libraries/enulib"
                       "${CMAKE_CURRENT_SOURCE_DIR}/libraries/boost/include"
                       "${Boost_INCLUDE_DIRS}")
-set(STANDARD_LIBS c++ c eosio)
+set(STANDARD_LIBS c++ c enumivo)

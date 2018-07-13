@@ -1,6 +1,6 @@
 #include <enulib/enu.hpp>
-using namespace eosio;
-class hello : public eosio::contract {
+using namespace enumivo;
+class hello : public enumivo::contract {
   public:
       using contract::contract;
 

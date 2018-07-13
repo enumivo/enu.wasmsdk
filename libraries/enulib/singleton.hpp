@@ -2,7 +2,7 @@
 #include <enulib/multi_index.hpp>
 #include <enulib/system.h>
 
-namespace  eosio {
+namespace  enumivo {
 
    /**
     *  This wrapper uses a single table to store named objects various types.
@@ -22,7 +22,7 @@ namespace  eosio {
          EOSLIB_SERIALIZE( row, (value) )
       };
 
-      typedef eosio::multi_index<SingletonName, row> table;
+      typedef enumivo::multi_index<SingletonName, row> table;
 
       public:
 
@@ -34,7 +34,7 @@ namespace  eosio {
 
          T get() {
             auto itr = _t.find( pk_value );
-            eosio_assert( itr != _t.end(), "singleton does not exist" );
+            enumivo_assert( itr != _t.end(), "singleton does not exist" );
             return itr->value;
          }
 
@@ -69,4 +69,4 @@ namespace  eosio {
          table _t;
    };
 
-} /// namespace eosio
+} /// namespace enumivo

@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.5)
-project(eosio_wasm_sdk VERSION 1.0.0)
+project(enumivo_wasm_sdk VERSION 1.0.0)
 
 include(GNUInstallDirs)
 
-set(SDK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/eosio.wasmsdk)
+set(SDK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/enumivo.wasmsdk)
 
 if(NOT ${NO_WASM_COMPILER} STREQUAL "")
    string(TOLOWER ${NO_WASM_COMPILER} no_wasm_comp)
    if(NOT ${no_wasm_comp} STREQUAL "true")
-      ### include eosio clang 7 as external project
+      ### include enumivo clang 7 as external project
       include(ClangExternalProject.txt)
    else(NOT ${no_wasm_comp} STREQUAL "true")
       add_custom_target(EnumivoClang)
@@ -23,7 +23,7 @@ add_subdirectory(external)
 
 set(WASM_SDK_BUILD true)
 
-configure_file(${CMAKE_SOURCE_DIR}/eosio.imports.in ${CMAKE_BINARY_DIR}/eosio.imports)
+configure_file(${CMAKE_SOURCE_DIR}/enumivo.imports.in ${CMAKE_BINARY_DIR}/enumivo.imports)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 include(EnumivoWasmToolchainBuild)
@@ -67,4 +67,4 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/EnuLibConfig.cmake
    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
 configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchain.cmake.in ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
-install(FILES ${CMAKE_BINARY_DIR}/eosio.imports DESTINATION ${SDK_INSTALL_PREFIX})
+install(FILES ${CMAKE_BINARY_DIR}/enumivo.imports DESTINATION ${SDK_INSTALL_PREFIX})
