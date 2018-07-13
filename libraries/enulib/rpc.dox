@@ -1,6 +1,6 @@
 /**
 @defgroup enumivorpc RPC Interface
-@brief Describes how to interface with eosd over HTTP RPC
+@brief Describes how to interface with enunode over HTTP RPC
 
 @section tableofcontent Table Of Contents
 - [Configuration](#configuration)
@@ -29,17 +29,17 @@
 
 @section configuration Configuration
 
-`eosd` uses a REST RPC interface where plugins can register their own endpoints with the API server. This page
+`enunode` uses a REST RPC interface where plugins can register their own endpoints with the API server. This page
 will explain how to use some of the APIs to get information about the blockchain and send transactions.
 
-Before you can query `eosd` you must first enable the necessary API plugin(s). Depending on which API you want to enable, add the following line to your `eosd`'s `config.ini`:
+Before you can query `enunode` you must first enable the necessary API plugin(s). Depending on which API you want to enable, add the following line to your `enunode`'s `config.ini`:
 ```
 plugin = enumivo::chain_api_plugin // Enable Chain API
 plugin = enumivo::wallet_api_plugin // Enable Wallet API
 ```
-Alternatively, for Wallet API, you can also have the wallet functionality separate from `eosd`, by running `eos-walletd` separately.
+Alternatively, for Wallet API, you can also have the wallet functionality separate from `enunode`, by running `enuwallet` separately.
 
-For the following guide, we will assume that we have `eosd` running on `127.0.0.1:8888` (Chain API Plugin enabled, Wallet API Plugin disabled) and `eos-walletd` running on `127.0.0.1:8889`.
+For the following guide, we will assume that we have `enunode` running on `127.0.0.1:8888` (Chain API Plugin enabled, Wallet API Plugin disabled) and `enuwallet` running on `127.0.0.1:8889`.
 
 ===
 
@@ -111,7 +111,7 @@ $ curl  http://127.0.0.1:8888/v1/chain/get_account -X POST -d '{"account_name":"
 ```
 {
   "name": "inita",
-  "eos_balance": "999998.9574 ENU",
+  "enu_balance": "999998.9574 ENU",
   "staked_balance": "0.0000 ENU",
   "unstaking_balance": "0.0000 ENU",
   "last_unstaking_time": "2106-02-07T06:28:15",

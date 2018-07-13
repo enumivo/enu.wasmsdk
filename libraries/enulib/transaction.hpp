@@ -88,4 +88,4 @@ namespace enumivo {
 
    ///@} transactioncpp api
 
-} // namespace eos
+} // namespace enumivo
