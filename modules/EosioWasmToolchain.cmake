@@ -21,7 +21,7 @@ set(CMAKE_CXX_LINK_EXECUTABLE "${WASM_LINKER} <LINK_FLAGS> <OBJECTS> -o <TARGET>
 set(CMAKE_AR "${WASM_INSTALL_ROOT}/bin/eosio-ar" CACHE PATH "ar" FORCE)
 set(CMAKE_RANLIB "${WASM_INSTALL_ROOT}/bin/eosio-ranlib" CACHE PATH "ranlib" FORCE)
 
-set(EosioLib_DIR ${WASM_INSTALL_ROOT}/lib/cmake)
+set(EnuLib_DIR ${WASM_INSTALL_ROOT}/lib/cmake)
 
 # hack for CMake on Linux
 set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)

@@ -50,7 +50,7 @@ target_include_directories(c
                            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/musl/include;${CMAKE_CURRENT_SOURCE_DIR}/musl/src/internal;${CMAKE_CURRENT_SOURCE_DIR}/musl/src/crypt;${CMAKE_CURRENT_SOURCE_DIR}/musl/arch/eos;${CMAKE_CURRENT_SOURCE_DIR}/../>"
                            $<INSTALL_INTERFACE:${SDK_INSTALL_PREFIX}/include/>)
 
-install(TARGETS c EXPORT EosioLib
+install(TARGETS c EXPORT EnuLib
    LIBRARY DESTINATION ${SDK_INSTALL_PREFIX}/lib/
    ARCHIVE DESTINATION ${SDK_INSTALL_PREFIX}/lib/)
 

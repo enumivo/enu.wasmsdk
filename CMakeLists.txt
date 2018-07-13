@@ -50,20 +50,20 @@ message( STATUS "Using '${CORE_SYMBOL_NAME}' as CORE symbol name" )
 # install examples
 install(DIRECTORY examples DESTINATION "${SDK_INSTALL_PREFIX}")
 
-install(EXPORT EosioLib DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
+install(EXPORT EnuLib DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
 
 set(INCLUDE_INSTALL_DIR ${SDK_INSTALL_PREFIX}/include)
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file(EosioLibConfigVersion.cmake 
+write_basic_package_version_file(EnuLibConfigVersion.cmake 
    COMPATIBILITY SameMajorVersion)
 
-configure_package_config_file(${CMAKE_SOURCE_DIR}/modules/EosioLibConfig.cmake.in EosioLibConfig.cmake
+configure_package_config_file(${CMAKE_SOURCE_DIR}/modules/EnuLibConfig.cmake.in EnuLibConfig.cmake
    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/"
    PATH_VARS INCLUDE_INSTALL_DIR)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/EosioLibConfigVersion.cmake
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/EnuLibConfigVersion.cmake
    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/EosioLibConfig.cmake
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/EnuLibConfig.cmake
    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
 configure_file(${CMAKE_SOURCE_DIR}/modules/EosioWasmToolchain.cmake.in ${CMAKE_BINARY_DIR}/modules/EosioWasmToolchain.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/modules/EosioWasmToolchain.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)

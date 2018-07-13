@@ -22,7 +22,7 @@ target_include_directories(c++
 
 target_link_libraries(c++ c)
 
-install(TARGETS c++ EXPORT EosioLib
+install(TARGETS c++ EXPORT EnuLib
    LIBRARY DESTINATION ${SDK_INSTALL_PREFIX}/lib/
    ARCHIVE DESTINATION ${SDK_INSTALL_PREFIX}/lib/)
 
