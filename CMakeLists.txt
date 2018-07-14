@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(enumivo_wasm_sdk VERSION 1.0.0)
+project(enu_wasm_sdk VERSION 1.0.0)
 
 include(GNUInstallDirs)
 
