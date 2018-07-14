@@ -3,7 +3,7 @@ project(enumivo_wasm_sdk VERSION 1.0.0)
 
 include(GNUInstallDirs)
 
-set(SDK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/enumivo.wasmsdk)
+set(SDK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/enu.wasmsdk)
 
 if(NOT ${NO_WASM_COMPILER} STREQUAL "")
    string(TOLOWER ${NO_WASM_COMPILER} no_wasm_comp)

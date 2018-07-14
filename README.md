@@ -18,7 +18,7 @@ First clone
 
 ```sh
 $ git clone --recursive https://github.com/enumivo/enu.wasmsdk
-$ cd enumivo.wasmsdk
+$ cd enu.wasmsdk
 ```
 
 Now run `build.sh` and give the core symbol for the Enumivo blockchain that intend to deploy to.

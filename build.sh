@@ -1,6 +1,6 @@
 #! /bin/bash
 
-printf "\t=========== Building enumivo.wasmsdk ===========\n\n"
+printf "\t=========== Building enu.wasmsdk ===========\n\n"
 
 RED='\033[0;31m'
 NC='\033[0m'
