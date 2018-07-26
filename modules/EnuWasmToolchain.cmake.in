@@ -5,8 +5,8 @@ set(ENU_WASMSDK_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@")
 
 set(CLANG_DIR @CMAKE_INSTALL_PREFIX@/)
 
-set(CMAKE_C_COMPILER "${CLANG_DIR}/bin/eosio-cc")
-set(CMAKE_CXX_COMPILER "${CLANG_DIR}/bin/eosio-cpp")
+set(CMAKE_C_COMPILER "${CLANG_DIR}/bin/enumivo-cc")
+set(CMAKE_CXX_COMPILER "${CLANG_DIR}/bin/enumivo-cpp")
 
 set(CMAKE_C_FLAGS " -O3 ")
 set(CMAKE_CXX_FLAGS " -O3 ")

@@ -1,21 +1,21 @@
 #! /bin/bash
 
-binaries=(eosio-ranlib
-          eosio-ar
-          eosio-objdump
-          eosio-readelf
-          eosio-pp
-          eosio-cc
-          eosio-cpp
-          eosio-ld)
+binaries=(enumivo-ranlib
+          enumivo-ar
+          enumivo-objdump
+          enumivo-readelf
+          enumivo-pp
+          enumivo-cc
+          enumivo-cpp
+          enumivo-ld)
 
-if [ -d "/usr/local/eosio.wasmsdk" ]; then
+if [ -d "/usr/local/enu.wasmsdk" ]; then
    printf "\tDo you wish to remove this install? (requires sudo)\n"
    select yn in "Yes" "No"; do
       case $yn in
          [Yy]* )
             pushd /usr/local &> /dev/null
-            rm -rf eosio.wasmsdk
+            rm -rf enu.wasmsdk
             pushd bin &> /dev/null
             for binary in ${binaries[@]}; do
                rm ${binary}
