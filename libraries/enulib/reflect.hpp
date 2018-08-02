@@ -66,9 +66,15 @@ void enumivo::reflector<TYPE>::visit( Visitor&& v ) { \
 
 
 /**
- *  @def ENULIB_REFLECT(TYPE,MEMBERS)
+ * @addtogroup serializecpp
+ * @{
+ */
+
+/**
+ *  Perform class reflection
+ *  
  *  @brief Specializes enumivo::reflector for TYPE
- *
+ *  @param TYPE - the class template to be reflected
  *  @param MEMBERS - a sequence of member names.  (field1)(field2)(field3)
  *
  *  @see ENULIB_REFLECT_DERIVED
@@ -76,13 +82,32 @@ void enumivo::reflector<TYPE>::visit( Visitor&& v ) { \
 #define ENULIB_REFLECT( TYPE, MEMBERS ) \
     ENULIB_REFLECT_DERIVED( TYPE, BOOST_PP_SEQ_NIL, MEMBERS )
 
+/**
+ *  Perform class template reflection
+ *  
+ *  @brief Perform class template reflection
+ *  @param TEMPLATE_ARGS - a sequence of template args. (args1)(args2)(args3)
+ *  @param TYPE - the class template to be reflected
+ *  @param MEMBERS - a sequence of member names.  (field1)(field2)(field3)
+ */
 #define ENULIB_REFLECT_TEMPLATE( TEMPLATE_ARGS, TYPE, MEMBERS ) \
     ENULIB_REFLECT_DERIVED_TEMPLATE( TEMPLATE_ARGS, TYPE, BOOST_PP_SEQ_NIL, MEMBERS )
 
+/**
+ *  Perform class reflection on empty class
+ *  
+ *  @brief Perform class reflection on empty class
+ *  @param TYPE - the class to be reflected
+ */
 #define ENULIB_REFLECT_EMPTY( TYPE ) \
     ENULIB_REFLECT_DERIVED( TYPE, BOOST_PP_SEQ_NIL, BOOST_PP_SEQ_NIL )
 
-
+/**
+ *  Perform forward declaration of class reflection
+ *  
+ *  @brief Perform forward declaration of class reflection
+ *  @param TYPE - the class to be reflected
+ */
 #define ENULIB_REFLECT_FWD( TYPE ) \
 namespace enumivo { \
   template<> struct reflector<TYPE> {\
@@ -97,6 +122,7 @@ namespace enumivo { \
        template<typename Visitor> static void visit( type& t, Visitor&& v ); \
   }; }
 
+///@}
 
 #define ENULIB_REFLECT_DERIVED_IMPL( TYPE, MEMBERS ) \
     ENULIB_REFLECT_IMPL_DERIVED_EXT( TYPE, BOOST_PP_SEQ_NIL, MEMBERS )
@@ -105,13 +131,18 @@ namespace enumivo { \
     ENULIB_REFLECT_DERIVED_IMPL_EXT( TYPE, BOOST_PP_SEQ_NIL, MEMBERS )
 
 
+/**
+ * @addtogroup serializecpp
+ * @{
+ */
 
 /**
- *  @def ENULIB_REFLECT_DERIVED(TYPE,INHERITS,MEMBERS)
+ *  Perform class reflection where TYPE inherits other reflected classes
  *
  *  @brief Specializes enumivo::reflector for TYPE where
  *         type inherits other reflected classes
- *
+ * 
+ *  @param TYPE - the class to be reflected
  *  @param INHERITS - a sequence of base class names (basea)(baseb)(basec)
  *  @param MEMBERS - a sequence of member names.  (field1)(field2)(field3)
  */
@@ -127,6 +158,17 @@ template<> struct reflector<TYPE> {\
     }; \
     ENULIB_REFLECT_DERIVED_IMPL_INLINE( TYPE, INHERITS, MEMBERS ) \
 }; }
+
+/**
+ *  Perform class template reflection where TYPE inherits other reflected classes
+ *
+ *  @brief Perform class template reflection where TYPE inherits other reflected classes
+ *  
+ *  @param TEMPLATE_ARGS - a sequence of template args. (args1)(args2)(args3)
+ *  @param TYPE - the class to be reflected
+ *  @param INHERITS - a sequence of base class names (basea)(baseb)(basec)
+ *  @param MEMBERS - a sequence of member names.  (field1)(field2)(field3)
+ */
 #define ENULIB_REFLECT_DERIVED_TEMPLATE( TEMPLATE_ARGS, TYPE, INHERITS, MEMBERS ) \
 namespace enumivo {  \
 template<BOOST_PP_SEQ_ENUM(TEMPLATE_ARGS)> struct reflector<TYPE> {\
@@ -139,3 +181,6 @@ template<BOOST_PP_SEQ_ENUM(TEMPLATE_ARGS)> struct reflector<TYPE> {\
     }; \
     ENULIB_REFLECT_DERIVED_IMPL_INLINE( TYPE, INHERITS, MEMBERS ) \
 }; }
+
+
+///@}
