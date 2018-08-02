@@ -13,8 +13,8 @@ set(CMAKE_CXX_FLAGS " -O3 -I@CMAKE_BINARY_DIR@/libraries/ -I@CMAKE_SOURCE_DIR@/l
 
 set(WASM_LINKER "${CLANG_DIR}/bin/enumivo-ld ")
 
-set(CMAKE_C_LINK_EXECUTABLE "${WASM_LINKER} -L@CMAKE_BINARY_DIR@/libraries/eosiolib -L@CMAKE_BINARY_DIR@/libraries/libc -L@CMAKE_BINARY_DIR@/libraries/libc++ -eosio-imports=@CMAKE_BINARY_DIR@/eosio.imports -eosio-pp-dir=@CMAKE_BINARY_DIR@/external/wabt <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES> -leosio -lc++ -lc ")
-set(CMAKE_CXX_LINK_EXECUTABLE "${WASM_LINKER} -L@CMAKE_BINARY_DIR@/libraries/eosiolib -L@CMAKE_BINARY_DIR@/libraries/libc -L@CMAKE_BINARY_DIR@/libraries/libc++ -eosio-imports=@CMAKE_BINARY_DIR@/eosio.imports -eosio-pp-dir=@CMAKE_BINARY_DIR@/external/wabt <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES> -leosio -lc++ -lc ")
+set(CMAKE_C_LINK_EXECUTABLE "${WASM_LINKER} -L@CMAKE_BINARY_DIR@/libraries/enulib -L@CMAKE_BINARY_DIR@/libraries/libc -L@CMAKE_BINARY_DIR@/libraries/libc++ -enumivo-imports=@CMAKE_BINARY_DIR@/enumivo.imports -enumivo-pp-dir=@CMAKE_BINARY_DIR@/external/wabt <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES> -lenumivo -lc++ -lc ")
+set(CMAKE_CXX_LINK_EXECUTABLE "${WASM_LINKER} -L@CMAKE_BINARY_DIR@/libraries/enulib -L@CMAKE_BINARY_DIR@/libraries/libc -L@CMAKE_BINARY_DIR@/libraries/libc++ -enumivo-imports=@CMAKE_BINARY_DIR@/enumivo.imports -enumivo-pp-dir=@CMAKE_BINARY_DIR@/external/wabt <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES> -lenumivo -lc++ -lc ")
 
 set(CMAKE_AR "${CLANG_DIR}/bin/llvm-ar" CACHE PATH "ar" FORCE)
 set(CMAKE_RANLIB "${CLANG_DIR}/bin/llvm-ranlib" CACHE PATH "ranlib" FORCE)

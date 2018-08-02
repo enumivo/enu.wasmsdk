@@ -126,7 +126,7 @@ extern "C" {
     * Example:
     * @code
     * time tm = expiration();
-    * eosio_print(tm);
+    * enumivo_print(tm);
     * @endcode
     */
    time expiration();

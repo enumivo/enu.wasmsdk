@@ -119,25 +119,25 @@ namespace _multi_index_detail {
 }
 
 /**
- *  The indexed_by struct is used to instantiate the indices for the Multi-Index table. In EOSIO, up to 16 secondary indices can be specified.
- *  @brief The indexed_by struct is used to instantiate the indices for the Multi-Index table. In EOSIO, up to 16 secondary indices can be specified.
+ *  The indexed_by struct is used to instantiate the indices for the Multi-Index table. In Enumivo, up to 16 secondary indices can be specified.
+ *  @brief The indexed_by struct is used to instantiate the indices for the Multi-Index table. In Enumivo, up to 16 secondary indices can be specified.
  *
- *  @tparam IndexName - is the name of the index. The name must be provided as an EOSIO base32 encoded 64-bit integer and must conform to the EOSIO naming requirements of a maximum of 13 characters, the first twelve from the lowercase characters a-z, digits 0-5, and ".", and if there is a 13th character, it is restricted to lowercase characters a-p and ".".
- *  @tparam Extractor - is a function call operator that takes a const reference to the table object type and returns either a secondary key type or a reference to a secondary key type. It is recommended to use the `eosio::const_mem_fun` template, which is a type alias to the `boost::multi_index::const_mem_fun`. See the documentation for the Boost `const_mem_fun` key extractor for more details.
+ *  @tparam IndexName - is the name of the index. The name must be provided as an Enumivo base32 encoded 64-bit integer and must conform to the Enumivo naming requirements of a maximum of 13 characters, the first twelve from the lowercase characters a-z, digits 0-5, and ".", and if there is a 13th character, it is restricted to lowercase characters a-p and ".".
+ *  @tparam Extractor - is a function call operator that takes a const reference to the table object type and returns either a secondary key type or a reference to a secondary key type. It is recommended to use the `enumivo::const_mem_fun` template, which is a type alias to the `boost::multi_index::const_mem_fun`. See the documentation for the Boost `const_mem_fun` key extractor for more details.
  *
  *  Example:
        *
 *
  *  @code
- *  #include <eosiolib/eosio.hpp>
- *  using namespace eosio;
- *  class mycontract: eosio::contract {
+ *  #include <enulib/enu.hpp>
+ *  using namespace enumivo;
+ *  class mycontract: enumivo::contract {
  *    struct record {
  *       uint64_t    primary;
  *       uint128_t   secondary;
  *       uint64_t primary_key() const { return primary; }
  *       uint64_t get_secondary() const { return secondary; }
- *       EOSLIB_SERIALIZE( record, (primary)(secondary) )
+ *       ENULIB_SERIALIZE( record, (primary)(secondary) )
  *     };
  *    public:
  *      mycontract( account_name self ):contract(self){}
@@ -148,7 +148,7 @@ namespace _multi_index_detail {
  *                   indexed_by< N(bysecondary), const_mem_fun<record, uint128_t, &record::get_secondary> > > table( code, scope);
  *      }
  *  }
- *  EOSIO_ABI( mycontract, (myaction) )
+ *  ENUMIVO_ABI( mycontract, (myaction) )
  *  @endcode
  */
 template<uint64_t IndexName, typename Extractor>
@@ -159,15 +159,15 @@ struct indexed_by {
 
 /**
  *  @defgroup multiindex Multi Index Table
- *  @brief Defines EOSIO Multi Index Table
+ *  @brief Defines Enumivo Multi Index Table
  *  @ingroup databasecpp
  *
  *
  *
- *  EOSIO Multi-Index API provides a C++ interface to the EOSIO database. It is patterned after Boost Multi Index Container.
- *  EOSIO Multi-Index table requires exactly a uint64_t primary key. For the table to be able to retrieve the primary key,
+ *  Enumivo Multi-Index API provides a C++ interface to the Enumivo database. It is patterned after Boost Multi Index Container.
+ *  Enumivo Multi-Index table requires exactly a uint64_t primary key. For the table to be able to retrieve the primary key,
  *  the object stored inside the table is required to have a const member function called primary_key() that returns uint64_t.
- *  EOSIO Multi-Index table also supports up to 16 secondary indices. The type of the secondary indices could be any of:
+ *  Enumivo Multi-Index table also supports up to 16 secondary indices. The type of the secondary indices could be any of:
  *  - uint64_t
  *  - uint128_t
  *  - uint256_t
@@ -181,8 +181,8 @@ struct indexed_by {
  *  Example:
        *
  *  @code
- *  #include <eosiolib/eosio.hpp>
- *  using namespace eosio;
+ *  #include <enulib/enu.hpp>
+ *  using namespace enumivo;
  *  class mycontract: contract {
  *    struct record {
  *      uint64_t    primary;
@@ -197,7 +197,7 @@ struct indexed_by {
  *      uint256_t get_secondary_3() const { return secondary_3; }
  *      double get_secondary_4() const { return secondary_4; }
  *      long double get_secondary_5() const { return secondary_5; }
- *      EOSLIB_SERIALIZE( record, (primary)(secondary_1)(secondary_2)(secondary_3)(secondary_4)(secondary_5) )
+ *      ENULIB_SERIALIZE( record, (primary)(secondary_1)(secondary_2)(secondary_3)(secondary_4)(secondary_5) )
  *    };
  *    public:
  *      mycontract( account_name self ):contract(self){}
@@ -213,7 +213,7 @@ struct indexed_by {
  *        > table( code, scope);
  *      }
  *  }
- *  EOSIO_ABI( mycontract, (myaction) )
+ *  ENUMIVO_ABI( mycontract, (myaction) )
  *  @endcode
  *  @{
  */
@@ -419,8 +419,8 @@ class multi_index
 
             const_iterator require_find( const secondary_key_type& secondary, const char* error_msg = "unable to find secondary key" )const {
                auto lb = lower_bound( secondary );
-               eosio_assert( lb != cend(), error_msg );
-               eosio_assert( secondary == secondary_extractor_type()(*lb), error_msg );
+               enumivo_assert( lb != cend(), error_msg );
+               enumivo_assert( secondary == secondary_extractor_type()(*lb), error_msg );
                return lb;
             }
 
@@ -606,19 +606,19 @@ class multi_index
        *  @post The payer is charged for the storage usage of the new object and, if the table (and secondary index tables) must be created, for the overhead of the table creation.
        *
        *  Notes
-       *  The `eosio::multi_index` template has template parameters `<uint64_t TableName, typename T, typename... Indices>`, where:
+       *  The `enumivo::multi_index` template has template parameters `<uint64_t TableName, typename T, typename... Indices>`, where:
        *  - `TableName` is the name of the table, maximum 12 characters long, characters in the name from the set of lowercase letters, digits 1 to 5, and the "." (period) character;
        *  - `T` is the object type (i.e., row definition);
        *  - `Indices` is a list of up to 16 secondary indices.
        *  - Each must be a default constructable class or struct
        *  - Each must have a function call operator that takes a const reference to the table object type and returns either a secondary key type or a reference to a secondary key type
-       *  - It is recommended to use the eosio::const_mem_fun template, which is a type alias to the boost::multi_index::const_mem_fun.  See the documentation for the Boost const_mem_fun key extractor for more details.
+       *  - It is recommended to use the enumivo::const_mem_fun template, which is a type alias to the boost::multi_index::const_mem_fun.  See the documentation for the Boost const_mem_fun key extractor for more details.
        *
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -629,16 +629,16 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       multi_index( uint64_t code, uint64_t scope )
@@ -654,8 +654,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -666,17 +666,17 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(N(dan), N(dan)); // code, scope
-       *        eosio_assert(addresses.get_code() == N(dan), "Codes don't match.");
+       *        enumivo_assert(addresses.get_code() == N(dan), "Codes don't match.");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       uint64_t get_code()const  { return _code; }
@@ -690,8 +690,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -702,17 +702,17 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(N(dan), N(dan)); // code, scope
-       *        eosio_assert(addresses.get_code() == N(dan), "Scopes don't match");
+       *        enumivo_assert(addresses.get_code() == N(dan), "Scopes don't match");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       uint64_t get_scope()const { return _scope; }
@@ -789,8 +789,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -801,11 +801,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -818,10 +818,10 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr == addresses.cbegin(), "Only address is not at front.");
+       *        enumivo_assert(itr == addresses.cbegin(), "Only address is not at front.");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator cbegin()const {
@@ -837,8 +837,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -849,11 +849,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -866,10 +866,10 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr == addresses.begin(), "Only address is not at front.");
+       *        enumivo_assert(itr == addresses.begin(), "Only address is not at front.");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator begin()const  { return cbegin(); }
@@ -883,8 +883,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -895,11 +895,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -912,10 +912,10 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.cend(), "Address for account doesn't exist");
+       *        enumivo_assert(itr != addresses.cend(), "Address for account doesn't exist");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator cend()const   { return const_iterator( this ); }
@@ -929,8 +929,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -941,11 +941,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -958,10 +958,10 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.end(), "Address for account doesn't exist");
+       *        enumivo_assert(itr != addresses.end(), "Address for account doesn't exist");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator end()const    { return cend(); }
@@ -975,8 +975,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -987,11 +987,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1012,12 +1012,12 @@ class multi_index
        *          address.state = "HK";
        *        });
        *        auto itr = addresses.crbegin();
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect Last Record ");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect Last Record ");
        *        itr++;
-       *        eosio_assert(itr->account_name == N(brendan), "Incorrect Second Last Record");
+       *        enumivo_assert(itr->account_name == N(brendan), "Incorrect Second Last Record");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_reverse_iterator crbegin()const { return std::make_reverse_iterator(cend()); }
@@ -1031,8 +1031,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1043,11 +1043,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1068,12 +1068,12 @@ class multi_index
        *          address.state = "HK";
        *        });
        *        auto itr = addresses.rbegin();
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect Last Record ");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect Last Record ");
        *        itr++;
-       *        eosio_assert(itr->account_name == N(brendan), "Incorrect Second Last Record");
+       *        enumivo_assert(itr->account_name == N(brendan), "Incorrect Second Last Record");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_reverse_iterator rbegin()const  { return crbegin(); }
@@ -1087,8 +1087,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1099,11 +1099,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1125,12 +1125,12 @@ class multi_index
        *        });
        *        auto itr = addresses.crend();
        *        itr--;
-       *        eosio_assert(itr->account_name == N(brendan), "Incorrect First Record ");
+       *        enumivo_assert(itr->account_name == N(brendan), "Incorrect First Record ");
        *        itr--;
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect Second Record");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect Second Record");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_reverse_iterator crend()const   { return std::make_reverse_iterator(cbegin()); }
@@ -1144,8 +1144,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1156,11 +1156,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1182,12 +1182,12 @@ class multi_index
        *        });
        *        auto itr = addresses.rend();
        *        itr--;
-       *        eosio_assert(itr->account_name == N(brendan), "Incorrect First Record ");
+       *        enumivo_assert(itr->account_name == N(brendan), "Incorrect First Record ");
        *        itr--;
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect Second Record");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect Second Record");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_reverse_iterator rend()const    { return crend(); }
@@ -1203,8 +1203,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1217,11 +1217,11 @@ class multi_index
        *       uint32_t zip = 0;
        *       uint64_t primary_key() const { return account_name; }
        *       uint64_t by_zip() const { return zip; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
+       *      typedef enumivo::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1246,14 +1246,14 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<N(zip)>();
        *        auto itr = zip_index.lower_bound(zipnumb);
-       *        eosio_assert(itr->account_name == N(brendan), "Incorrect First Lower Bound Record ");
+       *        enumivo_assert(itr->account_name == N(brendan), "Incorrect First Lower Bound Record ");
        *        itr++;
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect Second Lower Bound Record");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect Second Lower Bound Record");
        *        itr++;
-       *        eosio_assert(itr == zip_index.end(), "Incorrect End of Iterator");
+       *        enumivo_assert(itr == zip_index.end(), "Incorrect End of Iterator");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator lower_bound( uint64_t primary )const {
@@ -1274,8 +1274,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1289,11 +1289,11 @@ class multi_index
        *       uint64_t liked = 0;
        *       uint64_t primary_key() const { return account_name; }
        *       uint64_t by_zip() const { return zip; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
+       *      typedef enumivo::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1318,12 +1318,12 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<N(zip)>();
        *        auto itr = zip_index.upper_bound(zipnumb);
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect First Upper Bound Record ");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect First Upper Bound Record ");
        *        itr++;
-       *        eosio_assert(itr == zip_index.end(), "Incorrect End of Iterator");
+       *        enumivo_assert(itr == zip_index.end(), "Incorrect End of Iterator");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator upper_bound( uint64_t primary )const {
@@ -1346,8 +1346,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1358,11 +1358,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return key; }
-       *       EOSLIB_SERIALIZE( address, (key)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (key)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1376,7 +1376,7 @@ class multi_index
        *        });
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       uint64_t available_primary_key()const {
@@ -1409,8 +1409,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1423,11 +1423,11 @@ class multi_index
        *       uint32_t zip = 0;
        *       uint64_t primary_key() const { return account_name; }
        *       uint64_t by_zip() const { return zip; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
+       *      typedef enumivo::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self);  // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1443,10 +1443,10 @@ class multi_index
        *        uint32_t zipnumb = 93446;
        *        auto zip_index = addresses.get_index<N(zip)>();
        *        auto itr = zip_index.find(zipnumb);
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect Record ");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect Record ");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       template<uint64_t IndexName>
@@ -1473,8 +1473,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1487,11 +1487,11 @@ class multi_index
        *       uint32_t zip = 0;
        *       uint64_t primary_key() const { return account_name; }
        *       uint64_t by_zip() const { return zip; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
+       *      typedef enumivo::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1516,12 +1516,12 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<N(zip)>();
        *        auto itr = zip_index.upper_bound(zipnumb);
-       *        eosio_assert(itr->account_name == N(dan), "Incorrect First Upper Bound Record ");
+       *        enumivo_assert(itr->account_name == N(dan), "Incorrect First Upper Bound Record ");
        *        itr++;
-       *        eosio_assert(itr == zip_index.end(), "Incorrect End of Iterator");
+       *        enumivo_assert(itr == zip_index.end(), "Incorrect End of Iterator");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       template<uint64_t IndexName>
@@ -1548,8 +1548,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1562,11 +1562,11 @@ class multi_index
        *       uint32_t zip = 0;
        *       uint64_t primary_key() const { return account_name; }
        *       uint64_t by_zip() const { return zip; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state)(zip) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
+       *      typedef enumivo::multi_index< N(address), address, indexed_by< N(zip), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1590,10 +1590,10 @@ class multi_index
        *        });
        *        auto user = addresses.get(N(dan));
        *        auto itr = address.find(N(dan));
-       *        eosio_assert(iterator_to(user) == itr, "Invalid iterator");
+       *        enumivo_assert(iterator_to(user) == itr, "Invalid iterator");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator iterator_to( const T& obj )const {
@@ -1620,8 +1620,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1632,11 +1632,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1650,7 +1650,7 @@ class multi_index
        *        });
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       template<typename Lambda>
@@ -1721,8 +1721,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1733,11 +1733,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1750,14 +1750,14 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.end(), "Address for account not found");
+       *        enumivo_assert(itr != addresses.end(), "Address for account not found");
        *        addresses.modify( itr, account payer, [&]( auto& address ) {
        *          address.city = "San Luis Obispo";
        *          address.state = "CA";
        *        });
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       template<typename Lambda>
@@ -1790,8 +1790,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1802,11 +1802,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1819,15 +1819,15 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.end(), "Address for account not found");
+       *        enumivo_assert(itr != addresses.end(), "Address for account not found");
        *        addresses.modify( *itr, payer, [&]( auto& address ) {
        *          address.city = "San Luis Obispo";
        *          address.state = "CA";
        *        });
-       *        eosio_assert(itr->city == "San Luis Obispo", "Address not modified");
+       *        enumivo_assert(itr->city == "San Luis Obispo", "Address not modified");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       template<typename Lambda>
@@ -1898,8 +1898,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1910,11 +1910,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1927,10 +1927,10 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto user = addresses.get(N(dan));
-       *        eosio_assert(user.first_name == "Daniel", "Couldn't get him.");
+       *        enumivo_assert(user.first_name == "Daniel", "Couldn't get him.");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const T& get( uint64_t primary, const char* error_msg = "unable to find key" )const {
@@ -1949,8 +1949,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -1961,11 +1961,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -1978,10 +1978,10 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.end(), "Couldn't get him.");
+       *        enumivo_assert(itr != addresses.end(), "Couldn't get him.");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator find( uint64_t primary )const {
@@ -2015,7 +2015,7 @@ class multi_index
             return iterator_to(*(itr2->_item));
 
          auto itr = db_find_i64( _code, _scope, TableName, primary );
-         eosio_assert( itr >= 0,  error_msg );
+         enumivo_assert( itr >= 0,  error_msg );
 
          const item& i = load_object_by_primary_iterator( itr );
          return iterator_to(static_cast<const T&>(i));
@@ -2042,8 +2042,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -2054,11 +2054,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -2071,12 +2071,12 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.end(), "Address for account not found");
+       *        enumivo_assert(itr != addresses.end(), "Address for account not found");
        *        addresses.erase( itr );
-       *        eosio_assert(itr != addresses.end(), "Address not erased properly");
+       *        enumivo_assert(itr != addresses.end(), "Address not erased properly");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       const_iterator erase( const_iterator itr ) {
@@ -2109,8 +2109,8 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <eosiolib/eosio.hpp>
-       *  using namespace eosio;
+       *  #include <enulib/enu.hpp>
+       *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
        *    struct address {
@@ -2121,11 +2121,11 @@ class multi_index
        *       string city;
        *       string state;
        *       uint64_t primary_key() const { return account_name; }
-       *       EOSLIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
+       *       ENULIB_SERIALIZE( address, (account_name)(first_name)(last_name)(street)(city)(state) )
        *    };
        *    public:
        *      addressbook(account_name self):contract(self) {}
-       *      typedef eosio::multi_index< N(address), address > address_index;
+       *      typedef enumivo::multi_index< N(address), address > address_index;
        *      void myaction() {
        *        address_index addresses(_self, _self); // code, scope
        *        // add to table, first argument is account to bill for storage
@@ -2138,13 +2138,13 @@ class multi_index
        *          address.state = "VA";
        *        });
        *        auto itr = addresses.find(N(dan));
-       *        eosio_assert(itr != addresses.end(), "Record is not found");
+       *        enumivo_assert(itr != addresses.end(), "Record is not found");
        *        addresses.erase(*itr);
        *        itr = addresses.find(N(dan));
-       *        eosio_assert(itr == addresses.end(), "Record is not deleted");
+       *        enumivo_assert(itr == addresses.end(), "Record is not deleted");
        *      }
        *  }
-       *  EOSIO_ABI( addressbook, (myaction) )
+       *  ENUMIVO_ABI( addressbook, (myaction) )
        *  @endcode
        */
       void erase( const T& obj ) {

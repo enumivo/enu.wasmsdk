@@ -1,5 +1,36 @@
 {
     "files.associations": {
-        "*.def": "cpp"
+        "*.def": "cpp",
+        "random": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "regex": "cpp",
+        "set": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "*.ii": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "dynarray": "cpp",
+        "filesystem": "cpp",
+        "string_view": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "xmemory0": "cpp",
+        "coroutine": "cpp",
+        "any": "cpp",
+        "optional": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "variant": "cpp"
     }
 }

@@ -26,7 +26,7 @@ namespace enumivo {
     * static Contract::on( ActionType )
     * ```
     *
-    * For this to work the Actions must be derived from eosio::contract
+    * For this to work the Actions must be derived from enumivo::contract
     *
     */
    template<typename Contract, typename FirstAction, typename SecondAction, typename... Actions>
@@ -55,7 +55,7 @@ namespace enumivo {
     * Unpack the received action and execute the correponding action handler
     * 
     * @brief Unpack the received action and execute the correponding action handler
-    * @tparam T - The contract class that has the correponding action handler, this contract should be derived from eosio::contract
+    * @tparam T - The contract class that has the correponding action handler, this contract should be derived from enumivo::contract
     * @tparam Q - The namespace of the action handler function 
     * @tparam Args - The arguments that the action handler accepts, i.e. members of the action
     * @param obj - The contract object that has the correponding action handler

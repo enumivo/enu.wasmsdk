@@ -426,7 +426,7 @@ namespace enumivo {
          *  @param ds - The stream to write
          *  @param op - The value to serialize
          *  @tparam Stream - Type of datastream 
-         *  @return eosio::datastream<Stream>& - Reference to the datastream
+         *  @return enumivo::datastream<Stream>& - Reference to the datastream
          */
          template<typename Stream>
          friend inline enumivo::datastream<Stream>& operator>> (enumivo::datastream<Stream>& ds, optional& op)
@@ -447,7 +447,7 @@ namespace enumivo {
          *  @param ds - The stream to read
          *  @param op - The destination for deserialized value
          *  @tparam Stream - Type of datastream
-         *  @return eosio::datastream<Stream>& - Reference to the datastream
+         *  @return enumivo::datastream<Stream>& - Reference to the datastream
          */
          template<typename Stream>
          friend inline enumivo::datastream<Stream>& operator<< (enumivo::datastream<Stream>& ds, const optional& op)

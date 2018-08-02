@@ -6,7 +6,7 @@ namespace  enumivo {
 
    /**
     *  @defgroup singleton Singleton Table 
-    *  @brief Defines EOSIO Singleton Table
+    *  @brief Defines Enumivo Singleton Table
     *  @ingroup databasecpp 
     *  @{
     */
