@@ -2,7 +2,7 @@
 #include <enulib/multi_index.hpp>
 #include <enulib/system.h>
 
-namespace  enumivo {
+namespace enumivo {
 
    /**
     *  @defgroup singleton Singleton Table 

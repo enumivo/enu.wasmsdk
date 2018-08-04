@@ -17,8 +17,8 @@ WasmSDK is a toolchain for WebAssembly (WASM).  In addition to being a general p
 First clone
 
 ```sh
-$ git clone --recursive https://github.com/enumivo/enu.wasmsdk
-$ cd enu.wasmsdk
+$ git clone --recursive https://github.com/enumivo/enumivo.wasmsdk
+$ cd enumivo.wasmsdk
 ```
 
 Now run `build.sh` and give the core symbol for the Enumivo blockchain that intend to deploy to.
@@ -28,7 +28,7 @@ $ ./build.sh <CORE_SYMBOL>
 ```
 
 Finally, install the build
-    *This install will install the core to ```/usr/local/enu.wasmsdk``` and symlinks to the top level tools (compiler, ld, etc.) to ```/usr/local/bin```
+    *This install will install the core to ```/usr/local/enumivo.wasmsdk``` and symlinks to the top level tools (compiler, ld, etc.) to ```/usr/local/bin```
 ```sh
 $ sudo ./install.sh
 ```
@@ -57,7 +57,7 @@ if(WASM_ROOT STREQUAL "" OR NOT WASM_ROOT)
     set(WASM_ROOT ${CMAKE_INSTALL_PREFIX})
 endif()
 list(APPEND CMAKE_MODULE_PATH ${WASM_ROOT}/lib/cmake)
-include(EnuWasmToolchain)
+include(EnumivoWasmToolchain)
 
 add_executable( test test.cpp )
 ```
@@ -74,7 +74,7 @@ public:
 ENUMIVO_ABI( test, (test_action))
 ```
 
-Since, EnuWasmToolchain overwrites `cmake` to cross-compile WASM, standard cmake commands of _add\_executable/ add\_library_ can then be used.  Also note, the __WASM_ROOT__ variable, this needs to be set if you decided to install to the non-default location.
+Since, EnumivoWasmToolchain overwrites `cmake` to cross-compile WASM, standard cmake commands of _add\_executable/ add\_library_ can then be used.  Also note, the __WASM_ROOT__ variable, this needs to be set if you decided to install to the non-default location.
 
 To manually compile source code:
 Use ```enumivo-cpp/enumivo-cc``` and ```enumivo-ld``` as if it were __clang__ and __lld__ , with all includes and options specific to Enumivo and WasmSDK being baked in.

@@ -27,7 +27,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# https://github.com/enumivo/enumivo/blob/master/LICENSE.txt
+# https://github.com/enumivo/enumivo/blob/master/LICENSE
 ##########################################################################
    
 
@@ -40,7 +40,7 @@
 	BUILD_DIR="${PWD}/build"
 	CMAKE_BUILD_TYPE=Release
 	TIME_BEGIN=$( date -u +%s )
-   INSTALL_PREFIX="/usr/local/enu.wasmsdk"
+   INSTALL_PREFIX="/usr/local/enumivo.wasmsdk"
 	VERSION=1.2
 
 	txtbld=$(tput bold)
@@ -49,12 +49,12 @@
 
    create_symlink() {
       pushd /usr/local/bin &> /dev/null
-      ln -sf ../enu.wasmsdk/bin/$1 $2
+      ln -sf ../enumivo.wasmsdk/bin/$1 $2
       popd &> /dev/null
    }
 
    install_symlinks() {
-		printf "\\n\\tInstalling Enumivo WasmSDK Binary Symlinks\\n\\n"
+		printf "\\n\\tInstalling enumivo.WasmSDK Binary Symlinks\\n\\n"
       create_symlink "llvm-ranlib enumivo-ranlib"
       create_symlink "llvm-ar enumivo-ar"
       create_symlink "llvm-objdump enumivo-objdump"
@@ -86,5 +86,6 @@
    popd &> /dev/null 
 
    install_symlinks   
+
 	printf "\\tFor more information:\\n"
-	printf "\\tEnumivo Website: https://enumivo.org\\n"
+	printf "\\tEnumivo website: https://enumivo.org\\n"

@@ -116,8 +116,8 @@ namespace enumivo {
    void set_blockchain_parameters(const enumivo::blockchain_parameters& params);
 
    /**
-    * @brief Retrieve the blockchain parameters
-    * Retrieve the blockchain parameters
+    * @brief Retrieve the blolckchain parameters
+    * Retrieve the blolckchain parameters
     * @param params - It will be replaced with the retrieved blockchain params
     */
    void get_blockchain_parameters(enumivo::blockchain_parameters& params);

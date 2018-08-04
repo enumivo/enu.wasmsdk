@@ -1,6 +1,6 @@
 #! /bin/bash
 
-printf "\t=========== Building enu.wasmsdk ===========\n\n"
+printf "\t=========== Building enumivo.wasmsdk ===========\n\n"
 
 RED='\033[0;31m'
 NC='\033[0m'
@@ -72,7 +72,7 @@ CORES=$(( $CORES_AVAIL < $MEM_CORES ? $CORES_AVAIL : $MEM_CORES ))
 
 mkdir -p build
 pushd build &> /dev/null
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local/enu.wasmsdk -DBOOST_ROOT="${BOOST}" -DCORE_SYMBOL_NAME="${CORE_SYMBOL}" ../
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local/enumivo.wasmsdk -DBOOST_ROOT="${BOOST}" -DCORE_SYMBOL_NAME="${CORE_SYMBOL}" ../
 if [ $? -ne 0 ]; then
    exit -1;
 fi
@@ -83,4 +83,4 @@ fi
 popd &> /dev/null
 
 printf "\\tFor more information:\\n"
-printf "\\tEnumivo website: https://enumivo.org\\n"
+printf "\\tEnumivo Website: https://enumivo.org\\n"
