@@ -40,7 +40,7 @@
 	BUILD_DIR="${PWD}/build"
 	CMAKE_BUILD_TYPE=Release
 	TIME_BEGIN=$( date -u +%s )
-   INSTALL_PREFIX="/usr/local/enumivo.wasmsdk"
+   INSTALL_PREFIX="/usr/local/enumivo.cdt"
 	VERSION=1.2
 
 	txtbld=$(tput bold)
@@ -49,12 +49,12 @@
 
    create_symlink() {
       pushd /usr/local/bin &> /dev/null
-      ln -sf ../enumivo.wasmsdk/bin/$1 $2
+      ln -sf ../enumivo.cdt/bin/$1 $2
       popd &> /dev/null
    }
 
    install_symlinks() {
-		printf "\\n\\tInstalling enumivo.WasmSDK Binary Symlinks\\n\\n"
+		printf "\\n\\tInstalling Enumivo.CDT Binary Symlinks\\n\\n"
       create_symlink "llvm-ranlib enumivo-ranlib"
       create_symlink "llvm-ar enumivo-ar"
       create_symlink "llvm-objdump enumivo-objdump"
@@ -63,6 +63,7 @@
       create_symlink "enumivo-cpp enumivo-cpp"
       create_symlink "enumivo-ld enumivo-ld"
       create_symlink "enumivo-pp enumivo-pp"
+      create_symlink "enumivo-abigen enumivo-abigen"
       create_symlink "wasm2wat enumivo-wasm2wast"
       create_symlink "wat2wasm enumivo-wast2wasm"
    }
