@@ -4,7 +4,7 @@ class hello : public enumivo::contract {
   public:
       using contract::contract;
 
-      /// @abi action 
+      [[enumivo::action]]
       void hi( account_name user ) {
          print( "Hello, ", name{user} );
       }

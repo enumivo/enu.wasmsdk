@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.5)
 project(enumivo_wasm_sdk)
 
 set(VERSION_MAJOR 1)
-set(VERSION_MINOR 1)
-set(VERSION_PATCH 1)
+set(VERSION_MINOR 2)
+set(VERSION_PATCH 0)
 
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-   message(WARNING "CMAKE_INSTALL_PREFIX is set to default path of ${CMAKE_INSTALL_PREFIX}, resetting to ${CMAKE_INSTALL_PREFIX}/enumivo.wasmsdk")
-   set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/enumivo.wasmsdk")
+   message(WARNING "CMAKE_INSTALL_PREFIX is set to default path of ${CMAKE_INSTALL_PREFIX}, resetting to ${CMAKE_INSTALL_PREFIX}/enumivo.cdt")
+   set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/enumivo.cdt")
 elseif ("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local")
    message(WARNING "CMAKE_INSTALL_PREFIX is explicitly set to /usr/local. This is not recommended.")
 endif()
@@ -51,3 +51,6 @@ configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchain.cmake.in ${CMAKE
 install(FILES ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
 configure_file(${CMAKE_SOURCE_DIR}/enumivo.imports.in ${CMAKE_BINARY_DIR}/enumivo.imports COPYONLY)
 install(FILES ${CMAKE_BINARY_DIR}/enumivo.imports DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+configure_file(${CMAKE_SOURCE_DIR}/scripts/ricardenu/ricardenu.py ${CMAKE_BINARY_DIR}/scripts/ricardenu.py COPYONLY)
+install(FILES ${CMAKE_BINARY_DIR}/scripts/ricardenu.py DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts)
