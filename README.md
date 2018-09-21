@@ -99,7 +99,8 @@ struct __attribute__((enumivo_action)) testa {
     ENULIB_SERIALIZE( testa, (n) )
 };
 ```
-If your action name is not a valid [Enumivo name](https://developers.eos.io/enumivo-cpp/docs/naming-conventions) you can explicitly specify the name in the attribute ```c++ [[enumivo::action("<valid action name>")]]```
+If your action name is not a valid Enumivo name you can explicitly specify the name in the attribute 
+```c++ [[enumivo::action("<valid action name>")]]```
 
 Example (Two ways to declare a table for abi generation):
 ```c++
@@ -122,8 +123,6 @@ For an example contract of abi generation please see the file ./examples/abigen_
 ### Fixing an ABI, or Writing an ABI
 - The sections to the abi are pretty simple to understand and the syntax is purely JSON, so we are going to write our own ABI file.
 - Even after ABI generation is available, an important note should be made that the generator will never be completely perfect for every contract written, advanced features of the newest version of the ABI will require manual construction of the ABI, and odd and advanced C++ patterns could capsize the generators type deductions, so having a good knowledge of how to write an ABI should be an essential piece of knowledge of a smart contract writer.
-- Please refer to [developers.eos.io "How to write an abi"](https://developers.eos.io/enumivo-cpp/docs/how-to-write-an-abi), to learn about the different sections of an ABI.
-
 
 ### Installed Tools
 ---
