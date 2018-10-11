@@ -2,11 +2,11 @@
 #include <enulib/multi_index.hpp>
 #include <enulib/system.h>
 
-namespace enumivo {
+namespace  enumivo {
 
    /**
     *  @defgroup singleton Singleton Table
-    *  @brief Defines ENUMIVO Singleton Table
+    *  @brief Defines Enumivo Singleton Table
     *  @ingroup databasecpp
     *  @{
     */

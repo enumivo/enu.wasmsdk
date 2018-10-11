@@ -22,7 +22,7 @@ $ brew remove enumivo.cdt
 ```
 #### Debian Package Install
 ```sh
-$ wget https://github.com/enumivo/enumivo.cdt/releases/download/1.3.0/enumivo.cdt-1.3.0.x86_64.deb
+$ wget https://github.com/enumivo/enumivo.cdt/releases/download/v1.3.0/enumivo.cdt-1.3.0.x86_64.deb
 $ sudo apt install ./enumivo.cdt-1.3.0.x86_64.deb
 ```
 #### Debian Package Uninstall
@@ -32,7 +32,7 @@ $ sudo apt uninstall enumivo.cdt
 
 #### RPM Package Install
 ```sh
-$ wget https://github.com/enumivo/enumivo.cdt/releases/download/1.3.0/enumivo.cdt-1.3.0.x86_64-0.x86_64.rpm
+$ wget https://github.com/enumivo/enumivo.cdt/releases/download/v1.3.0/enumivo.cdt-1.3.0.x86_64-0.x86_64.rpm
 $ sudo yum install ./enumivo.cdt-1.3.0.x86_64-0.x86_64.rpm
 ```
 
@@ -206,7 +206,7 @@ This will generate one file:
 
 ### attributes
 - added `[[enumivo::ignore]]` attribute to flag a type as being ignored by the deserializer, this attribute is primarily only used for internal use within enulib.
-- added `[[enumivo::contract]]` attribute, this new attribute is used to mark a contract class as "contract" with the name being either the C++ name of the class or a user specified name (i.e. [[enumivo::contract("somecontract")]]), this attribute can also be used in conjunction with the `enumivo::action` and `enumivo::table` attributes for tables that you would like to define outside of the `enumivo::contract` class.  This is used in conjunction with either the raw `enumivo-cpp` option `--contract <name>`, `-o <name>/.wasm` or with CMake `add_contract`.  This acts as a filter, so that users who want to include a header file with attributes and generate an abi devoid of those actions and tables (e.g. enumivo.token).
+- added `[[enumivo::contract]]` attribute, this new attribute is used to mark a contract class as "contract" with the name being either the C++ name of the class or a user specified name (i.e. [[enumivo::contract("somecontract")]]), this attribute can also be used in conjunction with the `enumivo::action` and `enumivo::table` attributes for tables that you would like to define outside of the `enumivo::contract` class.  This is used in conjunction with either the raw `enumivo-cpp` option `--contract <name>`, `-o <name>/.wasm` or with CMake `add_contract`.  This acts as a filter, so that users who want to include a header file with attributes and generate an abi devoid of those actions and tables (e.g. enu.token).
   ```c
   CONTRACT test {
   	ACTION acta(){}
@@ -258,8 +258,7 @@ struct __attribute__((enumivo_action)) testa {
     ENULIB_SERIALIZE( testa, (n) )
 };
 ```
-If your action name is not a valid Enumivo name you can explicitly specify the name in the attribute 
-```c++ [[enumivo::action("<valid action name>")]]```
+If your action name is not a valid Enumivo name you can explicitly specify the name in the attribute ```c++ [[enumivo::action("<valid action name>")]]```
 
 Example (Two ways to declare a table for abi generation):
 ```c++
