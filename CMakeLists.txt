@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-project(enumivo_wasm_sdk)
+project(enumivo_cdt)
 
 set(VERSION_MAJOR 1)
-set(VERSION_MINOR 2)
-set(VERSION_PATCH 1)
+set(VERSION_MINOR 3)
+set(VERSION_PATCH 0)
 
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
    message(WARNING "CMAKE_INSTALL_PREFIX is set to default path of ${CMAKE_INSTALL_PREFIX}, resetting to ${CMAKE_INSTALL_PREFIX}/enumivo.cdt")
@@ -20,37 +20,41 @@ add_subdirectory(external)
 
 set(WASM_SDK_BUILD true)
 
-configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchainBuild.cmake.in ${CMAKE_BINARY_DIR}/lib/cmake/EnumivoWasmToolchain.cmake @ONLY)
+### Configure the EnumivoWasmToolchain.cmakes
+set(CDT_ROOT_DIR ${CMAKE_BINARY_DIR})
+configure_file(${CMAKE_SOURCE_DIR}/modules/enumivo.cdt-config.cmake ${CMAKE_BINARY_DIR}/lib/cmake/enumivo.cdt/enumivo.cdt-config.cmake @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchain.cmake.in ${CMAKE_BINARY_DIR}/lib/cmake/enumivo.cdt/EnumivoWasmToolchain.cmake @ONLY)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}/lib/cmake")
+set(CDT_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
+configure_file(${CMAKE_SOURCE_DIR}/modules/enumivo.cdt-config.cmake ${CMAKE_BINARY_DIR}/modules/enumivo.cdt-config.cmake @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/modules/enumivo.cdt-config.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake/enumivo.cdt)
+configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchain.cmake.in ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake/enumivo.cdt)
+
+set(CDT_ROOT_DIR "_PREFIX_")
+configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchain.cmake.in ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchainPackage.cmake @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/modules/enumivo.cdt-config.cmake ${CMAKE_BINARY_DIR}/modules/enumivo.cdt-config.cmake.package @ONLY)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}/lib/cmake/enumivo.cdt")
 include(EnumivoWasmToolchain)
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
-
-if ("${CORE_SYMBOL_NAME}" STREQUAL "")
-  set( CORE_SYMBOL_NAME "ENU" )
-endif()
-string(TOUPPER ${CORE_SYMBOL_NAME} CORE_SYMBOL_NAME)
-
-string(LENGTH ${CORE_SYMBOL_NAME} CORE_SYMBOL_NAME_LENGTH)
-if (CORE_SYMBOL_NAME_LENGTH GREATER 7)
-  message(FATAL_ERROR "CORE_SYMBOL_NAME length must be between 1 and 7 characters")
-endif()
-
 
 add_subdirectory(libraries)
 
 include(InstallClang.txt)
 
-message( STATUS "Using '${CORE_SYMBOL_NAME}' as CORE symbol name" )
-
-# install examples
-#install(DIRECTORY examples DESTINATION "${CMAKE_INSTALL_PREFIX}")
-
-configure_file(${CMAKE_SOURCE_DIR}/modules/EnumivoWasmToolchain.cmake.in ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/modules/EnumivoWasmToolchain.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake)
 configure_file(${CMAKE_SOURCE_DIR}/enumivo.imports.in ${CMAKE_BINARY_DIR}/enumivo.imports COPYONLY)
 install(FILES ${CMAKE_BINARY_DIR}/enumivo.imports DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 configure_file(${CMAKE_SOURCE_DIR}/scripts/ricardenu/ricardenu.py ${CMAKE_BINARY_DIR}/scripts/ricardenu.py COPYONLY)
 install(FILES ${CMAKE_BINARY_DIR}/scripts/ricardenu.py DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts)
+
+set(VENDOR "enumivo.org")
+set(PROJECT_NAME "enumivo.cdt")
+set(DESC "Toolchain and supporting tools for the Enumivo platform")
+set(URL "https://github.com/enumivo/enumivo.cdt")
+set(EMAIL "admin@enumivo.org")
+configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_package.sh.in ${CMAKE_BINARY_DIR}/packages/generate_package.sh @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_deb.sh ${CMAKE_BINARY_DIR}/packages/generate_deb.sh COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_bottle.sh ${CMAKE_BINARY_DIR}/packages/generate_bottle.sh COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_rpm.sh ${CMAKE_BINARY_DIR}/packages/generate_rpm.sh COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_tarball.sh ${CMAKE_BINARY_DIR}/packages/generate_tarball.sh COPYONLY)

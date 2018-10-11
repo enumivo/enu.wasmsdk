@@ -531,7 +531,6 @@ namespace enumivo {
 
 extern "C" {
 
-
 void* malloc(size_t size)
 {
    return enumivo::memory_heap.malloc(size);
