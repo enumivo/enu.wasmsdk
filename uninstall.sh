@@ -24,6 +24,9 @@ if [ -d "/usr/local/enumivo.cdt" ]; then
                rm ${binary}
             done
             popd &> /dev/null
+            pushd lib/cmake &> /dev/null
+            rm -rf enumivo.cdt
+            popd &> /dev/null
             break;;
          [Nn]* ) 
             printf "\tAborting uninstall\n\n"

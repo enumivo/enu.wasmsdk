@@ -64,10 +64,16 @@
       create_symlink "enumivo-ld enumivo-ld"
       create_symlink "enumivo-pp enumivo-pp"
       create_symlink "enumivo-abigen enumivo-abigen"
-      create_symlink "wasm2wat enumivo-wasm2wast"
-      create_symlink "wat2wasm enumivo-wast2wasm"
+      create_symlink "enumivo-wasm2wast enumivo-wasm2wast"
+      create_symlink "enumivo-wast2wasm enumivo-wast2wasm"
    }
-
+   
+   create_cmake_symlink() {
+      mkdir -p /usr/local/lib/cmake/enumivo.cdt
+      pushd /usr/local/lib/cmake/enumivo.cdt &> /dev/null
+      ln -sf ../../../enumivo.cdt/lib/cmake/enumivo.cdt/$1 $1
+      popd &> /dev/null
+   }
 	if [ ! -d "${BUILD_DIR}" ]; then
       printf "\\n\\tError, build.sh has not ran.  Please run ./build.sh first!\\n\\n"
       exit -1
@@ -87,6 +93,7 @@
    popd &> /dev/null 
 
    install_symlinks   
+   create_cmake_symlink "enumivo.cdt-config.cmake"
 
 	printf "\\tFor more information:\\n"
 	printf "\\tEnumivo website: https://enumivo.org\\n"

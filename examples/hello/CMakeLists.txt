@@ -1,15 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 project(hello_example VERSION 1.0.0)
 
-# if no wasm root is given use default path
-if(ENUMIVO_CDT_ROOT STREQUAL "" OR NOT ENUMIVO_CDT_ROOT)
-   set(ENUMIVO_CDT_ROOT ${CMAKE_INSTALL_PREFIX}/enumivo.cdt)
-endif()
+find_package(enumivo.cdt)
 
-# append the path to the module to include
-list(APPEND CMAKE_MODULE_PATH ${ENUMIVO_CDT_ROOT}/lib/cmake)
+### Only generate the wasm
+#add_executable( hello.wasm hello.cpp )
 
-#include the toolchain cmake
-include(EnumivoWasmToolchain)
-
-add_executable( hello.wasm hello.cpp )
+### Generate the wasm and abi
+add_contract( hello hello hello.cpp )

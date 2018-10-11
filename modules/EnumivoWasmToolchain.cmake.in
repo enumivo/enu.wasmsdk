@@ -1,29 +1,36 @@
-message(STATUS "Setting up Enumivo Wasm Toolchain")
+message(STATUS "Setting up Enumivo Wasm Toolchain @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@ at @CDT_ROOT_DIR@")
 set(CMAKE_SYSTEM_NAME WebAssembly)
 
 set(ENUMIVO_CDT_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@")
 set(ENUMIVO_WASMSDK_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@")
 
-set(CLANG_DIR @CMAKE_INSTALL_PREFIX@/)
+set(CMAKE_C_COMPILER "@CDT_ROOT_DIR@/bin/enumivo-cc")
+set(CMAKE_CXX_COMPILER "@CDT_ROOT_DIR@/bin/enumivo-cpp")
 
-set(CMAKE_C_COMPILER "${CLANG_DIR}/bin/enumivo-cc")
-set(CMAKE_CXX_COMPILER "${CLANG_DIR}/bin/enumivo-cpp")
+set(CMAKE_C_FLAGS " -O3 ")
+set(CMAKE_CXX_FLAGS " -O3 ")
 
-set(CMAKE_C_FLAGS " -O3 -I@BOOST_ROOT@/include ")
-set(CMAKE_CXX_FLAGS " -O3 -I@BOOST_ROOT@/include ")
-
-set(WASM_LINKER "${CLANG_DIR}/bin/enumivo-ld")
+set(WASM_LINKER "@CDT_ROOT_DIR@/bin/enumivo-ld")
 
 set(CMAKE_C_LINK_EXECUTABLE "${WASM_LINKER} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 set(CMAKE_CXX_LINK_EXECUTABLE "${WASM_LINKER} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 
-set(CMAKE_AR "${CLANG_DIR}/bin/enumivo-ar" CACHE PATH "ar" FORCE)
-set(CMAKE_RANLIB "${CLANG_DIR}/bin/enumivo-ranlib" CACHE PATH "ranlib" FORCE)
+set(CMAKE_AR "@CDT_ROOT_DIR@/bin/enumivo-ar" CACHE PATH "ar" FORCE)
+set(CMAKE_RANLIB "@CDT_ROOT_DIR@/bin/enumivo-ranlib" CACHE PATH "ranlib" FORCE)
+set(ABIGEN "@CDT_ROOT_DIR@/bin/enumivo-abigen")
 
 # hack for CMake on Linux
 set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)
 set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 
 # hack for OSX
-set(CMAKE_OSX_SYSROOT="${CLANG_DIR}")
+set(CMAKE_OSX_SYSROOT="@SYSROOT_DIR@")
 set(CMAKE_OSX_DEPLOYMENT_TARGET="")
+
+macro(add_contract CONTRACT_NAME TARGET)
+   add_executable( ${TARGET}.wasm ${ARGN} )
+   target_compile_options( ${TARGET}.wasm PUBLIC -abigen )
+   get_target_property(BINOUTPUT ${TARGET}.wasm BINARY_DIR)
+   target_compile_options( ${TARGET}.wasm PUBLIC -abigen_output=${BINOUTPUT}/${TARGET}.abi )
+   target_compile_options( ${TARGET}.wasm PUBLIC -contract ${CONTRACT_NAME} )
+endmacro()
