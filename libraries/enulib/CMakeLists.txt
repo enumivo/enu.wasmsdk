@@ -12,7 +12,7 @@ target_include_directories(enumivo PUBLIC
 
 target_link_libraries( enumivo c c++ )
 
-install(TARGETS enumivo EXPORT EnumivoLib
+install(TARGETS enumivo EXPORT EnuLib
    LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 

@@ -8,15 +8,6 @@ Enumivo.CDT Version 1.3.x introduced quite a few breaking changes.  To have bina
 
 **If you have previously installed Enumivo.CDT, please run the `uninstall` script (it is in the directory where you cloned Enumivo.CDT) before downloading and using the binary releases.**
 
-#### Mac OS X Brew Install
-```sh
-$ brew tap enumivo/enumivo.cdt
-$ brew install enumivo.cdt
-```
-#### Mac OS X Brew Uninstall
-```sh
-$ brew remove enumivo.cdt
-```
 ### Guided Installation (Building from Scratch)
 ```sh
 $ git clone --recursive https://github.com/enumivo/enumivo.cdt
@@ -109,7 +100,7 @@ This will generate one file:
   - Added a print method.
   - Added `bool` conversion operator to test is `symbol_code` is empty.
 - Removed `enumivo::string_to_symbol`, `enumivo::is_valid_symbol`, `enumivo::symbol_name_length` functions.
-- Removed the `S` macro. The symbol constructor should be used as a type safe replacement. Example: `S(4,SYS)` -> `symbol(symbol_code("SYS"), 4)` (or simply `symbol("SYS", 4)` as of 1.3.1).
+- Removed the `S` macro. The symbol constructor should be used as a type safe replacement. Example: `S(4,ENU)` -> `symbol(symbol_code("ENU"), 4)` (or simply `symbol("ENU", 4)` as of v1.3.1).
 - Added struct `enumivo::symbol`:
   - Added three `constexpr` constructors that take either a raw `uint64_t`, `symbol_code` and a `uint8_t` precision or an `std::string_view` and a `uint8_t` precision.
   - Added `constexpr` methods `is_valid`, `precision`, `code`, and `raw`. These, respectively, check if the `symbol` is valid, get the `uint8_t` precision, get the `symbol_code` part of the `symbol`, and get the raw `uint64_t` representation of `symbol`.
@@ -123,7 +114,7 @@ This will generate one file:
 #### enulib/asset.hpp
 - The main constructor now requires a `int64_t` (quantity) and `enumivo::symbol` explicitly.
 - The default constructor no longer initializes the instance to a valid zero quantity asset with a symbol equivalent to "core symbol". Instead the default constructed `enumivo::asset` is a bit representation of all zeros (which will cause `is_valid` to fail) so that check is bypassed to allow for `multi_index` and `datastream` to work.
-- Old contracts that use `enumivo::asset()` should be changed to either use the core symbol of the specific chain they are targeting i.e. `enumivo::asset(0, symbol(symbol_code("SYS"),4))`. To reduce writing `symbol(symbol_code("SYS"),4)` over and over, a `constexpr` function to return the symbol or `constexpr` global variable should be used.
+- Old contracts that use `enumivo::asset()` should be changed to either use the core symbol of the specific chain they are targeting i.e. `enumivo::asset(0, symbol(symbol_code("ENU"),4))`. To reduce writing `symbol(symbol_code("ENU"),4)` over and over, a `constexpr` function to return the symbol or `constexpr` global variable should be used.
 
 #### enulib/contract.hpp
 - The constructor for `enumivo::contract` now takes an `enumivo::name` for the receiver, an `enumivo::name` for the code, and a `enumivo::datastream<const char*>` for the datastream used for the contract.  The last argument is for manually unpacking an action, see the section on `enumivo::ignore` for a more indepth usage.

@@ -703,8 +703,8 @@ class multi_index
        *      addressbook(name self):contract(self) {}
        *      typedef enumivo::multi_index< "address"_n, address > address_index;
        *      void myaction() {
-       *        address_index addresses("dan"_n, "dan"_n); // code, scope
-       *        enumivo_assert(addresses.get_code() == "dan"_n, "Codes don't match.");
+       *        address_index addresses("ap"_n, "ap"_n); // code, scope
+       *        enumivo_assert(addresses.get_code() == "ap"_n, "Codes don't match.");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -738,8 +738,8 @@ class multi_index
        *      addressbook(name self):contract(self) {}
        *      typedef enumivo::multi_index< "address"_n, address > address_index;
        *      void myaction() {
-       *        address_index addresses("dan"_n, "dan"_n); // code, scope
-       *        enumivo_assert(addresses.get_code() == "dan"_n, "Scopes don't match");
+       *        address_index addresses("ap"_n, "ap"_n); // code, scope
+       *        enumivo_assert(addresses.get_code() == "ap"_n, "Scopes don't match");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -839,14 +839,14 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr == addresses.cbegin(), "Only address is not at front.");
        *      }
        *  }
@@ -886,14 +886,14 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr == addresses.begin(), "Only address is not at front.");
        *      }
        *  }
@@ -931,14 +931,14 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.cend(), "Address for account doesn't exist");
        *      }
        *  }
@@ -976,14 +976,14 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.end(), "Address for account doesn't exist");
        *      }
        *  }
@@ -1021,12 +1021,12 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
@@ -1037,7 +1037,7 @@ class multi_index
        *          address.state = "HK";
        *        });
        *        auto itr = addresses.crbegin();
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect Last Record ");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect Last Record ");
        *        itr++;
        *        enumivo_assert(itr->account_name == name("brendan"), "Lock arf, Incorrect Second Last Record");
        *      }
@@ -1076,12 +1076,12 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
@@ -1092,7 +1092,7 @@ class multi_index
        *          address.state = "HK";
        *        });
        *        auto itr = addresses.rbegin();
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect Last Record ");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect Last Record ");
        *        itr++;
        *        enumivo_assert(itr->account_name == name("brendan"), "Lock arf, Incorrect Second Last Record");
        *      }
@@ -1131,12 +1131,12 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
@@ -1150,7 +1150,7 @@ class multi_index
        *        itr--;
        *        enumivo_assert(itr->account_name == name("brendan"), "Lock arf, Incorrect First Record ");
        *        itr--;
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect Second Record");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect Second Record");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1187,12 +1187,12 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
@@ -1206,7 +1206,7 @@ class multi_index
        *        itr--;
        *        enumivo_assert(itr->account_name == name("brendan"), "Lock arf, Incorrect First Record ");
        *        itr--;
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect Second Record");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect Second Record");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1247,12 +1247,12 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *          address.zip = 93446;
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
@@ -1269,7 +1269,7 @@ class multi_index
        *        auto itr = zip_index.lower_bound(zipnumb);
        *        enumivo_assert(itr->account_name == name("brendan"), "Lock arf, Incorrect First Lower Bound Record ");
        *        itr++;
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect Second Lower Bound Record");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect Second Lower Bound Record");
        *        itr++;
        *        enumivo_assert(itr == zip_index.end(), "Lock arf, Incorrect End of Iterator");
        *      }
@@ -1318,12 +1318,12 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *          address.zip = 93446;
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
@@ -1338,7 +1338,7 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<name("zip")>();
        *        auto itr = zip_index.upper_bound(zipnumb);
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect First Upper Bound Record ");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect First Upper Bound Record ");
        *        itr++;
        *        enumivo_assert(itr == zip_index.end(), "Lock arf, Incorrect End of Iterator");
        *      }
@@ -1387,11 +1387,11 @@ class multi_index
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.key = addresses.available_primary_key();
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
        *      }
        *  }
@@ -1450,18 +1450,18 @@ class multi_index
        *        address_index addresses(_self, _self.value);  // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *          address.zip = 93446;
        *        });
        *        uint32_t zipnumb = 93446;
        *        auto zip_index = addresses.get_index<name("zip")>();
        *        auto itr = zip_index.find(zipnumb);
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect Record ");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect Record ");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1513,12 +1513,12 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *          address.zip = 93446;
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
@@ -1533,7 +1533,7 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<name("zip")>();
        *        auto itr = zip_index.upper_bound(zipnumb);
-       *        enumivo_assert(itr->account_name == name("dan"), "Lock arf, Incorrect First Upper Bound Record ");
+       *        enumivo_assert(itr->account_name == name("ap"), "Lock arf, Incorrect First Upper Bound Record ");
        *        itr++;
        *        enumivo_assert(itr == zip_index.end(), "Lock arf, Incorrect End of Iterator");
        *      }
@@ -1587,12 +1587,12 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *          address.zip = 93446;
        *        });
        *        addresses.emplace(payer, [&](auto& address) {
@@ -1604,8 +1604,8 @@ class multi_index
        *          address.state = "HK";
        *          address.zip = 93445;
        *        });
-       *        auto user = addresses.get("dan"_n);
-       *        auto itr = address.find("dan"_n);
+       *        auto user = addresses.get("ap"_n);
+       *        auto itr = address.find("ap"_n);
        *        enumivo_assert(iterator_to(user) == itr, "Invalid iterator");
        *      }
        *  }
@@ -1656,12 +1656,12 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
        *      }
        *  }
@@ -1756,14 +1756,14 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.end(), "Address for account not found");
        *        addresses.modify( itr, account payer, [&]( auto& address ) {
        *          address.city = "San Luis Obispo";
@@ -1824,14 +1824,14 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.end(), "Address for account not found");
        *        addresses.modify( *itr, payer, [&]( auto& address ) {
        *          address.city = "San Luis Obispo";
@@ -1931,15 +1931,15 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto user = addresses.get("dan"_n);
-       *        enumivo_assert(user.first_name == "Daniel", "Couldn't get him.");
+       *        auto user = addresses.get("ap"_n);
+       *        enumivo_assert(user.first_name == "Aiden", "Couldn't get him.");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1981,14 +1981,14 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.end(), "Couldn't get him.");
        *      }
        *  }
@@ -2073,14 +2073,14 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.end(), "Address for account not found");
        *        addresses.erase( itr );
        *        enumivo_assert(itr != addresses.end(), "Everting lock arf, Address not erased properly");
@@ -2139,17 +2139,17 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "dan"_n;
-       *          address.first_name = "Daniel";
-       *          address.last_name = "Larimer";
+       *          address.account_name = "ap"_n;
+       *          address.first_name = "Aiden";
+       *          address.last_name = "Pearce";
        *          address.street = "1 ENU Way";
-       *          address.city = "Blacksburg";
-       *          address.state = "VA";
+       *          address.city = "Ovimune";
+       *          address.state = "AP";
        *        });
-       *        auto itr = addresses.find("dan"_n);
+       *        auto itr = addresses.find("ap"_n);
        *        enumivo_assert(itr != addresses.end(), "Record is not found");
        *        addresses.erase(*itr);
-       *        itr = addresses.find("dan"_n);
+       *        itr = addresses.find("ap"_n);
        *        enumivo_assert(itr == addresses.end(), "Record is not deleted");
        *      }
        *  }
