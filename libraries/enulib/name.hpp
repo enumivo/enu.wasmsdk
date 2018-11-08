@@ -202,7 +202,13 @@ namespace enumivo {
 
       ENULIB_SERIALIZE( name, (value) )
    };
-
+   
+   namespace detail {
+      template <char... Str>
+      struct to_const_char_arr {
+         static constexpr const char value[] = {Str...};
+      };
+   } /// namespace detail
 } /// namespace enumivo
 
 /**
@@ -210,6 +216,7 @@ namespace enumivo {
  *
  * @brief "foo"_n is a shortcut for name{"foo"}
  */
-inline constexpr enumivo::name operator""_n(const char* s, std::size_t) {
-   return enumivo::name{s};
+template <typename T, T... Str>
+inline constexpr enumivo::name operator""_n() {
+   return enumivo::name{std::string_view{enumivo::detail::to_const_char_arr<Str...>::value, sizeof...(Str)}};
 }

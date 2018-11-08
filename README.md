@@ -1,13 +1,10 @@
 # Enumivo.CDT (Contract Development Toolkit)
-## Version : 1.3.2
+## Version : 1.4.0
 
 Enumivo.CDT is a toolchain for WebAssembly (WASM) and set of tools to facilitate contract writing for the Enumivo platform.  In addition to being a general purpose WebAssembly toolchain, [Enumivo](https://github.com/enumivo/enumivo) specific optimizations are available to support building Enumivo smart contracts.  This new toolchain is built around [Clang 7](https://github.com/enumivo/llvm), which means that Enumivo.CDT has the most currently available optimizations and analyses from LLVM, but as the WASM target is still considered experimental, some optimizations are not available or incomplete.
 
 ## Important!
 Enumivo.CDT Version 1.3.x introduced quite a few breaking changes.  To have binary releases we needed to remove the concept of a core symbol from Enumivo.CDT. This meant drastic changes to symbol, asset and other types/functions that were connected to them. Since these changes would be disruptive, we decided to add as many disruptive changes needed for future contract writing, so that disruption should only occur once. Please read the **_Differences between Version 1.2.x and Version 1.3.x_** section of this readme.
-
-### Binary Releases
-Enumivo.CDT currently supports Mac OS X brew, Linux x86_64 Debian packages, and Linux x86_64 RPM packages.
 
 **If you have previously installed Enumivo.CDT, please run the `uninstall` script (it is in the directory where you cloned Enumivo.CDT) before downloading and using the binary releases.**
 
@@ -20,27 +17,6 @@ $ brew install enumivo.cdt
 ```sh
 $ brew remove enumivo.cdt
 ```
-#### Debian Package Install
-```sh
-$ wget https://github.com/enumivo/enumivo.cdt/releases/download/1.3.2/enumivo.cdt-1.3.2.x86_64.deb
-$ sudo apt install ./enumivo.cdt-1.3.2.x86_64.deb
-```
-#### Debian Package Uninstall
-```sh
-$ sudo apt remove enumivo.cdt
-```
-
-#### RPM Package Install
-```sh
-$ wget https://github.com/enumivo/enumivo.cdt/releases/download/1.3.2/enumivo.cdt-1.3.2.x86_64-0.x86_64.rpm
-$ sudo yum install ./enumivo.cdt-1.3.2.x86_64-0.x86_64.rpm
-```
-
-#### RPM Package Uninstall
-```sh
-$ sudo yum remove enumivo.cdt
-```
-
 ### Guided Installation (Building from Scratch)
 ```sh
 $ git clone --recursive https://github.com/enumivo/enumivo.cdt
@@ -288,6 +264,14 @@ For an example contract of ABI generation please see the file ./examples/abigen_
 - The sections to the ABI are pretty simple to understand and the syntax is purely JSON, so it is reasonable to write an ABI file manually.
 - The ABI generation will never be completely perfect for every contract written. Advanced features of the newest version of the ABI will require manual construction of the ABI, and odd and advanced C++ patterns could capsize the generators type deductions. So having a good knowledge of how to write an ABI should be an essential piece of knowledge of a smart contract writer.
 
+### Adding Ricardian Contracts and Clauses to ABI
+- As of Enumivo.CDT 1.4.0 the ABI generator will try to automatically import contracts and clauses into the generated ABI.  There are a few caveats to this, one is a strict naming policy of the files and an HTML tag used to mark each Ricardian contract and each clause.
+- The Ricardian contracts should be housed in a file with the name <contract name>.contracts.md and the clauses should be in a file named <contract name>.clauses.md.
+ - For each Ricardian contract the header `<h1 class="contract">ActionName</h1>` should be used, as this directs the ABI generator to attach this Ricardian contract to the specified action.
+ - For each Ricardian clause the header `<h1 class="clause">ClauseID</h1>` should be used, as this directs the ABI generator to the clause id and the subsequent body.
+ - The option `-R` has been added to enumivo-cpp and enumivo-abigen to add "resource" paths to search from, so you can place these files in any directory structure you like and use `-R<path to file>` in the same vein as `-I` for include paths.
+ - To see these in use please see ./examples/hello/hello.contracts.md and ./examples/hello/hello.clauses.md.
+  
 ### Installed Tools
 ---
 * [enumivo-cpp](#enumivo-cpp)

@@ -3,6 +3,7 @@ file(GLOB HEADERS "*.hpp"
 
 add_library(enumivo
             enulib.cpp
+            crypto.cpp
             ${HEADERS})
 
 target_include_directories(enumivo PUBLIC
@@ -11,7 +12,7 @@ target_include_directories(enumivo PUBLIC
 
 target_link_libraries( enumivo c c++ )
 
-install(TARGETS enumivo EXPORT EnuLib
+install(TARGETS enumivo EXPORT EnumivoLib
    LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
    ARCHIVE DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 
