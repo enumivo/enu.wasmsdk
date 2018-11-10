@@ -16,6 +16,24 @@ macro( enumivo_clang_install_and_symlink file symlink )
       PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 endmacro( enumivo_clang_install_and_symlink )
 
+macro( enumivo_tool_install file )
+   set(BINARY_DIR ${CMAKE_BINARY_DIR}/EnumivoTools-prefix/src/EnumivoTools-build/bin)
+   add_custom_command( TARGET EnumivoTools POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${file} ${CMAKE_BINARY_DIR}/bin/ )
+   install(FILES ${BINARY_DIR}/${file}
+      DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
+      PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+endmacro( enumivo_tool_install )
+
+macro( enumivo_tool_install_and_symlink file symlink )
+   set(BINARY_DIR ${CMAKE_BINARY_DIR}/EnumivoTools-prefix/src/EnumivoTools-build/bin)
+   add_custom_command( TARGET EnumivoTools POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${file} ${CMAKE_BINARY_DIR}/bin/ )
+   add_custom_command( TARGET EnumivoTools POST_BUILD COMMAND ln -sf ${CMAKE_BINARY_DIR}/bin/${file} ${CMAKE_BINARY_DIR}/bin/${symlink} )
+   install(FILES ${BINARY_DIR}/${file}
+      DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
+      PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+endmacro( enumivo_tool_install_and_symlink )
+
+
 enumivo_clang_install_and_symlink(llvm-ranlib enumivo-ranlib)
 enumivo_clang_install_and_symlink(llvm-ar enumivo-ar)
 enumivo_clang_install_and_symlink(llvm-nm enumivo-nm)
@@ -29,9 +47,10 @@ enumivo_clang_install(llc)
 enumivo_clang_install(lld)
 enumivo_clang_install(clang-7)
 enumivo_clang_install(wasm-ld)
-enumivo_clang_install(enumivo-cc)
-enumivo_clang_install(enumivo-cpp)
-enumivo_clang_install(enumivo-ld)
-enumivo_clang_install(enumivo-abigen)
+enumivo_tool_install(enumivo-cc)
+enumivo_tool_install(enumivo-cpp)
+enumivo_tool_install(enumivo-ld)
+enumivo_tool_install(enumivo-abigen)
+enumivo_tool_install(enumivo-abidiff)
 enumivo_clang_install(../lib/LLVMEnumivoApply${CMAKE_SHARED_LIBRARY_SUFFIX})
 enumivo_clang_install(../lib/enumivo_plugin${CMAKE_SHARED_LIBRARY_SUFFIX})

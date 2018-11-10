@@ -3,6 +3,7 @@ file(GLOB HEADERS "*.hpp"
 
 add_library(enumivo
             enulib.cpp
+            crypto.cpp
             ${HEADERS})
 
 target_include_directories(enumivo PUBLIC

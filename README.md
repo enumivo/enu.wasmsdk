@@ -1,45 +1,12 @@
 # Enumivo.CDT (Contract Development Toolkit)
-## Version : 1.3.2
+## Version : 1.4.0
 
 Enumivo.CDT is a toolchain for WebAssembly (WASM) and set of tools to facilitate contract writing for the Enumivo platform.  In addition to being a general purpose WebAssembly toolchain, [Enumivo](https://github.com/enumivo/enumivo) specific optimizations are available to support building Enumivo smart contracts.  This new toolchain is built around [Clang 7](https://github.com/enumivo/llvm), which means that Enumivo.CDT has the most currently available optimizations and analyses from LLVM, but as the WASM target is still considered experimental, some optimizations are not available or incomplete.
 
 ## Important!
 Enumivo.CDT Version 1.3.x introduced quite a few breaking changes.  To have binary releases we needed to remove the concept of a core symbol from Enumivo.CDT. This meant drastic changes to symbol, asset and other types/functions that were connected to them. Since these changes would be disruptive, we decided to add as many disruptive changes needed for future contract writing, so that disruption should only occur once. Please read the **_Differences between Version 1.2.x and Version 1.3.x_** section of this readme.
 
-### Binary Releases
-Enumivo.CDT currently supports Mac OS X brew, Linux x86_64 Debian packages, and Linux x86_64 RPM packages.
-
 **If you have previously installed Enumivo.CDT, please run the `uninstall` script (it is in the directory where you cloned Enumivo.CDT) before downloading and using the binary releases.**
-
-#### Mac OS X Brew Install
-```sh
-$ brew tap enumivo/enumivo.cdt
-$ brew install enumivo.cdt
-```
-#### Mac OS X Brew Uninstall
-```sh
-$ brew remove enumivo.cdt
-```
-#### Debian Package Install
-```sh
-$ wget https://github.com/enumivo/enumivo.cdt/releases/download/1.3.2/enumivo.cdt-1.3.2.x86_64.deb
-$ sudo apt install ./enumivo.cdt-1.3.2.x86_64.deb
-```
-#### Debian Package Uninstall
-```sh
-$ sudo apt remove enumivo.cdt
-```
-
-#### RPM Package Install
-```sh
-$ wget https://github.com/enumivo/enumivo.cdt/releases/download/1.3.2/enumivo.cdt-1.3.2.x86_64-0.x86_64.rpm
-$ sudo yum install ./enumivo.cdt-1.3.2.x86_64-0.x86_64.rpm
-```
-
-#### RPM Package Uninstall
-```sh
-$ sudo yum remove enumivo.cdt
-```
 
 ### Guided Installation (Building from Scratch)
 ```sh
@@ -133,7 +100,7 @@ This will generate one file:
   - Added a print method.
   - Added `bool` conversion operator to test is `symbol_code` is empty.
 - Removed `enumivo::string_to_symbol`, `enumivo::is_valid_symbol`, `enumivo::symbol_name_length` functions.
-- Removed the `S` macro. The symbol constructor should be used as a type safe replacement. Example: `S(4,SYS)` -> `symbol(symbol_code("SYS"), 4)` (or simply `symbol("SYS", 4)` as of 1.3.1).
+- Removed the `S` macro. The symbol constructor should be used as a type safe replacement. Example: `S(4,ENU)` -> `symbol(symbol_code("ENU"), 4)` (or simply `symbol("ENU", 4)` as of v1.3.1).
 - Added struct `enumivo::symbol`:
   - Added three `constexpr` constructors that take either a raw `uint64_t`, `symbol_code` and a `uint8_t` precision or an `std::string_view` and a `uint8_t` precision.
   - Added `constexpr` methods `is_valid`, `precision`, `code`, and `raw`. These, respectively, check if the `symbol` is valid, get the `uint8_t` precision, get the `symbol_code` part of the `symbol`, and get the raw `uint64_t` representation of `symbol`.
@@ -147,7 +114,7 @@ This will generate one file:
 #### enulib/asset.hpp
 - The main constructor now requires a `int64_t` (quantity) and `enumivo::symbol` explicitly.
 - The default constructor no longer initializes the instance to a valid zero quantity asset with a symbol equivalent to "core symbol". Instead the default constructed `enumivo::asset` is a bit representation of all zeros (which will cause `is_valid` to fail) so that check is bypassed to allow for `multi_index` and `datastream` to work.
-- Old contracts that use `enumivo::asset()` should be changed to either use the core symbol of the specific chain they are targeting i.e. `enumivo::asset(0, symbol(symbol_code("SYS"),4))`. To reduce writing `symbol(symbol_code("SYS"),4)` over and over, a `constexpr` function to return the symbol or `constexpr` global variable should be used.
+- Old contracts that use `enumivo::asset()` should be changed to either use the core symbol of the specific chain they are targeting i.e. `enumivo::asset(0, symbol(symbol_code("ENU"),4))`. To reduce writing `symbol(symbol_code("ENU"),4)` over and over, a `constexpr` function to return the symbol or `constexpr` global variable should be used.
 
 #### enulib/contract.hpp
 - The constructor for `enumivo::contract` now takes an `enumivo::name` for the receiver, an `enumivo::name` for the code, and a `enumivo::datastream<const char*>` for the datastream used for the contract.  The last argument is for manually unpacking an action, see the section on `enumivo::ignore` for a more indepth usage.
@@ -288,6 +255,14 @@ For an example contract of ABI generation please see the file ./examples/abigen_
 - The sections to the ABI are pretty simple to understand and the syntax is purely JSON, so it is reasonable to write an ABI file manually.
 - The ABI generation will never be completely perfect for every contract written. Advanced features of the newest version of the ABI will require manual construction of the ABI, and odd and advanced C++ patterns could capsize the generators type deductions. So having a good knowledge of how to write an ABI should be an essential piece of knowledge of a smart contract writer.
 
+### Adding Ricardian Contracts and Clauses to ABI
+- As of Enumivo.CDT 1.4.0 the ABI generator will try to automatically import contracts and clauses into the generated ABI.  There are a few caveats to this, one is a strict naming policy of the files and an HTML tag used to mark each Ricardian contract and each clause.
+- The Ricardian contracts should be housed in a file with the name <contract name>.contracts.md and the clauses should be in a file named <contract name>.clauses.md.
+ - For each Ricardian contract the header `<h1 class="contract">ActionName</h1>` should be used, as this directs the ABI generator to attach this Ricardian contract to the specified action.
+ - For each Ricardian clause the header `<h1 class="clause">ClauseID</h1>` should be used, as this directs the ABI generator to the clause id and the subsequent body.
+ - The option `-R` has been added to enumivo-cpp and enumivo-abigen to add "resource" paths to search from, so you can place these files in any directory structure you like and use `-R<path to file>` in the same vein as `-I` for include paths.
+ - To see these in use please see ./examples/hello/hello.contracts.md and ./examples/hello/hello.clauses.md.
+  
 ### Installed Tools
 ---
 * [enumivo-cpp](#enumivo-cpp)

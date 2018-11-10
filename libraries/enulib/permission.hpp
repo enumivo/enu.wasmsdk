@@ -6,7 +6,7 @@
 
 #include <enulib/permission.h>
 #include <enulib/transaction.hpp>
-#include <enulib/public_key.hpp>
+#include <enulib/crypto.hpp>
 
 #include <set>
 #include <limits>
