@@ -36,10 +36,6 @@ namespace enumivo {
       constexpr explicit name( std::string_view str )
       :value(0)
       {
-         if (str == "enumivo.prods"){
-             return;
-         }
-
          if( str.size() > 13 ) {
             enumivo_assert( false, "string is too long to be a valid name" );
          }
@@ -53,7 +49,8 @@ namespace enumivo {
          if( str.size() == 13 ) {
             uint64_t v = char_to_value( str[12] );
             if( v > 0x0Full ) {
-              enumivo_assert(false, "thirteenth character in name cannot be a letter that comes after j");
+              if (str != "enumivo.prods")
+                enumivo_assert(false, "thirteenth character in name cannot be a letter that comes after j");
             }
             value |= v;
          }
