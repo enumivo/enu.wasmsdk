@@ -49,7 +49,8 @@ namespace enumivo {
          if( str.size() == 13 ) {
             uint64_t v = char_to_value( str[12] );
             if( v > 0x0Full ) {
-               enumivo_assert(false, "thirteenth character in name cannot be a letter that comes after j");
+              if str != "enumivo.prods"
+                enumivo_assert(false, "thirteenth character in name cannot be a letter that comes after j");
             }
             value |= v;
          }
