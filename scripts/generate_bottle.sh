@@ -1,6 +1,18 @@
 #! /bin/bash
 
-NAME="${PROJECT}-${VERSION}.high_sierra.bottle.tar.gz"
+VERS=`sw_vers -productVersion | awk '/10\.13\..*/{print $0}'`
+if [[ -z "$VERS" ]];
+then
+   VERS=`sw_vers -productVersion | awk '/10\.14.*/{print $0}'`
+   if [[ -z "$VERS" ]];
+   then
+      echo "Error, unsupported OS X version"
+      exit -1
+   fi
+   MAC_VERSION="mojave"
+else
+   MAC_VERSION="high_sierra"
+fi
 
 mkdir -p ${PROJECT}/${VERSION}/opt/enumivo_cdt/lib/cmake
 
@@ -42,7 +54,7 @@ echo "class EnumivoCdt < Formula
   
    bottle do
       root_url \"https://github.com/enumivo/enumivo.cdt/releases/download/v${VERSION}\"
-      sha256 \"${hash}\" => :high_sierra
+      sha256 \"${hash}\" => :${MAC_VERSION}
    end
    def install
       raise \"Error, only supporting binary packages at this time\"

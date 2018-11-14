@@ -112,7 +112,8 @@ struct secondary_index_db_functions<TYPE> {\
 #define MAKE_TRAITS_FOR_ARITHMETIC_SECONDARY_KEY(TYPE)\
 template<>\
 struct secondary_key_traits<TYPE> {\
-   static constexpr  TYPE lowest() { return std::numeric_limits<TYPE>::lowest(); }\
+   static_assert( std::numeric_limits<TYPE>::is_specialized, "TYPE does not have specialized numeric_limits" );\
+   static constexpr TYPE true_lowest() { return std::numeric_limits<TYPE>::lowest(); }\
 };
 
 namespace _multi_index_detail {
@@ -132,21 +133,27 @@ namespace _multi_index_detail {
    MAKE_TRAITS_FOR_ARITHMETIC_SECONDARY_KEY(uint128_t)
 
    WRAP_SECONDARY_SIMPLE_TYPE(idx_double, double)
-   MAKE_TRAITS_FOR_ARITHMETIC_SECONDARY_KEY(double)
+   template<>
+   struct secondary_key_traits<double> {
+      static constexpr double true_lowest() { return -std::numeric_limits<double>::infinity(); }
+   };
 
    WRAP_SECONDARY_SIMPLE_TYPE(idx_long_double, long double)
-   MAKE_TRAITS_FOR_ARITHMETIC_SECONDARY_KEY(long double)
+   template<>
+   struct secondary_key_traits<long double> {
+      static constexpr long double true_lowest() { return -std::numeric_limits<long double>::infinity(); }
+   };
 
    WRAP_SECONDARY_ARRAY_TYPE(idx256, enumivo::key256)
    template<>
    struct secondary_key_traits<enumivo::key256> {
-      static constexpr enumivo::key256 lowest() { return enumivo::key256(); }
+      static constexpr enumivo::key256 true_lowest() { return enumivo::key256(); }
    };
 
    WRAP_SECONDARY_ARRAY_TYPE(idx256, enumivo::fixed_bytes<32>)
    template<>
    struct secondary_key_traits<enumivo::fixed_bytes<32>> {
-      static constexpr enumivo::fixed_bytes<32> lowest() { return enumivo::fixed_bytes<32>(); }
+      static constexpr enumivo::fixed_bytes<32> true_lowest() { return enumivo::fixed_bytes<32>(); }
    };
 
 }
@@ -419,7 +426,7 @@ class multi_index
 
             const_iterator cbegin()const {
                using namespace _multi_index_detail;
-               return lower_bound( secondary_key_traits<secondary_key_type>::lowest() );
+               return lower_bound( secondary_key_traits<secondary_key_type>::true_lowest() );
             }
             const_iterator begin()const  { return cbegin(); }
 

@@ -219,5 +219,6 @@ namespace enumivo {
  */
 template <typename T, T... Str>
 inline constexpr enumivo::name operator""_n() {
-   return enumivo::name{std::string_view{enumivo::detail::to_const_char_arr<Str...>::value, sizeof...(Str)}};
+   constexpr auto x = enumivo::name{std::string_view{enumivo::detail::to_const_char_arr<Str...>::value, sizeof...(Str)}};
+   return x;
 }
