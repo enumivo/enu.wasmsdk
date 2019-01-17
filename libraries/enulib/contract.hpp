@@ -10,7 +10,7 @@
  * @brief Defines contract type which is %base class for every Enumivo contract
  * @{
  */
-namespace eosio {
+namespace enumivo {
 
 /**
  * @brief %Base class for Enumivo contract.

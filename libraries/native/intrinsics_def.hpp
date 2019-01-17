@@ -1,19 +1,19 @@
 #pragma once
 
-#include <eosiolib/action.h>
-#include <eosiolib/chain.h>
-#include <eosiolib/crypto.h>
-#include <eosiolib/db.h>
-#include <eosiolib/permission.h>
-#include <eosiolib/print.h>
-#include <eosiolib/privileged.h>
-#include <eosiolib/system.h>
-#include <eosiolib/transaction.h>
-#include <eosiolib/types.h>
+#include <enulib/action.h>
+#include <enulib/chain.h>
+#include <enulib/crypto.h>
+#include <enulib/db.h>
+#include <enulib/permission.h>
+#include <enulib/print.h>
+#include <enulib/privileged.h>
+#include <enulib/system.h>
+#include <enulib/transaction.h>
+#include <enulib/types.h>
 
 #include <type_traits>
 
-namespace eosio { namespace native {
+namespace enumivo { namespace native {
    template <typename... Args, size_t... Is>
    auto get_args_full(std::index_sequence<Is...>) {
        std::tuple<std::decay_t<Args>...> tup;
@@ -34,7 +34,7 @@ namespace eosio { namespace native {
    auto create_function(std::index_sequence<Is...>) {
       return std::function<R(typename std::tuple_element<Is, Args>::type ...)>{ 
          [](typename std::tuple_element<Is, Args>::type ...) { 
-            eosio_assert(false, "unsupported intrinsic"); return (R)0;
+            enumivo_assert(false, "unsupported intrinsic"); return (R)0;
          }
       };
    }   
@@ -160,18 +160,18 @@ intrinsic_macro(get_context_free_data)
 
 #define GENERATE_TYPE_MAPPING(name) \
    struct __ ## name ## _types { \
-      using deduced_full_ts = decltype(eosio::native::get_args_full(::name)); \
-      using deduced_ts      = decltype(eosio::native::get_args(::name)); \
+      using deduced_full_ts = decltype(enumivo::native::get_args_full(::name)); \
+      using deduced_ts      = decltype(enumivo::native::get_args(::name)); \
       using res_t           = decltype(std::apply(::name, deduced_ts{})); \
       static constexpr auto is = std::make_index_sequence<std::tuple_size<deduced_ts>::value>(); \
    };
 
 #define GET_TYPE(name) \
-   decltype(create_function<eosio::native::intrinsics::__ ## name ## _types::res_t, \
-         eosio::native::intrinsics::__ ## name ## _types::deduced_full_ts>(eosio::native::intrinsics::__ ## name ## _types::is)),
+   decltype(create_function<enumivo::native::intrinsics::__ ## name ## _types::res_t, \
+         enumivo::native::intrinsics::__ ## name ## _types::deduced_full_ts>(enumivo::native::intrinsics::__ ## name ## _types::is)),
 
 #define REGISTER_INTRINSIC(name) \
-   create_function<eosio::native::intrinsics::__ ## name ## _types::res_t, \
-         eosio::native::intrinsics::__ ## name ## _types::deduced_full_ts>(eosio::native::intrinsics::__ ## name ## _types::is),
+   create_function<enumivo::native::intrinsics::__ ## name ## _types::res_t, \
+         enumivo::native::intrinsics::__ ## name ## _types::deduced_full_ts>(enumivo::native::intrinsics::__ ## name ## _types::is),
 
-}} //ns eosio::native
+}} //ns enumivo::native

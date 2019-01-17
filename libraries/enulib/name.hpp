@@ -15,7 +15,7 @@ namespace enumivo {
    /**
     * @defgroup name
     * @ingroup types
-    * @brief EOSIO Types
+    * @brief Enumivo Types
     * @{
 
     /*

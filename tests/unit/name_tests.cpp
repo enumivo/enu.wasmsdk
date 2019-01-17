@@ -1,22 +1,22 @@
-#include <eosiolib/eosio.hpp>
-#include <eosio/native/tester.hpp>
+#include <enulib/enumivo.hpp>
+#include <enumivo/native/tester.hpp>
 
-using namespace eosio::native;
+using namespace enumivo::native;
 
 ENUMIVO_TEST_BEGIN(name_test)
    //silence_output(true);
-   eosio_assert( eosio::name{"azaa34"}.value == "azaa34"_n.value, "eosio::name != azaa34" );
-   eosio_assert( eosio::name{0}.value == 0, "eosio::name != 0" );
-   eosio_assert( eosio::name{"aa11"}.value == "aa11"_n.value, "eosio::name != aa11" );
-   eosio_assert( eosio::name{"z11"}.value == "z11"_n.value, "eosio::name != z11" );
+   enumivo_assert( enumivo::name{"azaa34"}.value == "azaa34"_n.value, "enumivo::name != azaa34" );
+   enumivo_assert( enumivo::name{0}.value == 0, "enumivo::name != 0" );
+   enumivo_assert( enumivo::name{"aa11"}.value == "aa11"_n.value, "enumivo::name != aa11" );
+   enumivo_assert( enumivo::name{"z11"}.value == "z11"_n.value, "enumivo::name != z11" );
    
    auto testa = []() {
-      eosio_assert( eosio::name{"bb"}.value == "aa"_n.value, "bb != aa" );
+      enumivo_assert( enumivo::name{"bb"}.value == "aa"_n.value, "bb != aa" );
    };
    REQUIRE_ASSERT("bb != aa", testa);
    REQUIRE_ASSERT("character is not in allowed character set for names",
          ([]() {
-            eosio::name{"!"}.value;
+            enumivo::name{"!"}.value;
          }));
    silence_output(false);
 ENUMIVO_TEST_END
@@ -31,7 +31,7 @@ ENUMIVO_TEST_BEGIN(is_account_test)
          });
 
    CHECK_ASSERT("is not an account", ([]() {
-      eosio_assert(is_account(5), "is not an account");
+      enumivo_assert(is_account(5), "is not an account");
       }));
    CHECK_EQUAL(is_account(3), true);
    CHECK_EQUAL(is_account(4), true);

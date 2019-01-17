@@ -1,5 +1,5 @@
-#include <eosiolib/name.hpp>
-#include <eosiolib/action.hpp>
+#include <enulib/name.hpp>
+#include <enulib/action.hpp>
 #include "intrinsics.hpp"
 #include "crt.hpp"
 #include <cstdint>
@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <setjmp.h>
 
-eosio::cdt::output_stream std_out;
-eosio::cdt::output_stream std_err;
+enumivo::cdt::output_stream std_out;
+enumivo::cdt::output_stream std_err;
 
 extern "C" {
 #ifdef __APPLE__
@@ -31,9 +31,9 @@ extern "C" {
 
    void _prints_l(const char* cstr, uint32_t len, uint8_t which) {
       for (int i=0; i < len; i++) {
-         if (which == eosio::cdt::output_stream_kind::std_out)
+         if (which == enumivo::cdt::output_stream_kind::std_out)
             std_out.push(cstr[i]);
-         else if (which == eosio::cdt::output_stream_kind::std_err)
+         else if (which == enumivo::cdt::output_stream_kind::std_err)
             std_err.push(cstr[i]);
          if (!___disable_output)
             ___putc(cstr[i]);
@@ -42,9 +42,9 @@ extern "C" {
 
    void _prints(const char* cstr, uint8_t which) {
       for (int i=0; cstr[i] != '\0'; i++) {
-         if (which == eosio::cdt::output_stream_kind::std_out)
+         if (which == enumivo::cdt::output_stream_kind::std_out)
             std_out.push(cstr[i]);
-         else if (which == eosio::cdt::output_stream_kind::std_err)
+         else if (which == enumivo::cdt::output_stream_kind::std_err)
             std_err.push(cstr[i]);
          if (!___disable_output)
             ___putc(cstr[i]);
@@ -59,7 +59,7 @@ extern "C" {
    }
 
    int _wrap_main(int argc, char** argv) {
-      using namespace eosio::native;
+      using namespace enumivo::native;
       int ret_val = 0;
       ___heap = _mmap();
       ___heap_ptr = ___heap;
@@ -67,10 +67,10 @@ extern "C" {
       ___has_failed = false;
       // preset the print functions
       intrinsics::set_intrinsic<intrinsics::prints_l>([](const char* cs, uint32_t l) {
-            _prints_l(cs, l, eosio::cdt::output_stream_kind::std_out);
+            _prints_l(cs, l, enumivo::cdt::output_stream_kind::std_out);
          });
       intrinsics::set_intrinsic<intrinsics::prints>([](const char* cs) {
-            _prints(cs, eosio::cdt::output_stream_kind::std_out);
+            _prints(cs, enumivo::cdt::output_stream_kind::std_out);
          });
       intrinsics::set_intrinsic<intrinsics::printi>([](int64_t v) {
             printf("%lli\n", v);
@@ -119,7 +119,7 @@ extern "C" {
             printf("0x%04x%04x%04x%04x\n", tmp[0], tmp[1], tmp[2], tmp[3]);
          });
       intrinsics::set_intrinsic<intrinsics::printn>([](uint64_t nm) {
-            std::string s = eosio::name(nm).to_string();
+            std::string s = enumivo::name(nm).to_string();
             prints_l(s.c_str(), s.length());
          });
 

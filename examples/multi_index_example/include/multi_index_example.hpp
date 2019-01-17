@@ -1,5 +1,5 @@
-#include <eosiolib/eosio.hpp>
-using namespace eosio;
+#include <enulib/enu.hpp>
+using namespace enumivo;
 
 CONTRACT multi_index_example : public contract {
    public:
@@ -20,7 +20,7 @@ CONTRACT multi_index_example : public contract {
          uint64_t by_secondary()const { return secondary.value; }
       };
 
-      typedef eosio::multi_index<"testtaba"_n, test_table, eosio::indexed_by<"secid"_n, eosio::const_mem_fun<test_table, uint64_t, &test_table::by_secondary>>> test_tables;
+      typedef enumivo::multi_index<"testtaba"_n, test_table, enumivo::indexed_by<"secid"_n, enumivo::const_mem_fun<test_table, uint64_t, &test_table::by_secondary>>> test_tables;
 
       using set_action = action_wrapper<"set"_n, &multi_index_example::set>;
       using print_action = action_wrapper<"print"_n, &multi_index_example::print>;

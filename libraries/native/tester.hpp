@@ -1,5 +1,5 @@
 #pragma once
-#include <eosiolib/eosio.hpp>
+#include <enulib/enumivo.hpp>
 #include "crt.hpp"
 #include "intrinsics.hpp"
 #include <setjmp.h>
@@ -28,8 +28,8 @@ inline bool expect_assert(bool check, const std::string& li, Pred&& pred, F&& fu
       __reset_env();
       silence_output(false);
       if (!check)
-         eosio_assert(false, std::string("error : expect_assert, no assert {"+li+"}").c_str());
-      eosio::print("error : expect_assert, no assert {"+li+"}\n");
+         enumivo_assert(false, std::string("error : expect_assert, no assert {"+li+"}").c_str());
+      enumivo::print("error : expect_assert, no assert {"+li+"}\n");
       silence_output(disable_out);
       return false;
    } 
@@ -38,9 +38,9 @@ inline bool expect_assert(bool check, const std::string& li, Pred&& pred, F&& fu
    std_err.clear();
    silence_output(false);
    if (!check)
-      eosio_assert(passed, std::string("error : expect_assert, wrong assert {"+li+"}").c_str());
+      enumivo_assert(passed, std::string("error : expect_assert, wrong assert {"+li+"}").c_str());
    if (!passed)
-      eosio::print("error : expect_assert, wrong assert {"+li+"}\n");
+      enumivo::print("error : expect_assert, wrong assert {"+li+"}\n");
    silence_output(disable_out);
 
    return passed;   
@@ -63,9 +63,9 @@ inline bool expect_print(bool check, const std::string& li, Pred&& pred, F&& fun
    bool disable_out = ___disable_output;
    silence_output(false);
    if (!check)
-      eosio_assert(passed, std::string("error : wrong print message {"+li+"}").c_str());
+      enumivo_assert(passed, std::string("error : wrong print message {"+li+"}").c_str());
    if (!passed)
-      eosio::print("error : wrong print message {"+li+"}\n");
+      enumivo::print("error : wrong print message {"+li+"}\n");
    silence_output(disable_out);
    return passed;
 }
@@ -94,11 +94,11 @@ inline bool expect_print(bool check, const std::string& li, const char (&expecte
 #define CHECK_EQUAL(X, Y) \
    if (X != Y) { \
       ___has_failed = true; \
-      eosio::print(std::string("CHECK_EQUAL failed (")+#X+" != "+#Y+") {"+__FILE__+":"+std::to_string(__LINE__)+"}\n"); \
+      enumivo::print(std::string("CHECK_EQUAL failed (")+#X+" != "+#Y+") {"+__FILE__+":"+std::to_string(__LINE__)+"}\n"); \
    }
 
 #define REQUIRE_EQUAL(X, Y) \
-   eosio_assert(X == Y, std::string(std::string("REQUIRE_EQUAL failed (")+#X+" != "+#Y+") {"+__FILE__+":"+std::to_string(__LINE__)+"}").c_str());
+   enumivo_assert(X == Y, std::string(std::string("REQUIRE_EQUAL failed (")+#X+" != "+#Y+") {"+__FILE__+":"+std::to_string(__LINE__)+"}").c_str());
  
 #define ENUMIVO_TEST(X) \
    int X ## _ret = setjmp(*___env_ptr); \
@@ -106,7 +106,7 @@ inline bool expect_print(bool check, const std::string& li, const char (&expecte
       X(); \
    else { \
       silence_output(false); \
-      eosio::print("\033[1;37m", #X, " \033[0;37munit test \033[1;31mfailed\033[0m\n"); \
+      enumivo::print("\033[1;37m", #X, " \033[0;37munit test \033[1;31mfailed\033[0m\n"); \
       ___has_failed = true; \
       silence_output(___disable_output); \
    }
@@ -117,6 +117,6 @@ inline bool expect_print(bool check, const std::string& li, const char (&expecte
 
 #define ENUMIVO_TEST_END \
       silence_output(false); \
-      eosio::print("\033[1;37m",__test_name," \033[0;37munit test \033[1;32mpassed\033[0m\n"); \
+      enumivo::print("\033[1;37m",__test_name," \033[0;37munit test \033[1;32mpassed\033[0m\n"); \
       silence_output(___disable_output); \
    }

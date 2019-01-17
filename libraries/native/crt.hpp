@@ -1,7 +1,7 @@
 #pragma once
 #include <setjmp.h>
 
-namespace eosio { namespace cdt {
+namespace enumivo { namespace cdt {
    enum output_stream_kind {
       std_out,
       std_err,
@@ -15,10 +15,10 @@ namespace eosio { namespace cdt {
       void push(char c) { output[index++] = c; }
       void clear() { index = 0; }
    };
-}} //ns eosio::cdt
+}} //ns enumivo::cdt
 
-extern eosio::cdt::output_stream std_out;
-extern eosio::cdt::output_stream std_err;
+extern enumivo::cdt::output_stream std_out;
+extern enumivo::cdt::output_stream std_err;
 extern "C" jmp_buf* ___env_ptr;
 extern "C" char*    ___heap_ptr;
 

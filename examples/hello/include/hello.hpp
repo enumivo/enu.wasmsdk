@@ -1,5 +1,5 @@
-#include <eosiolib/eosio.hpp>
-using namespace eosio;
+#include <enulib/enu.hpp>
+using namespace enumivo;
 
 CONTRACT hello : public contract {
    public:

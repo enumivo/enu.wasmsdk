@@ -6,12 +6,12 @@
 #include "system.h"
 #include <string>
 
-namespace eosio {
+namespace enumivo {
 
    /**
     *  @addtogroup system System C++ API
     *  @ingroup cpp_api
-    *  @brief Defines wrappers over eosio_assert 
+    *  @brief Defines wrappers over enumivo_assert 
     *
     *  @{
     */
@@ -28,7 +28,7 @@ namespace eosio {
     */
    inline void check(bool pred, const char* msg) {
       if (!pred) {
-         eosio_assert(false, msg);
+         enumivo_assert(false, msg);
       }
    }
 
@@ -44,7 +44,7 @@ namespace eosio {
     */
    inline void check(bool pred, const std::string& msg) {
       if (!pred) {
-         eosio_assert(false, msg.c_str());
+         enumivo_assert(false, msg.c_str());
       }
    }
 
@@ -60,7 +60,7 @@ namespace eosio {
     */
    inline void check(bool pred, std::string&& msg) {
       if (!pred) {
-         eosio_assert(false, msg.c_str());
+         enumivo_assert(false, msg.c_str());
       }
    }
 
@@ -77,7 +77,7 @@ namespace eosio {
     */
    inline void check(bool pred, const char* msg, size_t n) {
       if (!pred) {
-         eosio_assert_message(false, msg, n);
+         enumivo_assert_message(false, msg, n);
       }
    }
 
@@ -94,7 +94,7 @@ namespace eosio {
     */
    inline void check(bool pred, const std::string& msg, size_t n) {
       if (!pred) {
-         eosio_assert_message(false, msg.c_str(), n);
+         enumivo_assert_message(false, msg.c_str(), n);
       }
    }
 
@@ -110,8 +110,8 @@ namespace eosio {
     */
    inline void check(bool pred, uint64_t code) {
       if (!pred) {
-         eosio_assert_code(false, code);
+         enumivo_assert_code(false, code);
       }
    }
-} // namespace eosio
+} // namespace enumivo
    /// @}

@@ -1,7 +1,7 @@
-#include <eosiolib/eosio.hpp>
-#include <eosio/native/tester.hpp>
+#include <enulib/enumivo.hpp>
+#include <enumivo/native/tester.hpp>
 
-using namespace eosio::native;
+using namespace enumivo::native;
 
 ENUMIVO_TEST_BEGIN(system_test)
    silence_output(true);

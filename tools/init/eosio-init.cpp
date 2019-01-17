@@ -9,10 +9,10 @@
 #include "clang/AST/Expr.h"
 #include "clang/Basic/Builtins.h"
 #include "llvm/Support/FileSystem.h"
-#include "eosio/utils.hpp"
-#include "eosio/gen.hpp"
-#include "eosio/whereami/whereami.hpp"
-#include "eosio/abi.hpp"
+#include "enumivo/utils.hpp"
+#include "enumivo/gen.hpp"
+#include "enumivo/whereami/whereami.hpp"
+#include "enumivo/abi.hpp"
 
 #include <exception>
 #include <iostream>
@@ -28,8 +28,8 @@
 using namespace clang::tooling;
 using namespace clang::ast_matchers;
 using namespace llvm;
-using namespace eosio;
-using namespace eosio::cdt;
+using namespace enumivo;
+using namespace enumivo::cdt;
 
 struct project {
    std::string project_name;
@@ -54,8 +54,8 @@ struct project {
                            "}\n\n"
                            "ENUMIVO_DISPATCH( @, (hi) )";
 
-   const std::string hpp = "#include <eosiolib/eosio.hpp>\n"
-                           "using namespace eosio;\n\n"
+   const std::string hpp = "#include <enulib/enumivo.hpp>\n"
+                           "using namespace enumivo;\n\n"
                            "CONTRACT @ : public contract {\n"
                            "   public:\n"
                            "      using contract::contract;\n\n"
@@ -68,7 +68,7 @@ struct project {
 
    const std::string cmake = "project(@)\n\n"
                              "set(ENUMIVO_WASM_OLD_BEHAVIOR \"Off\")\n"
-                             "find_package(eosio.cdt)\n\n"
+                             "find_package(enumivo.cdt)\n\n"
                              "add_contract( @ @ @.cpp )\n"
                              "target_include_directories( @ PUBLIC ${CMAKE_SOURCE_DIR}/../include )\n"
                              "target_ricardian_directory( @ ${CMAKE_SOURCE_DIR}/../ricardian )";
@@ -76,13 +76,13 @@ struct project {
    const std::string cmake_extern = "include(ExternalProject)\n"
                                     "# if no cdt root is given use default path\n"
                                     "if(ENUMIVO_CDT_ROOT STREQUAL \"\" OR NOT ENUMIVO_CDT_ROOT)\n"
-                                    "   find_package(eosio.cdt)\n"
+                                    "   find_package(enumivo.cdt)\n"
                                     "endif()\n\n"
                                     "ExternalProject_Add(\n"
                                     "   @_project\n"
                                     "   SOURCE_DIR ${CMAKE_SOURCE_DIR}/src\n"
                                     "   BINARY_DIR ${CMAKE_BINARY_DIR}/@\n"
-                                    "   CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${ENUMIVO_CDT_ROOT}/lib/cmake/eosio.cdt/EosioWasmToolchain.cmake\n"
+                                    "   CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${ENUMIVO_CDT_ROOT}/lib/cmake/enumivo.cdt/EnumivoWasmToolchain.cmake\n"
                                     "   UPDATE_COMMAND \"\"\n"
                                     "   PATCH_COMMAND \"\"\n"
                                     "   TEST_COMMAND \"\"\n"
@@ -97,12 +97,12 @@ struct project {
                                     "   - run the command 'make'\n\n"
                                     " - After build -\n" 
                                     "   - The built smart contract is under the '@' directory in the 'build' directory\n"
-                                    "   - You can then do a 'set contract' action with 'cleos' and point in to the './build/@' directory\n\n"
+                                    "   - You can then do a 'set contract' action with 'enucli' and point in to the './build/@' directory\n\n"
                                     " - Additions to CMake should be done to the CMakeLists.txt in the './src' directory and not in the top level CMakeLists.txt";
 
    const std::string readme_bare = " --- @ Project ---\n\n"
                                    " - How to Build -\n"
-                                   "   - run the command 'eosio-cpp -abigen -o @.wasm @.cpp'\n";
+                                   "   - run the command 'enumivo-cpp -abigen -o @.wasm @.cpp'\n";
 
    std::string replace_name( const std::string& in ) {
       std::stringstream ss;
@@ -186,9 +186,9 @@ struct project {
 int main(int argc, const char **argv) {
 
    cl::SetVersionPrinter([](llvm::raw_ostream& os) {
-        os << "eosio-init version " << "@VERSION_FULL@" << "\n";
+        os << "enumivo-init version " << "@VERSION_FULL@" << "\n";
   });
-   cl::OptionCategory cat("eosio-init", "generates an eosio smart contract project");
+   cl::OptionCategory cat("enumivo-init", "generates an enumivo smart contract project");
    
    cl::opt<bool> bare_opt(
       "bare",
@@ -204,7 +204,7 @@ int main(int argc, const char **argv) {
       cl::desc("directory to place the project"),
       cl::cat(cat));
 
-   cl::ParseCommandLineOptions(argc, argv, std::string("eosio-proj"));
+   cl::ParseCommandLineOptions(argc, argv, std::string("enumivo-proj"));
    try {
       llvm::SmallString<128> rp;
       std::string path = output_dir;

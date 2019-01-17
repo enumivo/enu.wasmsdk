@@ -3,13 +3,13 @@ find_package(Git REQUIRED)
 include(GNUInstallDirs)
 
 ExternalProject_Add(
-  EosioWasmLibraries
+  EnumivoWasmLibraries
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/libraries"
-  CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_BINARY_DIR}/lib/cmake/eosio.cdt/EosioWasmToolchain.cmake -DENUMIVO_CDT_BIN=${CMAKE_BINARY_DIR}/lib/cmake/eosio.cdt/ -DBASE_BINARY_DIR=${CMAKE_BINARY_DIR} -D__APPLE=${APPLE}
+  CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_BINARY_DIR}/lib/cmake/enumivo.cdt/EnumivoWasmToolchain.cmake -DENUMIVO_CDT_BIN=${CMAKE_BINARY_DIR}/lib/cmake/enumivo.cdt/ -DBASE_BINARY_DIR=${CMAKE_BINARY_DIR} -D__APPLE=${APPLE}
   UPDATE_COMMAND ""
   PATCH_COMMAND  ""
   TEST_COMMAND   ""
   INSTALL_COMMAND ""
   BUILD_ALWAYS 1
-  DEPENDS EosioTools
+  DEPENDS EnumivoTools
 )

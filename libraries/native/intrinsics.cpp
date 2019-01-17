@@ -1,20 +1,20 @@
-#include <eosiolib/action.h>
-#include <eosiolib/chain.h>
-#include <eosiolib/crypto.h>
-#include <eosiolib/db.h>
-#include <eosiolib/permission.h>
-#include <eosiolib/print.h>
-#include <eosiolib/privileged.h>
-#include <eosiolib/system.h>
-#include <eosiolib/transaction.h>
-#include <eosiolib/types.h>
+#include <enulib/action.h>
+#include <enulib/chain.h>
+#include <enulib/crypto.h>
+#include <enulib/db.h>
+#include <enulib/permission.h>
+#include <enulib/print.h>
+#include <enulib/privileged.h>
+#include <enulib/system.h>
+#include <enulib/transaction.h>
+#include <enulib/types.h>
 #include "intrinsics.hpp"
 #include "crt.hpp"
 #include <softfloat.hpp>
 #include <float.h>
 
 // Boilerplate
-using namespace eosio::native;
+using namespace enumivo::native;
 extern "C" {
    void get_resource_limits( capi_name account, int64_t* ram_bytes, int64_t* net_weight, int64_t* cpu_weight ) {
       return intrinsics::get().call<intrinsics::get_resource_limits>(account, ram_bytes, net_weight, cpu_weight);
@@ -336,23 +336,23 @@ extern "C" {
    static constexpr uint32_t inv_float_eps = 0x4B000000;
    static constexpr uint64_t inv_double_eps = 0x4330000000000000;
 
-   float _eosio_f32_add( float a, float b ) {
+   float _enumivo_f32_add( float a, float b ) {
       float32_t ret = f32_add( to_softfloat32(a), to_softfloat32(b) );
       return *reinterpret_cast<float*>(&ret);
    }
-   float _eosio_f32_sub( float a, float b ) {
+   float _enumivo_f32_sub( float a, float b ) {
       float32_t ret = f32_sub( to_softfloat32(a), to_softfloat32(b) );
       return *reinterpret_cast<float*>(&ret);
    }
-   float _eosio_f32_div( float a, float b ) {
+   float _enumivo_f32_div( float a, float b ) {
       float32_t ret = f32_div( to_softfloat32(a), to_softfloat32(b) );
       return *reinterpret_cast<float*>(&ret);
    }
-   float _eosio_f32_mul( float a, float b ) {
+   float _enumivo_f32_mul( float a, float b ) {
       float32_t ret = f32_mul( to_softfloat32(a), to_softfloat32(b) );
       return *reinterpret_cast<float*>(&ret);
    }
-   float _eosio_f32_min( float af, float bf ) {
+   float _enumivo_f32_min( float af, float bf ) {
       float32_t a = to_softfloat32(af);
       float32_t b = to_softfloat32(bf);
       if (f32_is_nan(a)) {
@@ -366,7 +366,7 @@ extern "C" {
       }
       return f32_lt(a,b) ? af : bf;
    }
-   float _eosio_f32_max( float af, float bf ) {
+   float _enumivo_f32_max( float af, float bf ) {
       float32_t a = to_softfloat32(af);
       float32_t b = to_softfloat32(bf);
       if (f32_is_nan(a)) {
@@ -380,7 +380,7 @@ extern "C" {
       }
       return f32_lt( a, b ) ? bf : af;
    }
-   float _eosio_f32_copysign( float af, float bf ) {
+   float _enumivo_f32_copysign( float af, float bf ) {
       float32_t a = to_softfloat32(af);
       float32_t b = to_softfloat32(bf);
       uint32_t sign_of_a = a.v >> 31;
@@ -390,24 +390,24 @@ extern "C" {
       return from_softfloat32(a);
    }
    // float unops
-   float _eosio_f32_abs( float af ) {
+   float _enumivo_f32_abs( float af ) {
       float32_t a = to_softfloat32(af);
       a.v &= ~(1 << 31);
       return from_softfloat32(a);
    }
-   float _eosio_f32_neg( float af ) {
+   float _enumivo_f32_neg( float af ) {
       float32_t a = to_softfloat32(af);
       uint32_t sign = a.v >> 31;
       a.v &= ~(1 << 31);
       a.v |= (!sign << 31);
       return from_softfloat32(a);
    }
-   float _eosio_f32_sqrt( float a ) {
+   float _enumivo_f32_sqrt( float a ) {
       float32_t ret = f32_sqrt( to_softfloat32(a) );
       return from_softfloat32(ret);
    }
    // ceil, floor, trunc and nearest are lifted from libc
-   float _eosio_f32_ceil( float af ) {
+   float _enumivo_f32_ceil( float af ) {
       float32_t a = to_softfloat32(af);
       int e = (int)(a.v >> 23 & 0xFF) - 0X7F;
       uint32_t m;
@@ -429,7 +429,7 @@ extern "C" {
 
       return from_softfloat32(a);
    }
-   float _eosio_f32_floor( float af ) {
+   float _enumivo_f32_floor( float af ) {
       float32_t a = to_softfloat32(af);
       int e = (int)(a.v >> 23 & 0xFF) - 0X7F;
       uint32_t m;
@@ -450,7 +450,7 @@ extern "C" {
       }
       return from_softfloat32(a);
    }
-   float _eosio_f32_trunc( float af ) {
+   float _enumivo_f32_trunc( float af ) {
       float32_t a = to_softfloat32(af);
       int e = (int)(a.v >> 23 & 0xff) - 0x7f + 9;
       uint32_t m;
@@ -464,7 +464,7 @@ extern "C" {
       a.v &= ~m;
       return from_softfloat32(a);
    }
-   float _eosio_f32_nearest( float af ) {
+   float _enumivo_f32_nearest( float af ) {
       float32_t a = to_softfloat32(af);
       int e = a.v>>23 & 0xff;
       int s = a.v>>31;
@@ -481,11 +481,11 @@ extern "C" {
    }
 
    // float relops
-   bool _eosio_f32_eq( float a, float b ) {  return f32_eq( to_softfloat32(a), to_softfloat32(b) ); }
-   bool _eosio_f32_ne( float a, float b ) { return !f32_eq( to_softfloat32(a), to_softfloat32(b) ); }
-   bool _eosio_f32_lt( float a, float b ) { return f32_lt( to_softfloat32(a), to_softfloat32(b) ); }
-   bool _eosio_f32_le( float a, float b ) { return f32_le( to_softfloat32(a), to_softfloat32(b) ); }
-   bool _eosio_f32_gt( float af, float bf ) {
+   bool _enumivo_f32_eq( float a, float b ) {  return f32_eq( to_softfloat32(a), to_softfloat32(b) ); }
+   bool _enumivo_f32_ne( float a, float b ) { return !f32_eq( to_softfloat32(a), to_softfloat32(b) ); }
+   bool _enumivo_f32_lt( float a, float b ) { return f32_lt( to_softfloat32(a), to_softfloat32(b) ); }
+   bool _enumivo_f32_le( float a, float b ) { return f32_le( to_softfloat32(a), to_softfloat32(b) ); }
+   bool _enumivo_f32_gt( float af, float bf ) {
       float32_t a = to_softfloat32(af);
       float32_t b = to_softfloat32(bf);
       if (f32_is_nan(a))
@@ -494,7 +494,7 @@ extern "C" {
          return false;
       return !f32_le( a, b );
    }
-   bool _eosio_f32_ge( float af, float bf ) {
+   bool _enumivo_f32_ge( float af, float bf ) {
       float32_t a = to_softfloat32(af);
       float32_t b = to_softfloat32(bf);
       if (f32_is_nan(a))
@@ -505,23 +505,23 @@ extern "C" {
    }
 
    // double binops
-   double _eosio_f64_add( double a, double b ) {
+   double _enumivo_f64_add( double a, double b ) {
       float64_t ret = f64_add( to_softfloat64(a), to_softfloat64(b) );
       return from_softfloat64(ret);
    }
-   double _eosio_f64_sub( double a, double b ) {
+   double _enumivo_f64_sub( double a, double b ) {
       float64_t ret = f64_sub( to_softfloat64(a), to_softfloat64(b) );
       return from_softfloat64(ret);
    }
-   double _eosio_f64_div( double a, double b ) {
+   double _enumivo_f64_div( double a, double b ) {
       float64_t ret = f64_div( to_softfloat64(a), to_softfloat64(b) );
       return from_softfloat64(ret);
    }
-   double _eosio_f64_mul( double a, double b ) {
+   double _enumivo_f64_mul( double a, double b ) {
       float64_t ret = f64_mul( to_softfloat64(a), to_softfloat64(b) );
       return from_softfloat64(ret);
    }
-   double _eosio_f64_min( double af, double bf ) {
+   double _enumivo_f64_min( double af, double bf ) {
       float64_t a = to_softfloat64(af);
       float64_t b = to_softfloat64(bf);
       if (f64_is_nan(a))
@@ -532,7 +532,7 @@ extern "C" {
          return f64_sign_bit(a) ? af : bf;
       return f64_lt( a, b ) ? af : bf;
    }
-   double _eosio_f64_max( double af, double bf ) {
+   double _enumivo_f64_max( double af, double bf ) {
       float64_t a = to_softfloat64(af);
       float64_t b = to_softfloat64(bf);
       if (f64_is_nan(a))
@@ -543,7 +543,7 @@ extern "C" {
          return f64_sign_bit(a) ? bf : af;
       return f64_lt( a, b ) ? bf : af;
    }
-   double _eosio_f64_copysign( double af, double bf ) {
+   double _enumivo_f64_copysign( double af, double bf ) {
       float64_t a = to_softfloat64(af);
       float64_t b = to_softfloat64(bf);
       uint64_t sign_of_a = a.v >> 63;
@@ -554,24 +554,24 @@ extern "C" {
    }
 
    // double unops
-   double _eosio_f64_abs( double af ) {
+   double _enumivo_f64_abs( double af ) {
       float64_t a = to_softfloat64(af);
       a.v &= ~(uint64_t(1) << 63);
       return from_softfloat64(a);
    }
-   double _eosio_f64_neg( double af ) {
+   double _enumivo_f64_neg( double af ) {
       float64_t a = to_softfloat64(af);
       uint64_t sign = a.v >> 63;
       a.v &= ~(uint64_t(1) << 63);
       a.v |= (uint64_t(!sign) << 63);
       return from_softfloat64(a);
    }
-   double _eosio_f64_sqrt( double a ) {
+   double _enumivo_f64_sqrt( double a ) {
       float64_t ret = f64_sqrt( to_softfloat64(a) );
       return from_softfloat64(ret);
    }
    // ceil, floor, trunc and nearest are lifted from libc
-   double _eosio_f64_ceil( double af ) {
+   double _enumivo_f64_ceil( double af ) {
       float64_t a = to_softfloat64( af );
       float64_t ret;
       int e = a.v >> 52 & 0x7ff;
@@ -594,7 +594,7 @@ extern "C" {
       ret = f64_add( a, y );
       return from_softfloat64(ret);
    }
-   double _eosio_f64_floor( double af ) {
+   double _enumivo_f64_floor( double af ) {
       float64_t a = to_softfloat64( af );
       float64_t ret;
       int e = a.v >> 52 & 0x7FF;
@@ -620,7 +620,7 @@ extern "C" {
       ret = f64_add( a, y );
       return from_softfloat64(ret);
    }
-   double _eosio_f64_trunc( double af ) {
+   double _enumivo_f64_trunc( double af ) {
       float64_t a = to_softfloat64( af );
       int e = (int)(a.v >> 52 & 0x7ff) - 0x3ff + 12;
       uint64_t m;
@@ -635,7 +635,7 @@ extern "C" {
       return from_softfloat64(a);
    }
 
-   double _eosio_f64_nearest( double af ) {
+   double _enumivo_f64_nearest( double af ) {
       float64_t a = to_softfloat64( af );
       int e = (a.v >> 52 & 0x7FF);
       int s = a.v >> 63;
@@ -652,11 +652,11 @@ extern "C" {
    }
 
    // double relops
-   bool _eosio_f64_eq( double a, double b ) { return f64_eq( to_softfloat64(a), to_softfloat64(b) ); }
-   bool _eosio_f64_ne( double a, double b ) { return !f64_eq( to_softfloat64(a), to_softfloat64(b) ); }
-   bool _eosio_f64_lt( double a, double b ) { return f64_lt( to_softfloat64(a), to_softfloat64(b) ); }
-   bool _eosio_f64_le( double a, double b ) { return f64_le( to_softfloat64(a), to_softfloat64(b) ); }
-   bool _eosio_f64_gt( double af, double bf ) {
+   bool _enumivo_f64_eq( double a, double b ) { return f64_eq( to_softfloat64(a), to_softfloat64(b) ); }
+   bool _enumivo_f64_ne( double a, double b ) { return !f64_eq( to_softfloat64(a), to_softfloat64(b) ); }
+   bool _enumivo_f64_lt( double a, double b ) { return f64_lt( to_softfloat64(a), to_softfloat64(b) ); }
+   bool _enumivo_f64_le( double a, double b ) { return f64_le( to_softfloat64(a), to_softfloat64(b) ); }
+   bool _enumivo_f64_gt( double af, double bf ) {
       float64_t a = to_softfloat64(af);
       float64_t b = to_softfloat64(bf);
       if (f64_is_nan(a))
@@ -665,7 +665,7 @@ extern "C" {
          return false;
       return !f64_le( a, b );
    }
-   bool _eosio_f64_ge( double af, double bf ) {
+   bool _enumivo_f64_ge( double af, double bf ) {
       float64_t a = to_softfloat64(af);
       float64_t b = to_softfloat64(bf);
       if (f64_is_nan(a))
@@ -676,100 +676,100 @@ extern "C" {
    }
 
    // float and double conversions
-   double _eosio_f32_promote( float a ) {
+   double _enumivo_f32_promote( float a ) {
       return from_softfloat64(f32_to_f64( to_softfloat32(a)) );
    }
-   float _eosio_f64_demote( double a ) {
+   float _enumivo_f64_demote( double a ) {
       return from_softfloat32(f64_to_f32( to_softfloat64(a)) );
    }
-   int32_t _eosio_f32_trunc_i32s( float af ) {
+   int32_t _enumivo_f32_trunc_i32s( float af ) {
       float32_t a = to_softfloat32(af);
-      if (_eosio_f32_ge(af, 2147483648.0f) || _eosio_f32_lt(af, -2147483648.0f))
-         eosio_assert(false,  "Error, f32.convert_s/i32 overflow" );
+      if (_enumivo_f32_ge(af, 2147483648.0f) || _enumivo_f32_lt(af, -2147483648.0f))
+         enumivo_assert(false,  "Error, f32.convert_s/i32 overflow" );
 
       if (f32_is_nan(a))
-         eosio_assert(false,  "Error, f32.convert_s/i32 unrepresentable");
-      return f32_to_i32( to_softfloat32(_eosio_f32_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f32.convert_s/i32 unrepresentable");
+      return f32_to_i32( to_softfloat32(_enumivo_f32_trunc( af )), 0, false );
    }
-   int32_t _eosio_f64_trunc_i32s( double af ) {
+   int32_t _enumivo_f64_trunc_i32s( double af ) {
       float64_t a = to_softfloat64(af);
-      if (_eosio_f64_ge(af, 2147483648.0) || _eosio_f64_lt(af, -2147483648.0))
-         eosio_assert(false,  "Error, f64.convert_s/i32 overflow");
+      if (_enumivo_f64_ge(af, 2147483648.0) || _enumivo_f64_lt(af, -2147483648.0))
+         enumivo_assert(false,  "Error, f64.convert_s/i32 overflow");
       if (f64_is_nan(a))
-         eosio_assert(false,  "Error, f64.convert_s/i32 unrepresentable");
-      return f64_to_i32( to_softfloat64(_eosio_f64_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f64.convert_s/i32 unrepresentable");
+      return f64_to_i32( to_softfloat64(_enumivo_f64_trunc( af )), 0, false );
    }
-   uint32_t _eosio_f32_trunc_i32u( float af ) {
+   uint32_t _enumivo_f32_trunc_i32u( float af ) {
       float32_t a = to_softfloat32(af);
-      if (_eosio_f32_ge(af, 4294967296.0f) || _eosio_f32_le(af, -1.0f))
-         eosio_assert(false,  "Error, f32.convert_u/i32 overflow");
+      if (_enumivo_f32_ge(af, 4294967296.0f) || _enumivo_f32_le(af, -1.0f))
+         enumivo_assert(false,  "Error, f32.convert_u/i32 overflow");
       if (f32_is_nan(a))
-         eosio_assert(false,  "Error, f32.convert_u/i32 unrepresentable");
-      return f32_to_ui32( to_softfloat32(_eosio_f32_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f32.convert_u/i32 unrepresentable");
+      return f32_to_ui32( to_softfloat32(_enumivo_f32_trunc( af )), 0, false );
    }
-   uint32_t _eosio_f64_trunc_i32u( double af ) {
+   uint32_t _enumivo_f64_trunc_i32u( double af ) {
       float64_t a = to_softfloat64(af);
-      if (_eosio_f64_ge(af, 4294967296.0) || _eosio_f64_le(af, -1.0))
-         eosio_assert(false,  "Error, f64.convert_u/i32 overflow");
+      if (_enumivo_f64_ge(af, 4294967296.0) || _enumivo_f64_le(af, -1.0))
+         enumivo_assert(false,  "Error, f64.convert_u/i32 overflow");
       if (f64_is_nan(a))
-         eosio_assert(false,  "Error, f64.convert_u/i32 unrepresentable");
-      return f64_to_ui32( to_softfloat64(_eosio_f64_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f64.convert_u/i32 unrepresentable");
+      return f64_to_ui32( to_softfloat64(_enumivo_f64_trunc( af )), 0, false );
    }
-   int64_t _eosio_f32_trunc_i64s( float af ) {
+   int64_t _enumivo_f32_trunc_i64s( float af ) {
       float32_t a = to_softfloat32(af);
-      if (_eosio_f32_ge(af, 9223372036854775808.0f) || _eosio_f32_lt(af, -9223372036854775808.0f))
-         eosio_assert(false,  "Error, f32.convert_s/i64 overflow");
+      if (_enumivo_f32_ge(af, 9223372036854775808.0f) || _enumivo_f32_lt(af, -9223372036854775808.0f))
+         enumivo_assert(false,  "Error, f32.convert_s/i64 overflow");
       if (f32_is_nan(a))
-         eosio_assert(false,  "Error, f32.convert_s/i64 unrepresentable");
-      return f32_to_i64( to_softfloat32(_eosio_f32_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f32.convert_s/i64 unrepresentable");
+      return f32_to_i64( to_softfloat32(_enumivo_f32_trunc( af )), 0, false );
    }
-   int64_t _eosio_f64_trunc_i64s( double af ) {
+   int64_t _enumivo_f64_trunc_i64s( double af ) {
       float64_t a = to_softfloat64(af);
-      if (_eosio_f64_ge(af, 9223372036854775808.0) || _eosio_f64_lt(af, -9223372036854775808.0))
-         eosio_assert(false,  "Error, f64.convert_s/i64 overflow");
+      if (_enumivo_f64_ge(af, 9223372036854775808.0) || _enumivo_f64_lt(af, -9223372036854775808.0))
+         enumivo_assert(false,  "Error, f64.convert_s/i64 overflow");
       if (f64_is_nan(a))
-         eosio_assert(false,  "Error, f64.convert_s/i64 unrepresentable");
+         enumivo_assert(false,  "Error, f64.convert_s/i64 unrepresentable");
 
-      return f64_to_i64( to_softfloat64(_eosio_f64_trunc( af )), 0, false );
+      return f64_to_i64( to_softfloat64(_enumivo_f64_trunc( af )), 0, false );
    }
-   uint64_t _eosio_f32_trunc_i64u( float af ) {
+   uint64_t _enumivo_f32_trunc_i64u( float af ) {
       float32_t a = to_softfloat32(af);
-      if (_eosio_f32_ge(af, 18446744073709551616.0f) || _eosio_f32_le(af, -1.0f))
-         eosio_assert(false,  "Error, f32.convert_u/i64 overflow");
+      if (_enumivo_f32_ge(af, 18446744073709551616.0f) || _enumivo_f32_le(af, -1.0f))
+         enumivo_assert(false,  "Error, f32.convert_u/i64 overflow");
       if (f32_is_nan(a))
-         eosio_assert(false,  "Error, f32.convert_u/i64 unrepresentable");
-      return f32_to_ui64( to_softfloat32(_eosio_f32_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f32.convert_u/i64 unrepresentable");
+      return f32_to_ui64( to_softfloat32(_enumivo_f32_trunc( af )), 0, false );
    }
-   uint64_t _eosio_f64_trunc_i64u( double af ) {
+   uint64_t _enumivo_f64_trunc_i64u( double af ) {
       float64_t a = to_softfloat64(af);
-      if (_eosio_f64_ge(af, 18446744073709551616.0) || _eosio_f64_le(af, -1.0))
-         eosio_assert(false,  "Error, f64.convert_u/i64 overflow");
+      if (_enumivo_f64_ge(af, 18446744073709551616.0) || _enumivo_f64_le(af, -1.0))
+         enumivo_assert(false,  "Error, f64.convert_u/i64 overflow");
       if (f64_is_nan(a))
-         eosio_assert(false,  "Error, f64.convert_u/i64 unrepresentable");
-      return f64_to_ui64( to_softfloat64(_eosio_f64_trunc( af )), 0, false );
+         enumivo_assert(false,  "Error, f64.convert_u/i64 unrepresentable");
+      return f64_to_ui64( to_softfloat64(_enumivo_f64_trunc( af )), 0, false );
    }
-   float _eosio_i32_to_f32( int32_t a )  {
+   float _enumivo_i32_to_f32( int32_t a )  {
       return from_softfloat32(i32_to_f32( a ));
    }
-   float _eosio_i64_to_f32( int64_t a ) {
+   float _enumivo_i64_to_f32( int64_t a ) {
       return from_softfloat32(i64_to_f32( a ));
    }
-   float _eosio_ui32_to_f32( uint32_t a ) {
+   float _enumivo_ui32_to_f32( uint32_t a ) {
       return from_softfloat32(ui32_to_f32( a ));
    }
-   float _eosio_ui64_to_f32( uint64_t a ) {
+   float _enumivo_ui64_to_f32( uint64_t a ) {
       return from_softfloat32(ui64_to_f32( a ));
    }
-   double _eosio_i32_to_f64( int32_t a ) {
+   double _enumivo_i32_to_f64( int32_t a ) {
       return from_softfloat64(i32_to_f64( a ));
    }
-   double _eosio_i64_to_f64( int64_t a ) {
+   double _enumivo_i64_to_f64( int64_t a ) {
       return from_softfloat64(i64_to_f64( a ));
    }
-   double _eosio_ui32_to_f64( uint32_t a ) {
+   double _enumivo_ui32_to_f64( uint32_t a ) {
       return from_softfloat64(ui32_to_f64( a ));
    }
-   double _eosio_ui64_to_f64( uint64_t a ) {
+   double _enumivo_ui64_to_f64( uint64_t a ) {
       return from_softfloat64(ui64_to_f64( a ));
    }
 
@@ -845,28 +845,28 @@ extern "C" {
       return (void*)dest;
    }
    
-   void eosio_assert(uint32_t test, const char* msg) {
+   void enumivo_assert(uint32_t test, const char* msg) {
       if (test == 0) {
-         _prints(msg, eosio::cdt::output_stream_kind::std_err);
-         _prints_l("\n", 1, eosio::cdt::output_stream_kind::none);
+         _prints(msg, enumivo::cdt::output_stream_kind::std_err);
+         _prints_l("\n", 1, enumivo::cdt::output_stream_kind::none);
          longjmp(*___env_ptr, 1);
       }
    }
 
-   void eosio_assert_message(uint32_t test, const char* msg, uint32_t len) {
+   void enumivo_assert_message(uint32_t test, const char* msg, uint32_t len) {
       if (test == 0) {
-         _prints_l(msg, len, eosio::cdt::output_stream_kind::std_err);
-         _prints_l("\n", 1, eosio::cdt::output_stream_kind::none);
+         _prints_l(msg, len, enumivo::cdt::output_stream_kind::std_err);
+         _prints_l("\n", 1, enumivo::cdt::output_stream_kind::none);
          longjmp(*___env_ptr, 1);
       }
    }
 
-   void eosio_assert_code(uint32_t test, uint64_t code) {
+   void enumivo_assert_code(uint32_t test, uint64_t code) {
       if (test == 0) {
          char buff[32];
          snprintf(buff, 32, "%llu", code);
-         _prints(buff, eosio::cdt::output_stream_kind::std_err);
-         _prints_l("\n", 1, eosio::cdt::output_stream_kind::none);
+         _prints(buff, enumivo::cdt::output_stream_kind::std_err);
+         _prints_l("\n", 1, enumivo::cdt::output_stream_kind::none);
          longjmp(*___env_ptr, 1);
       }
    }
@@ -874,7 +874,7 @@ extern "C" {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-noreturn" 
    void abort() {
-      eosio_assert(false, "abort");
+      enumivo_assert(false, "abort");
    }
 #pragma clang diagnostic pop
    
@@ -884,7 +884,7 @@ extern "C" {
 
    size_t __builtin_wasm_grow_memory(size_t size) {
       if ((___heap_ptr + (size*64*1024)) > (___heap_ptr + 100*1024*1024))
-         eosio_assert(false, "__builtin_wasm_grow_memory");
+         enumivo_assert(false, "__builtin_wasm_grow_memory");
       ___heap_ptr += (size*64*1024);
       return (size_t)___heap_ptr;
    }

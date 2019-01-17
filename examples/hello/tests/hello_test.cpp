@@ -1,10 +1,10 @@
-#include <eosiolib/eosio.hpp>
-#include <eosio/native/tester.hpp>
+#include <enulib/enu.hpp>
+#include <enumivo/native/tester.hpp>
 
 #include <hello.hpp>
 
-using namespace eosio;
-using namespace eosio::native;
+using namespace enumivo;
+using namespace enumivo::native;
 
 ENUMIVO_TEST_BEGIN(hello_test)
    // These can be redefined by the user to suit there needs per unit test
@@ -14,14 +14,14 @@ ENUMIVO_TEST_BEGIN(hello_test)
    // like these
    intrinsics::set_intrinsic<intrinsics::read_action_data>(
          [](void* m, uint32_t len) {
-            check(len <= sizeof(eosio::name), "failed from read_action_data");
-            *((eosio::name*)m) = "hello"_n;
+            check(len <= sizeof(enumivo::name), "failed from read_action_data");
+            *((enumivo::name*)m) = "hello"_n;
             return len; 
          });
 
    intrinsics::set_intrinsic<intrinsics::action_data_size>(
          []() {
-            return (uint32_t)sizeof(eosio::name);
+            return (uint32_t)sizeof(enumivo::name);
          });
    
    intrinsics::set_intrinsic<intrinsics::require_auth>(
@@ -41,8 +41,8 @@ ENUMIVO_TEST_BEGIN(hello_test)
    name nm = "null"_n;
    intrinsics::set_intrinsic<intrinsics::read_action_data>(
          [&](void* m, uint32_t len) {
-            check(len <= sizeof(eosio::name), "failed from read_action_data");
-            *((eosio::name*)m) = nm;
+            check(len <= sizeof(enumivo::name), "failed from read_action_data");
+            *((enumivo::name*)m) = nm;
             return len; 
          });
 

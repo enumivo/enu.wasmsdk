@@ -1,9 +1,9 @@
-#include <eosiolib/action.hpp>
+#include <enulib/action.hpp>
 #include "intrinsics_def.hpp"
 
 #pragma once
 
-namespace eosio { namespace native {
+namespace enumivo { namespace native {
    
    class intrinsics {
       public:
@@ -41,4 +41,4 @@ namespace eosio { namespace native {
          }
    };
 
-}} //ns eosio::native
+}} //ns enumivo::native
