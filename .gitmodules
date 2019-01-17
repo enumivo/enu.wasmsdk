@@ -1,7 +1,7 @@
 [submodule "libraries/libc/musl"]
 	path = libraries/libc/musl
 	url = https://github.com/enumivo/musl
-	branch = enumivo
+	branch = cdt
 [submodule "libraries/libc++/libcxx"]
 	path = libraries/libc++/libcxx
 	url = https://github.com/enumivo/libcxx
