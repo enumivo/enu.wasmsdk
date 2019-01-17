@@ -1,8 +1,15 @@
 if(ENUMIVO_CDT_ROOT STREQUAL "" OR NOT ENUMIVO_CDT_ROOT)
    set(ENUMIVO_CDT_ROOT "@CDT_ROOT_DIR@")
 endif()
+
 list(APPEND CMAKE_MODULE_PATH ${ENUMIVO_CDT_ROOT}/lib/cmake/enumivo.cdt)
-include(EnumivoWasmToolchain)
+if (NOT ENUMIVO_WASM_OLD_BEHAVIOR STREQUAL "Off")
+    set(ENUMIVO_WASM_OLD_BEHAVIOR "On")
+    include(EnumivoWasmToolchain)
+endif()
+
+include(EnumivoCDTMacros)
+  
 
 function(EXTRACT_MAJOR_MINOR_FROM_VERSION version success major minor)
    string(REGEX REPLACE "^([0-9]+)\\..+$" "\\1" _major "${version}")
