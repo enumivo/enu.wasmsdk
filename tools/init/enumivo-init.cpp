@@ -54,7 +54,7 @@ struct project {
                            "}\n\n"
                            "ENUMIVO_DISPATCH( @, (hi) )";
 
-   const std::string hpp = "#include <enulib/enumivo.hpp>\n"
+   const std::string hpp = "#include <enulib/enu.hpp>\n"
                            "using namespace enumivo;\n\n"
                            "CONTRACT @ : public contract {\n"
                            "   public:\n"

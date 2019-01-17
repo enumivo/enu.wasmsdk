@@ -1,4 +1,4 @@
-#include <enulib/enumivo.hpp>
+#include <enulib/enu.hpp>
 #include <enumivo/native/tester.hpp>
 
 using namespace enumivo::native;

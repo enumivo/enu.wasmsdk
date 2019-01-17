@@ -97,5 +97,5 @@
    install_symlinks   
    create_cmake_symlink "enumivo.cdt-config.cmake"
 
-   printf "\\tFor more information:\\n"
-   printf "\\tEnumivo Website: https://enumivo.org\\n"
+	printf "\\tFor more information:\\n"
+	printf "\\tEnumivo Website: https://enumivo.org\\n"
