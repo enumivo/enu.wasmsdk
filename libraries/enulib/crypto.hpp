@@ -4,10 +4,10 @@
  */
 #pragma once
 
-#include <enulib/crypto.h>
-#include <enulib/fixed_bytes.hpp>
-#include <enulib/varint.hpp>
-#include <enulib/serialize.hpp>
+#include "crypto.h"
+#include "fixed_bytes.hpp"
+#include "varint.hpp"
+#include "serialize.hpp"
 
 #include <array>
 
@@ -51,7 +51,7 @@ namespace enumivo {
    /// @} publickeytype
 
    /**
-   *  @defgroup signaturetype Public Key Type
+   *  @defgroup signature Public Key Type
    *  @ingroup types
    *  @brief Specifies signature type
    *
@@ -88,16 +88,9 @@ namespace enumivo {
    /// @} signaturetype
 
    /**
-    *  @defgroup cryptoapi Chain API
+    *  @defgroup crypto Chain API
+    *  @ingroup cpp_api
     *  @brief Defines API for calculating and checking hashes
-    *  @ingroup contractdev
-    *  @{
-    */
-
-   /**
-    *  @defgroup cryptocppapi Chain C API
-    *  @brief Defines type-safe C++ wrapers for calculating and checking hashes
-    *  @ingroup chainapi
     *  @{
     */
 
@@ -204,6 +197,5 @@ namespace enumivo {
     */
    void assert_recover_key( const enumivo::checksum256& digest, const enumivo::signature& sig, const enumivo::public_key& pubkey );
 
-   /// }@cryptocppapi
    /// }@cryptoapi
 }

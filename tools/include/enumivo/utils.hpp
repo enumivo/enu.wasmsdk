@@ -133,11 +133,14 @@ struct environment {
        }
      return env_table;
    }
-   static bool exec_subprogram(const std::string prog, std::vector<std::string> options) {
+   static bool exec_subprogram(const std::string prog, std::vector<std::string> options, bool root=false) {
       std::stringstream args;
       for (auto s : options)
          args << s << " ";
-      if ( auto path = llvm::sys::findProgramByName(prog.c_str(), {enumivo::cdt::whereami::where()}) )
+      std::string find_path = enumivo::cdt::whereami::where();
+      if (root)
+         find_path = "/usr/bin";
+      if ( auto path = llvm::sys::findProgramByName(prog.c_str(), {find_path}) )
          std::system((*path+" "+args.str()).c_str());
       else
          return false;

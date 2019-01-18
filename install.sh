@@ -63,7 +63,9 @@
       create_symlink "enumivo-cpp enumivo-cpp"
       create_symlink "enumivo-ld enumivo-ld"
       create_symlink "enumivo-pp enumivo-pp"
+      create_symlink "enumivo-init enumivo-init"
       create_symlink "enumivo-abigen enumivo-abigen"
+      create_symlink "enumivo-abidiff enumivo-abidiff"
       create_symlink "enumivo-wasm2wast enumivo-wasm2wast"
       create_symlink "enumivo-wast2wasm enumivo-wast2wasm"
    }
@@ -95,5 +97,5 @@
    install_symlinks   
    create_cmake_symlink "enumivo.cdt-config.cmake"
 
-   printf "\\tFor more information:\\n"
-   printf "\\tEnumivo Website: https://enumivo.org\\n"
+	printf "\\tFor more information:\\n"
+	printf "\\tEnumivo Website: https://enumivo.org\\n"

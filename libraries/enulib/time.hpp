@@ -1,9 +1,15 @@
 #pragma once
+#include "enu.hpp"
+
 #include <stdint.h>
 #include <string>
-#include <enulib/enu.hpp>
 
 namespace enumivo {
+  /**
+   * @addtogroup time
+   * @ingroup cpp_api
+   * @{
+   */
   class microseconds {
     public:
         explicit microseconds( int64_t c = 0) :_count(c){}
@@ -127,7 +133,7 @@ namespace enumivo {
          static block_timestamp min() { return block_timestamp(0); }
 
          block_timestamp next() const {
-            enumivo_assert( std::numeric_limits<uint32_t>::max() - slot >= 1, "block timestamp overflow" );
+            enumivo::check( std::numeric_limits<uint32_t>::max() - slot >= 1, "block timestamp overflow" );
             auto result = block_timestamp(*this);
             result.slot += 1;
             return result;
@@ -159,7 +165,7 @@ namespace enumivo {
 
          ENULIB_SERIALIZE( block_timestamp, (slot) )
       private:
-      
+
 
       void set_time_point(const time_point& t) {
          int64_t micro_since_epoch = t.time_since_epoch().count();
@@ -172,6 +178,11 @@ namespace enumivo {
          slot = uint32_t((sec_since_epoch * 1000 - block_timestamp_epoch) / block_interval_ms);
       }
    }; // block_timestamp
-   typedef block_timestamp block_timestamp_type; 
+
+
+   typedef block_timestamp block_timestamp_type;
+
+   /// @}
+
 
 } // namespace enumivo

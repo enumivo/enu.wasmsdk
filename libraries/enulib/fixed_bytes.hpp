@@ -4,11 +4,11 @@
  */
 #pragma once
 
+#include "system.hpp"
+
 #include <array>
 #include <algorithm>
 #include <type_traits>
-
-#include <enulib/system.h>
 
 namespace enumivo {
 
@@ -35,6 +35,7 @@ namespace enumivo {
 
     /**
     *  @defgroup fixed_bytes Fixed Size Byte Array
+    *  @ingroup types
     *  @brief Fixed size array of bytes sorted lexicographically
     *  @ingroup types
     *  @{
@@ -71,7 +72,7 @@ namespace enumivo {
                    continue;
                }
 
-               enumivo_assert( sub_words_left == 1, "unexpected error in fixed_bytes constructor" );
+               enumivo::check( sub_words_left == 1, "unexpected error in fixed_bytes constructor" );
                temp_word |= static_cast<word_t>(*w_itr);
                sub_words_left = num_sub_words;
 

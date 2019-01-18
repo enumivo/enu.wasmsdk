@@ -3,8 +3,8 @@
  *  @copyright defined in enumivo/LICENSE
  */
 
-#include <enulib/crypto.hpp>
-#include <enulib/datastream.hpp>
+#include "crypto.hpp"
+#include "datastream.hpp"
 
 namespace enumivo {
 
