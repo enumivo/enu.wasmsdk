@@ -1,10 +1,10 @@
-#include <enulib/enu.hpp>
-#include <enumivo/native/tester.hpp>
+#include <enumivo/enumivo.hpp>
+#include <enumivo/tester.hpp>
 
 using namespace enumivo::native;
 
 ENUMIVO_TEST_BEGIN(print_test)
-   silence_output(true);
+   silence_output(false);
    CHECK_PRINT("27", [](){ enumivo::print((uint8_t)27); });
    CHECK_PRINT("34", [](){ enumivo::print((int)34); });
    CHECK_PRINT([](std::string s){return s[0] == 'a';},  [](){ enumivo::print((char)'a'); });
