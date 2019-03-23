@@ -13,7 +13,6 @@
 
 #include <type_traits>
 
-#warning "<enumivo/native/intrinsics_def.hpp> is deprecated use <enumivo/intrinsics_def.hpp>"
 namespace enumivo { namespace native {
    template <typename... Args, size_t... Is>
    auto get_args_full(std::index_sequence<Is...>) {

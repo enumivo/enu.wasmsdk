@@ -1,11 +1,9 @@
 #pragma once
-#include <enumivolib/enumivo.hpp>
+#include <enumivo/enumivo.hpp>
 #include "crt.hpp"
 #include "intrinsics.hpp"
 #include <setjmp.h>
 #include <vector>
-
-#warning "<enumivo/native/tester.hpp> is deprecated use <enumivo/tester.hpp>"
 
 extern "C" bool ___disable_output;
 extern "C" bool ___has_failed;
@@ -30,7 +28,7 @@ inline bool expect_assert(bool check, const std::string& li, Pred&& pred, F&& fu
       __reset_env();
       silence_output(false);
       if (!check)
-         enumivo_assert(false, std::string("error : expect_assert, no assert {"+li+"}").c_str());
+         enumivo::check(false, std::string("error : expect_assert, no assert {"+li+"}").c_str());
       enumivo::print("error : expect_assert, no assert {"+li+"}\n");
       silence_output(disable_out);
       return false;
@@ -40,7 +38,7 @@ inline bool expect_assert(bool check, const std::string& li, Pred&& pred, F&& fu
    std_err.clear();
    silence_output(false);
    if (!check)
-      enumivo_assert(passed, std::string("error : expect_assert, wrong assert {"+li+"}").c_str());
+      enumivo::check(passed, std::string("error : expect_assert, wrong assert {"+li+"}").c_str());
    if (!passed)
       enumivo::print("error : expect_assert, wrong assert {"+li+"}\n");
    silence_output(disable_out);
@@ -65,7 +63,7 @@ inline bool expect_print(bool check, const std::string& li, Pred&& pred, F&& fun
    bool disable_out = ___disable_output;
    silence_output(false);
    if (!check)
-      enumivo_assert(passed, std::string("error : wrong print message {"+li+"}").c_str());
+      enumivo::check(passed, std::string("error : wrong print message {"+li+"}").c_str());
    if (!passed)
       enumivo::print("error : wrong print message9 {"+li+"}\n");
    silence_output(disable_out);
@@ -100,7 +98,7 @@ inline bool expect_print(bool check, const std::string& li, const char (&expecte
    }
 
 #define REQUIRE_EQUAL(X, Y) \
-   enumivo_assert(X == Y, std::string(std::string("REQUIRE_EQUAL failed (")+#X+" != "+#Y+") {"+__FILE__+":"+std::to_string(__LINE__)+"}").c_str());
+   enumivo::check(X == Y, std::string(std::string("REQUIRE_EQUAL failed (")+#X+" != "+#Y+") {"+__FILE__+":"+std::to_string(__LINE__)+"}").c_str());
  
 #define ENUMIVO_TEST(X) \
    int X ## _ret = setjmp(*___env_ptr); \
