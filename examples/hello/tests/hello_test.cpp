@@ -1,10 +1,13 @@
-#include <enulib/enu.hpp>
-#include <enumivo/native/tester.hpp>
+#include <enumivo/enumivo.hpp>
+#include <enumivo/tester.hpp>
 
 #include <hello.hpp>
 
 using namespace enumivo;
 using namespace enumivo::native;
+
+// need to create a dispatcher, codegen will not be done for native builds until a later release
+ENUMIVO_DISPATCH(hello, (hi)(check))
 
 ENUMIVO_TEST_BEGIN(hello_test)
    // These can be redefined by the user to suit there needs per unit test
