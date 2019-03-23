@@ -1,6 +1,6 @@
 add_custom_command( TARGET EnumivoClang POST_BUILD COMMAND mkdir -p ${CMAKE_BINARY_DIR}/bin )
 macro( enumivo_clang_install file )
-   set(BINARY_DIR ${CMAKE_BINARY_DIR}/EnumivoClang-prefix/src/EnumivoClang-build/bin)
+   set(BINARY_DIR ${CMAKE_BINARY_DIR}/enumivo_llvm/bin)
    add_custom_command( TARGET EnumivoClang POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${file} ${CMAKE_BINARY_DIR}/bin/ )
    install(FILES ${BINARY_DIR}/${file}
       DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
@@ -8,7 +8,7 @@ macro( enumivo_clang_install file )
 endmacro( enumivo_clang_install )
 
 macro( enumivo_clang_install_and_symlink file symlink )
-   set(BINARY_DIR ${CMAKE_BINARY_DIR}/EnumivoClang-prefix/src/EnumivoClang-build/bin)
+   set(BINARY_DIR ${CMAKE_BINARY_DIR}/enumivo_llvm/bin)
    add_custom_command( TARGET EnumivoClang POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${file} ${CMAKE_BINARY_DIR}/bin/ )
    add_custom_command( TARGET EnumivoClang POST_BUILD COMMAND cd ${CMAKE_BINARY_DIR}/bin && ln -sf ${file} ${symlink} )
    install(FILES ${BINARY_DIR}/${file}
@@ -17,7 +17,7 @@ macro( enumivo_clang_install_and_symlink file symlink )
 endmacro( enumivo_clang_install_and_symlink )
 
 macro( enumivo_tool_install file )
-   set(BINARY_DIR ${CMAKE_BINARY_DIR}/EnumivoTools-prefix/src/EnumivoTools-build/bin)
+   set(BINARY_DIR ${CMAKE_BINARY_DIR}/tools/bin)
    add_custom_command( TARGET EnumivoTools POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${file} ${CMAKE_BINARY_DIR}/bin/ )
    install(FILES ${BINARY_DIR}/${file}
       DESTINATION ${CMAKE_INSTALL_FULL_BINDIR}
@@ -25,7 +25,7 @@ macro( enumivo_tool_install file )
 endmacro( enumivo_tool_install )
 
 macro( enumivo_tool_install_and_symlink file symlink )
-   set(BINARY_DIR ${CMAKE_BINARY_DIR}/EnumivoTools-prefix/src/EnumivoTools-build/bin)
+   set(BINARY_DIR ${CMAKE_BINARY_DIR}/tools/bin)
    add_custom_command( TARGET EnumivoTools POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${file} ${CMAKE_BINARY_DIR}/bin/ )
    add_custom_command( TARGET EnumivoTools POST_BUILD COMMAND cd ${CMAKE_BINARY_DIR}/bin && ln -sf ${file} ${symlink} )
    install(FILES ${BINARY_DIR}/${file}
@@ -36,7 +36,6 @@ endmacro( enumivo_tool_install_and_symlink )
 macro( enumivo_libraries_install)
    execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lib)
    execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include)
-   set(BIN_DIR ${CMAKE_BINARY_DIR}/EnumivoWasmLibraries-prefix/src/EnumivoWasmLibraries-build/)
    install(DIRECTORY ${CMAKE_BINARY_DIR}/lib/ DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
    install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR})
 endmacro( enumivo_libraries_install )
