@@ -4,13 +4,14 @@
 #include <boost/preprocessor/seq/seq.hpp>
 #include <boost/preprocessor/stringize.hpp>
 
+#warning "<enumivolib/serialize.hpp> is deprecated use <enumivo/serialize.hpp>"
 #define ENULIB_REFLECT_MEMBER_OP( r, OP, elem ) \
   OP t.elem
 
 /**
  * @addtogroup serialize Serialize C++ API
  * @brief Defines C++ API to serialize and deserialize object
- * @ingroup cpp_api
+ * @ingroup core
  * @{
  */
 

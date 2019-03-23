@@ -4,14 +4,16 @@
  */
 #pragma once
 #include "system.h"
+#include <alloca.h>
 #include <string>
 
+#warning "<enumivolib/system.hpp> is deprecated use <enumivo/system.hpp>"
 namespace enumivo {
 
    /**
     *  @addtogroup system System C++ API
-    *  @ingroup cpp_api
-    *  @brief Defines wrappers over enumivo_assert 
+    *  @ingroup core
+    *  @brief Defines wrappers over enumivo_assert
     *
     *  @{
     */

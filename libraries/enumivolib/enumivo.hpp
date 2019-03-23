@@ -9,6 +9,8 @@
 #include "dispatcher.hpp"
 #include "contract.hpp"
 
+#warning "<enumivolib/enumivo.hpp> is deprecated use <enumivo/enumivo.hpp>"
+
 #ifndef ENUMIVO_NATIVE
 static_assert( sizeof(long) == sizeof(int), "unexpected size difference" );
 #endif
@@ -21,11 +23,16 @@ static_assert( sizeof(long) == sizeof(int), "unexpected size difference" );
 #define TABLE struct [[enumivo::table]]
 
 /**
- * @defgroup c_api C API
- * @brief C++ API for writing ESIO Smart Contracts
+ * @defgroup core Core API
+ * @brief C++ Core API for chain-agnostic smart-contract functionality
  */
 
  /**
-  * @defgroup cpp_api C++ API
-  * @brief C++ API for writing ESIO Smart Contracts
+  * @defgroup contracts Contracts API
+  * @brief C++ Chain API for chain-dependent smart-contract functionality
   */
+
+/**
+ * @defgroup types Types
+ * @brief TODO
+ */

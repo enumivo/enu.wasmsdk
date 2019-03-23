@@ -2,11 +2,12 @@
 #include "multi_index.hpp"
 #include "system.hpp"
 
+#warning "<enumivolib/singleton.hpp> is deprecated use <enumivo/singleton.hpp>"
 namespace  enumivo {
 
    /**
     *  @defgroup singleton Singleton Table
-    *  @ingroup cpp_api
+    *  @ingroup contracts
     *  @brief Defines Enumivo Singleton Table used with %multiindex
     *  @{
     */

@@ -3,12 +3,14 @@
 #include "serialize.hpp"
 #include "crypto.hpp"
 
+#warning "<enumivolib/privileged.hpp> is deprecated use <enumivo/privileged.hpp>"
 namespace enumivo {
 
   /**
-   * @addtogroup privileged Privileged C++ API
-   * @ingroup cpp_api
    * Defines C++ Privileged API
+   *
+   * @addtogroup privileged Privileged C++ API
+   * @ingroup contracts
    * @{
    */
 
@@ -150,7 +152,7 @@ namespace enumivo {
    ///@}
 
    /**
-   *  @defgroup types
+   *  @ingroup core
    *  @{
    */
 

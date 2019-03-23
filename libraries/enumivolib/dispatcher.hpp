@@ -1,11 +1,13 @@
 #pragma once
-#include <enulib/print.hpp>
-#include <enulib/action.hpp>
+#include <enumivolib/print.hpp>
+#include <enumivolib/action.hpp>
 
 #include <boost/fusion/adapted/std_tuple.hpp>
 #include <boost/fusion/include/std_tuple.hpp>
 
 #include <boost/mp11/tuple.hpp>
+
+#warning "<enumivolib/dispatcher.hpp> is deprecated use <enumivo/dispatcher.hpp>"
 
 namespace enumivo {
 
@@ -40,7 +42,7 @@ namespace enumivo {
 
    /**
     * @addtogroup dispatcher Dispatcher C++ API
-    * @ingroup cpp_api
+    * @ingroup core
     * @brief Defines C++ functions to dispatch action to proper action handler inside a contract
     * @{
     */
@@ -84,9 +86,7 @@ namespace enumivo {
       return true;
    }
 
-/// @}
-
-
+   /// @}
 
  // Helper macro for ENUMIVO_DISPATCH_INTERNAL
  #define ENUMIVO_DISPATCH_INTERNAL( r, OP, elem ) \
@@ -97,8 +97,6 @@ namespace enumivo {
  // Helper macro for ENUMIVO_DISPATCH
  #define ENUMIVO_DISPATCH_HELPER( TYPE,  MEMBERS ) \
     BOOST_PP_SEQ_FOR_EACH( ENUMIVO_DISPATCH_INTERNAL, TYPE, MEMBERS )
-
-
 
 /**
  * @addtogroup dispatcher
@@ -115,6 +113,7 @@ namespace enumivo {
  */
 #define ENUMIVO_DISPATCH( TYPE, MEMBERS ) \
 extern "C" { \
+   [[enumivo::wasm_entry]] \
    void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
       if( code == receiver ) { \
          switch( action ) { \

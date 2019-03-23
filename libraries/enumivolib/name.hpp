@@ -10,6 +10,7 @@
 #include <string>
 #include <string_view>
 
+#warning "<enumivolib/name.hpp> is deprecated use <enumivo/name.hpp>"
 namespace enumivo {
 
    /**

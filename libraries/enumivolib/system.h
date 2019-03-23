@@ -5,6 +5,7 @@
 #pragma once
 #include "types.h"
 
+#warning "<enumivolib/system.h> is deprecated use <enumivo/system.h>. If you are using C++ the .h header files will be removed from inclusion entirely in v1.7.0"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,6 +31,7 @@ extern "C" {
     *
     *  @param msg - a null terminated string explaining the reason for failure
     */
+   __attribute__((enumivo_wasm_import))
    void  enumivo_assert( uint32_t test, const char* msg );
 
    /**
@@ -39,6 +41,7 @@ extern "C" {
     *  @param msg - a pointer to the start of string explaining the reason for failure
     *  @param msg_len - length of the string
     */
+   __attribute__((enumivo_wasm_import))
    void  enumivo_assert_message( uint32_t test, const char* msg, uint32_t msg_len );
 
    /**
@@ -48,6 +51,7 @@ extern "C" {
     *  @param test - 0 to abort, 1 to ignore
     *  @param code - the error code
     */
+   __attribute__((enumivo_wasm_import))
    void  enumivo_assert_code( uint32_t test, uint64_t code );
 
     /**
@@ -63,17 +67,15 @@ extern "C" {
     *  enumivo_exit(3);
     *  @endcode
     */
-#ifdef __cplusplus
-   [[noreturn]]
-#endif
-   void  enumivo_exit( int32_t code );
-
+   __attribute__((enumivo_wasm_import, noreturn))
+   void enumivo_exit( int32_t code );
 
    /**
     *  Returns the time in microseconds from 1970 of the current block
     *
     *  @return time in microseconds from 1970 of the current block
     */
+   __attribute__((enumivo_wasm_import))
    uint64_t  current_time();
 
    /**
@@ -81,6 +83,7 @@ extern "C" {
     *
     *  @return time in seconds from 1970 of the current block
     */
+   __attribute__((enumivo_wasm_import))
    inline uint32_t  now() {
       return (uint32_t)( current_time() / 1000000 );
    }

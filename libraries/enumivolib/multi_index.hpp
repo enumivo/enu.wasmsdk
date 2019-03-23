@@ -22,6 +22,8 @@
 #include <algorithm>
 #include <memory>
 
+#warning "<enumivolib/multi_index.hpp> is deprecated use <enumivo/multi_index.hpp>"
+
 namespace enumivo {
 
 constexpr static inline name same_payer{};
@@ -143,12 +145,6 @@ namespace _multi_index_detail {
       static constexpr long double true_lowest() { return -std::numeric_limits<long double>::infinity(); }
    };
 
-   WRAP_SECONDARY_ARRAY_TYPE(idx256, enumivo::key256)
-   template<>
-   struct secondary_key_traits<enumivo::key256> {
-      static constexpr enumivo::key256 true_lowest() { return enumivo::key256(); }
-   };
-
    WRAP_SECONDARY_ARRAY_TYPE(idx256, enumivo::fixed_bytes<32>)
    template<>
    struct secondary_key_traits<enumivo::fixed_bytes<32>> {
@@ -168,7 +164,7 @@ namespace _multi_index_detail {
        *
 *
  *  @code
- *  #include <enulib/enu.hpp>
+ *  #include <enumivolib/enumivo.hpp>
  *  using namespace enumivo;
  *  class mycontract: enumivo::contract {
  *    struct record {
@@ -196,9 +192,9 @@ struct indexed_by {
 };
 
 /**
- *  @defgroup multiindex Multi Index Table
+ *  @defgroup multi_index Multi Index Table
  *  @brief Defines Enumivo Multi Index Table
- *  @ingroup cpp_api
+ *  @ingroup contracts
  *
  *  @details Enumivo Multi-Index API provides a C++ interface to the Enumivo database. It is patterned after Boost Multi Index Container.
  *  Enumivo Multi-Index table requires exactly a uint64_t primary key. For the table to be able to retrieve the primary key,
@@ -217,7 +213,7 @@ struct indexed_by {
  *  Example:
        *
  *  @code
- *  #include <enulib/enu.hpp>
+ *  #include <enumivolib/enumivo.hpp>
  *  using namespace enumivo;
  *  class mycontract: contract {
  *    struct record {
@@ -653,7 +649,7 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <enulib/enu.hpp>
+       *  #include <enumivolib/enumivo.hpp>
        *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
@@ -691,8 +687,8 @@ class multi_index
        *  // This assumes the code from the constructor example. Replace myaction() {...}
        *
        *      void myaction() {
-       *        address_index addresses("ap"_n, "ap"_n); // code, scope
-       *        enumivo::check(addresses.get_code() == "ap"_n, "Codes don't match.");
+       *        address_index addresses("dan"_n, "dan"_n); // code, scope
+       *        enumivo::check(addresses.get_code() == "dan"_n, "Codes don't match.");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -711,8 +707,8 @@ class multi_index
        *  // This assumes the code from the constructor example. Replace myaction() {...}
        *
        *      void myaction() {
-       *        address_index addresses("ap"_n, "ap"_n); // code, scope
-       *        enumivo::check(addresses.get_code() == "ap"_n, "Scopes don't match");
+       *        address_index addresses("dan"_n, "dan"_n); // code, scope
+       *        enumivo::check(addresses.get_code() == "dan"_n, "Scopes don't match");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -795,9 +791,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr == addresses.cbegin(), "Only address is not at front.");
        *      }
        *  }
@@ -820,9 +816,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr == addresses.begin(), "Only address is not at front.");
        *      }
        *  }
@@ -843,9 +839,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.cend(), "Address for account doesn't exist");
        *      }
        *  }
@@ -866,9 +862,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.end(), "Address for account doesn't exist");
        *      }
        *  }
@@ -889,19 +885,19 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *        });
        *        auto itr = addresses.crbegin();
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect Last Record ");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect Last Record ");
        *        itr++;
        *        enumivo::check(itr->account_name == name("brendan"), "Lock arf, Incorrect Second Last Record");
        *      }
@@ -923,19 +919,19 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *        });
        *        auto itr = addresses.rbegin();
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect Last Record ");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect Last Record ");
        *        itr++;
        *        enumivo::check(itr->account_name == name("brendan"), "Lock arf, Incorrect Second Last Record");
        *      }
@@ -957,14 +953,14 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *        });
@@ -972,7 +968,7 @@ class multi_index
        *        itr--;
        *        enumivo::check(itr->account_name == name("brendan"), "Lock arf, Incorrect First Record ");
        *        itr--;
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect Second Record");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect Second Record");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -992,14 +988,14 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *        });
@@ -1007,7 +1003,7 @@ class multi_index
        *        itr--;
        *        enumivo::check(itr->account_name == name("brendan"), "Lock arf, Incorrect First Record ");
        *        itr--;
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect Second Record");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect Second Record");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1028,14 +1024,14 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *          address.zip = 93445;
@@ -1045,7 +1041,7 @@ class multi_index
        *        auto itr = zip_index.lower_bound(zipnumb);
        *        enumivo::check(itr->account_name == name("brendan"), "Lock arf, Incorrect First Lower Bound Record ");
        *        itr++;
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect Second Lower Bound Record");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect Second Lower Bound Record");
        *        itr++;
        *        enumivo::check(itr == zip_index.end(), "Lock arf, Incorrect End of Iterator");
        *      }
@@ -1073,14 +1069,14 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *          address.zip = 93445;
@@ -1088,7 +1084,7 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<name("zip")>();
        *        auto itr = zip_index.upper_bound(zipnumb);
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect First Upper Bound Record ");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect First Upper Bound Record ");
        *        itr++;
        *        enumivo::check(itr == zip_index.end(), "Lock arf, Incorrect End of Iterator");
        *      }
@@ -1122,11 +1118,11 @@ class multi_index
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.key = addresses.available_primary_key();
-       *          address.first_name = "Aiden";
-       *          address.last_name = "Pearce";
-       *          address.street = "1 ENU Way";
-       *          address.city = "Ovimune";
-       *          address.state = "AP";
+       *          address.first_name = "Daniel";
+       *          address.last_name = "Larimer";
+       *          address.street = "1 EOS Way";
+       *          address.city = "Blacksburg";
+       *          address.state = "VA";
        *        });
        *      }
        *  }
@@ -1162,7 +1158,7 @@ class multi_index
        *  Example:
        *
        *  @code
-       *  #include <enulib/enu.hpp>
+       *  #include <enumivolib/enumivo.hpp>
        *  using namespace enumivo;
        *  using namespace std;
        *  class addressbook: contract {
@@ -1182,11 +1178,11 @@ class multi_index
        *      typedef enumivo::multi_index< name("address"), address, indexed_by< name("zip"), const_mem_fun<address, uint64_t, &address::by_zip> > address_index;
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        uint32_t zipnumb = 93446;
        *        auto zip_index = addresses.get_index<name("zip")>();
        *        auto itr = zip_index.find(zipnumb);
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect Record ");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect Record ");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1219,14 +1215,14 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *          address.zip = 93445;
@@ -1234,7 +1230,7 @@ class multi_index
        *        uint32_t zipnumb = 93445;
        *        auto zip_index = addresses.get_index<name("zip")>();
        *        auto itr = zip_index.upper_bound(zipnumb);
-       *        enumivo::check(itr->account_name == name("ap"), "Lock arf, Incorrect First Upper Bound Record ");
+       *        enumivo::check(itr->account_name == name("dan"), "Lock arf, Incorrect First Upper Bound Record ");
        *        itr++;
        *        enumivo::check(itr == zip_index.end(), "Lock arf, Incorrect End of Iterator");
        *      }
@@ -1269,20 +1265,20 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example below
-       *        // add ap account to table           - see emplace example below
+       *        // add dan account to table           - see emplace example below
        *        // add additional account - brendan
        *
        *        addresses.emplace(payer, [&](auto& address) {
        *          address.account_name = "brendan"_n;
        *          address.first_name = "Brendan";
        *          address.last_name = "Blumer";
-       *          address.street = "1 ENU Way";
+       *          address.street = "1 EOS Way";
        *          address.city = "Hong Kong";
        *          address.state = "HK";
        *          address.zip = 93445;
        *        });
-       *        auto user = addresses.get("ap"_n);
-       *        auto itr = address.find("ap"_n);
+       *        auto user = addresses.get("dan"_n);
+       *        auto itr = address.find("dan"_n);
        *        enumivo::check(iterator_to(user) == itr, "Invalid iterator");
        *      }
        *  }
@@ -1318,12 +1314,12 @@ class multi_index
        *        address_index addresses(_self, _self.value); // code, scope
        *        // add to table, first argument is account to bill for storage
        *        addresses.emplace(_self, [&](auto& address) {
-       *          address.account_name = "ap"_n;
-       *          address.first_name = "Aiden";
-       *          address.last_name = "Pearce";
-       *          address.street = "1 ENU Way";
-       *          address.city = "Ovimune";
-       *          address.state = "AP";
+       *          address.account_name = "dan"_n;
+       *          address.first_name = "Daniel";
+       *          address.last_name = "Larimer";
+       *          address.street = "1 EOS Way";
+       *          address.city = "Blacksburg";
+       *          address.state = "VA";
        *        });
        *      }
        *  }
@@ -1401,9 +1397,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example
-       *        // add ap account to table           - see emplace example
+       *        // add dan account to table           - see emplace example
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.end(), "Address for account not found");
        *        addresses.modify( itr, account payer, [&]( auto& address ) {
        *          address.city = "San Luis Obispo";
@@ -1447,9 +1443,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example
-       *        // add ap account to table           - see emplace example
+       *        // add dan account to table           - see emplace example
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.end(), "Address for account not found");
        *        addresses.modify( *itr, payer, [&]( auto& address ) {
        *          address.city = "San Luis Obispo";
@@ -1532,10 +1528,10 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example
-       *        // add ap account to table           - see emplace example
+       *        // add dan account to table           - see emplace example
        *
-       *        auto user = addresses.get("ap"_n);
-       *        enumivo::check(user.first_name == "Aiden", "Couldn't get him.");
+       *        auto user = addresses.get("dan"_n);
+       *        enumivo::check(user.first_name == "Daniel", "Couldn't get him.");
        *      }
        *  }
        *  ENUMIVO_DISPATCH( addressbook, (myaction) )
@@ -1560,9 +1556,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example
-       *        // add ap account to table           - see emplace example
+       *        // add dan account to table           - see emplace example
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.end(), "Couldn't get him.");
        *      }
        *  }
@@ -1629,9 +1625,9 @@ class multi_index
        *
        *      void myaction() {
        *        // create reference to address_index  - see emplace example
-       *        // add ap account to table           - see emplace example
+       *        // add dan account to table           - see emplace example
        *
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.end(), "Address for account not found");
        *        addresses.erase( itr );
        *        enumivo::check(itr != addresses.end(), "Everting lock arf, Address not erased properly");
@@ -1672,10 +1668,10 @@ class multi_index
        *  // This assumes the code from the constructor example. Replace myaction() {...}
        *
        *      void myaction() {
-       *        auto itr = addresses.find("ap"_n);
+       *        auto itr = addresses.find("dan"_n);
        *        enumivo::check(itr != addresses.end(), "Record is not found");
        *        addresses.erase(*itr);
-       *        itr = addresses.find("ap"_n);
+       *        itr = addresses.find("dan"_n);
        *        enumivo::check(itr == addresses.end(), "Record is not deleted");
        *      }
        *  }

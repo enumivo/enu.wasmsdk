@@ -1,5 +1,7 @@
 #pragma once
 
+#warning "<enumivolib/ignore.hpp> is deprecated use <enumivo/ignore.hpp>"
+
 namespace enumivo {
    /**
     * @brief Tells the datastream to ignore this type, but allows the abi generator to add the correct type.

@@ -4,6 +4,8 @@
 #include "datastream.hpp"
 
 
+#warning "<enumivolib/contract.hpp> is deprecated use <enumivo/contract.hpp>"
+
 /**
  * @defgroup contract Contract
  * @ingroup types

@@ -1,13 +1,14 @@
 #pragma once
-#include "enu.hpp"
+#include "enumivo.hpp"
 
 #include <stdint.h>
 #include <string>
 
+#warning "<enumivolib/time.hpp> is deprecated use <enumivo/time.hpp>"
 namespace enumivo {
   /**
    * @addtogroup time
-   * @ingroup cpp_api
+   * @ingroup contracts
    * @{
    */
   class microseconds {

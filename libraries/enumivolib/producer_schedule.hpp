@@ -3,12 +3,13 @@
 
 #include <vector>
 
+#warning "<enumivolib/producer_schedule.hpp> is deprecated use <enumivo/producer_schedule.hpp>"
 namespace enumivo {
 
    /**
-   *  @defgroup producer_schedule
+   *  @defgroup producer_schedule Producer Schedule
+   *  @ingroup contracts
    *  @brief Defines both the order, account name, and signing keys of the active set of producers.
-   *  @ingroup types
    *
    *  @{
    */
@@ -24,5 +25,5 @@ namespace enumivo {
       std::vector<producer_key>    producers;
    };
 
-   /// @} producertype
+   /// @} producer_schedule
 } /// namespace enumivo
