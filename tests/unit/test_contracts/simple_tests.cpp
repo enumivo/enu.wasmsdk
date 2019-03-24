@@ -22,7 +22,7 @@ class [[enumivo::contract]] simple_tests : public contract {
 
       [[enumivo::action("test4")]] 
       void test4(name to) {
-         transfer_contract::transfer_action trans("enumivo.token"_n, {_self, "active"_n});
+         transfer_contract::transfer_action trans("enu.token"_n, {_self, "active"_n});
          trans.send(_self, to, asset{100, {"TST", 4}}, "memo");
       }
 
@@ -61,15 +61,15 @@ class [[enumivo::contract]] simple_tests : public contract {
          t.send(nm.value, get_self());
       }
 
-      [[enumivo::on_notify("enumivo.token::transfer")]] 
+      [[enumivo::on_notify("enu.token::transfer")]] 
       void on_transfer(name from, name to, asset quant, std::string memo) {
-         check(get_first_receiver() == "enumivo.token"_n, "should be enumivo.token");
+         check(get_first_receiver() == "enu.token"_n, "should be enu.token");
          print_f("On notify : % % % %", from, to, quant, memo);
       }
 
       [[enumivo::on_notify("*::transfer")]] 
       void on_transfer2(name from, name to, asset quant, std::string memo) {
-         check(get_first_receiver() != "enumivo.token"_n, "should not be enumivo.token");
+         check(get_first_receiver() != "enu.token"_n, "should not be enu.token");
          print_f("On notify 2 : % % % %", from, to, quant, memo);
       }
 

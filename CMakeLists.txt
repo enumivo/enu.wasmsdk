@@ -70,7 +70,7 @@ configure_file(${CMAKE_SOURCE_DIR}/scripts/ricardenu/ricardenu.py ${CMAKE_BINARY
 install(FILES ${CMAKE_BINARY_DIR}/scripts/ricardenu.py DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts)
 
 # section for package construction
-set(VENDOR "block.one")
+set(VENDOR "enumivo.org")
 set(PROJECT_NAME "enumivo.cdt")
 set(DESC "Toolchain and supporting tools for the Enumivo platform")
 set(URL "https://github.com/enumivo/enumivo.cdt")

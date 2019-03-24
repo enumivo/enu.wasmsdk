@@ -427,9 +427,9 @@ namespace enumivo {
     * // defined by contract writer of the actions
     * using transfer act = action_wrapper<"transfer"_n, &token::transfer>;( *this, transfer, {st.issuer,N(active)}, {st.issuer, to, quantity, memo} );
     * // usage by different contract writer
-    * transfer_act{"enumivo.token"_n, {st.issuer, "active"_n}}.send(st.issuer, to, quantity, memo);
+    * transfer_act{"enu.token"_n, {st.issuer, "active"_n}}.send(st.issuer, to, quantity, memo);
     * // or
-    * transfer_act trans_action{ "enumivo.token"_n, {st.issuer, "active"_n}};
+    * transfer_act trans_action{ "enu.token"_n, {st.issuer, "active"_n}};
     * trans_action.send(st.issuer, to, quantity, memo);
     * @endcode
     */
@@ -567,10 +567,10 @@ INLINE_ACTION_SENDER3( CONTRACT_CLASS, NAME, ::enumivo::name(#NAME) )
  * SEND_INLINE_ACTION( *this, transfer, {st.issuer,N(active)}, {st.issuer, to, quantity, memo} );
  * @endcode
  * 
- * The example above is taken from enumivo.token. 
+ * The example above is taken from enu.token. 
  * This example:  
- *       uses the passed in, dereferenced `this` pointer, to call this.get_self() i.e. the enumivo.token contract; 
- *       calls the enumivo.token::transfer() action; 
+ *       uses the passed in, dereferenced `this` pointer, to call this.get_self() i.e. the enu.token contract; 
+ *       calls the enu.token::transfer() action; 
  *       uses the active permission of the "issuer" account;
  *       uses parameters st.issuer, to, quantity and memo. 
  * This macro creates an action struct used to 'send()' (call) transfer(account_name from, account_name to, asset quantity, string memo)
