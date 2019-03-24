@@ -16,11 +16,11 @@
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "clang/Rewrite/Frontend/Rewriters.h"
 
-#include <eosio/gen.hpp>
+#include <enumivo/gen.hpp>
 
-#include <eosio/utils.hpp>
-#include <eosio/whereami/whereami.hpp>
-#include <eosio/abi.hpp>
+#include <enumivo/utils.hpp>
+#include <enumivo/whereami/whereami.hpp>
+#include <enumivo/abi.hpp>
 
 #include <exception>
 #include <iostream>
@@ -37,10 +37,10 @@ using namespace clang;
 using namespace clang::driver;
 using namespace clang::tooling;
 using namespace llvm;
-using namespace eosio;
-using namespace eosio::cdt;
+using namespace enumivo;
+using namespace enumivo::cdt;
 
-namespace eosio { namespace cdt {
+namespace enumivo { namespace cdt {
    // replace with std::quoted and std::make_unique when we can get better C++14 support for Centos
    std::string _quoted(const std::string& instr) {
       std::stringstream ss;
@@ -58,7 +58,7 @@ namespace eosio { namespace cdt {
 
    struct codegen_exception : public std::exception {
       virtual const char* what() const throw() {
-         return "eosio.codegen fatal error";
+         return "enumivo.codegen fatal error";
       }
    };
 
@@ -108,11 +108,11 @@ namespace eosio { namespace cdt {
    std::map<std::string, std::vector<include_double>>  global_includes;
 
    // remove after v1.7.0
-   bool has_eosiolib = false;
+   bool has_enumivolib = false;
 
-   class eosio_ppcallbacks : public PPCallbacks {
+   class enumivo_ppcallbacks : public PPCallbacks {
       public:
-         eosio_ppcallbacks(SourceManager& sm, std::string file) : sources(sm), fn(file) {}
+         enumivo_ppcallbacks(SourceManager& sm, std::string file) : sources(sm), fn(file) {}
       protected:
          virtual void InclusionDirective(
             SourceLocation hash_loc,
@@ -134,15 +134,15 @@ namespace eosio { namespace cdt {
                      filename_range.getAsRange());
             }
 
-            if ( file_name.find("eosiolib") != StringRef::npos )
-               has_eosiolib = true;
+            if ( file_name.find("enumivolib") != StringRef::npos )
+               has_enumivolib = true;
          }
 
          std::string fn;
          SourceManager& sources;
    };
 
-   class eosio_codegen_visitor : public RecursiveASTVisitor<eosio_codegen_visitor>, public generation_utils {
+   class enumivo_codegen_visitor : public RecursiveASTVisitor<enumivo_codegen_visitor>, public generation_utils {
       private:
          codegen& cg = codegen::get();
          FileID    main_fid;
@@ -155,7 +155,7 @@ namespace eosio { namespace cdt {
          std::vector<CXXMethodDecl*> action_decls;
          std::vector<CXXMethodDecl*> notify_decls;
 
-         explicit eosio_codegen_visitor(CompilerInstance *CI)
+         explicit enumivo_codegen_visitor(CompilerInstance *CI)
                : generation_utils([&](){throw cg.codegen_ex;}), ci(CI) {
             cg.ast_context = &(CI->getASTContext());
             cg.codegen_ci = CI;
@@ -176,7 +176,7 @@ namespace eosio { namespace cdt {
 
          bool is_datastream(const QualType& qt) {
             auto str_name = qt.getAsString();
-            auto ds_re    = std::regex("(((class eosio::)?datastream<[a-zA-Z]+[a-zA-Z0-9]*.*>)|(DataStream)) &");
+            auto ds_re    = std::regex("(((class enumivo::)?datastream<[a-zA-Z]+[a-zA-Z0-9]*.*>)|(DataStream)) &");
             if (std::regex_match(str_name, ds_re))
                return true;
             return false;
@@ -228,13 +228,13 @@ namespace eosio { namespace cdt {
             std::stringstream ss;
             codegen& cg = codegen::get();
             std::string nm = decl->getNameAsString()+"_"+decl->getParent()->getNameAsString();
-            if (cg.is_eosio_contract(decl, cg.contract_name)) {
-               if (has_eosiolib) {
-                  ss << "\n\n#include <eosiolib/datastream.hpp>\n";
-                  ss << "#include <eosiolib/name.hpp>\n";
+            if (cg.is_enumivo_contract(decl, cg.contract_name)) {
+               if (has_enumivolib) {
+                  ss << "\n\n#include <enumivolib/datastream.hpp>\n";
+                  ss << "#include <enumivolib/name.hpp>\n";
                } else {
-                  ss << "\n\n#include <eosio/datastream.hpp>\n";
-                  ss << "#include <eosio/name.hpp>\n";
+                  ss << "\n\n#include <enumivo/datastream.hpp>\n";
+                  ss << "#include <enumivo/name.hpp>\n";
                }
                ss << "extern \"C\" {\n";
                ss << "uint32_t action_data_size();\n";
@@ -250,7 +250,7 @@ namespace eosio { namespace cdt {
                ss << "buff = as >= " << max_stack_size << " ? malloc(as) : alloca(as);\n";
                ss << "::read_action_data(buff, as);\n";
                ss << "}\n";
-               ss << "eosio::datastream<const char*> ds{(char*)buff, as};\n";
+               ss << "enumivo::datastream<const char*> ds{(char*)buff, as};\n";
                int i=0;
                for (auto param : decl->parameters()) {
                   clang::LangOptions lang_opts;
@@ -265,7 +265,7 @@ namespace eosio { namespace cdt {
                   ss << tn << " arg" << i << "; ds >> arg" << i << ";\n";
                   i++;
                }
-               ss << decl->getParent()->getQualifiedNameAsString() << "{eosio::name{r},eosio::name{c},ds}." << decl->getNameAsString() << "(";
+               ss << decl->getParent()->getQualifiedNameAsString() << "{enumivo::name{r},enumivo::name{c},ds}." << decl->getNameAsString() << "(";
                for (int i=0; i < decl->parameters().size(); i++) {
                   ss << "arg" << i;
                   if (i < decl->parameters().size()-1)
@@ -280,21 +280,21 @@ namespace eosio { namespace cdt {
 
          void create_action_dispatch(CXXMethodDecl* decl) {
             auto func = [](CXXMethodDecl* d) { return generation_utils::get_action_name(d); };
-            create_dispatch("eosio_wasm_action", "__eosio_action_", func, decl);
+            create_dispatch("enumivo_wasm_action", "__enumivo_action_", func, decl);
          }
 
          void create_notify_dispatch(CXXMethodDecl* decl) {
             auto func = [](CXXMethodDecl* d) { return generation_utils::get_notify_pair(d); };
-            create_dispatch("eosio_wasm_notify", "__eosio_notify_", func, decl);
+            create_dispatch("enumivo_wasm_notify", "__enumivo_notify_", func, decl);
          }
 
          virtual bool VisitCXXMethodDecl(CXXMethodDecl* decl) {
             std::string name = decl->getNameAsString();
             static std::set<std::string> _action_set; //used for validations
             static std::set<std::string> _notify_set; //used for validations
-            if (decl->isEosioAction()) {
+            if (decl->isEnumivoAction()) {
                name = generation_utils::get_action_name(decl);
-               validate_name(name, [&]() {emitError(*ci, decl->getLocation(), "action not a valid eosio name");});
+               validate_name(name, [&]() {emitError(*ci, decl->getLocation(), "action not a valid enumivo name");});
                if (!_action_set.count(name))
                   _action_set.insert(name);
                else {
@@ -318,7 +318,7 @@ namespace eosio { namespace cdt {
                }
                */
             }
-            else if (decl->isEosioNotify()) {
+            else if (decl->isEnumivoNotify()) {
 
                name = generation_utils::get_notify_pair(decl);
                auto first = name.substr(0, name.find("::"));
@@ -383,7 +383,7 @@ namespace eosio { namespace cdt {
          }
          virtual bool VisitCXXRecordDecl(CXXRecordDecl* decl) {
             std::string rec_name = decl->getQualifiedNameAsString();
-            if (decl->isEosioAction()) {
+            if (decl->isEnumivoAction()) {
                rec_name = generation_utils::get_action_name(decl);
                cg.actions.insert(rec_name);
             }
@@ -393,15 +393,15 @@ namespace eosio { namespace cdt {
          */
       };
 
-      class eosio_codegen_consumer : public ASTConsumer {
+      class enumivo_codegen_consumer : public ASTConsumer {
       private:
-         eosio_codegen_visitor *visitor;
+         enumivo_codegen_visitor *visitor;
          std::string main_file;
          CompilerInstance* ci;
 
       public:
-         explicit eosio_codegen_consumer(CompilerInstance *CI, std::string file)
-            : visitor(new eosio_codegen_visitor(CI)), main_file(file), ci(CI) { }
+         explicit enumivo_codegen_consumer(CompilerInstance *CI, std::string file)
+            : visitor(new enumivo_codegen_visitor(CI)), main_file(file), ci(CI) { }
 
 
          virtual void HandleTranslationUnit(ASTContext &Context) {
@@ -434,13 +434,13 @@ namespace eosio { namespace cdt {
                   // generate apply stub with abi
                   std::stringstream ss;
                   ss << "extern \"C\" {\n";
-                  ss << "void eosio_assert_code(uint32_t, uint64_t);";
-                  ss << "\t__attribute__((weak, eosio_wasm_entry, eosio_wasm_abi(";
+                  ss << "void enumivo_assert_code(uint32_t, uint64_t);";
+                  ss << "\t__attribute__((weak, enumivo_wasm_entry, enumivo_wasm_abi(";
                   std::string abi = cg.abi;
                   ss << "\"" << _quoted(abi) << "\"";
                   ss << ")))\n";
-                  ss << "\tvoid __insert_eosio_abi(unsigned long long r, unsigned long long c, unsigned long long a){";
-                  ss << "eosio_assert_code(false, 1);";
+                  ss << "\tvoid __insert_enumivo_abi(unsigned long long r, unsigned long long c, unsigned long long a){";
+                  ss << "enumivo_assert_code(false, 1);";
                   ss << "}\n";
                   ss << "}";
                   visitor->get_rewriter().InsertTextAfter(ci->getSourceManager().getLocForEndOfFile(fid), ss.str());
@@ -456,12 +456,12 @@ namespace eosio { namespace cdt {
 
       };
 
-      class eosio_codegen_frontend_action : public ASTFrontendAction {
+      class enumivo_codegen_frontend_action : public ASTFrontendAction {
       public:
          virtual std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, StringRef file) {
-            CI.getPreprocessor().addPPCallbacks(_make_unique<eosio_ppcallbacks>(CI.getSourceManager(), file.str()));
-            return _make_unique<eosio_codegen_consumer>(&CI, file);
+            CI.getPreprocessor().addPPCallbacks(_make_unique<enumivo_ppcallbacks>(CI.getSourceManager(), file.str()));
+            return _make_unique<enumivo_codegen_consumer>(&CI, file);
          }
    };
 
-}} // ns eosio::cdt
+}} // ns enumivo::cdt
