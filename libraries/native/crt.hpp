@@ -1,6 +1,7 @@
 #pragma once
 #include <setjmp.h>
 
+#warning "<enumivo/native/crt.hpp> is deprecated use <enumivo/crt.hpp>"
 namespace enumivo { namespace cdt {
    enum output_stream_kind {
       std_out,

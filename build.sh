@@ -105,4 +105,4 @@ fi
 popd &> /dev/null
 
 printf "\\tFor more information:\\n"
-printf "\\tEnumivo Website: https://enumivo.org\\n"
+printf "\\tEnumivo website: https://enumivo.org\\n"

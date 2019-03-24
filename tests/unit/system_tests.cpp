@@ -1,33 +1,53 @@
-#include <enulib/enu.hpp>
-#include <enumivo/native/tester.hpp>
+/**
+ *  @file
+ *  @copyright defined in enumivo.cdt/LICENSE.txt
+ */
 
-using namespace enumivo::native;
+#include <string>
 
+#include <enumivo/enumivo.hpp>
+#include <enumivo/tester.hpp>
+
+using std::move;
+using std::string;
+
+using enumivo::check;
+
+// Definitions in `enumivo.cdt/libraries/enumivolib/system.hpp`
 ENUMIVO_TEST_BEGIN(system_test)
    silence_output(true);
-   auto test_check1 = [](bool b) { enumivo::check(b, "asserted"); }; 
-   test_check1(true);
-   CHECK_ASSERT("asserted", test_check1, false);
 
-   auto test_check2 = [](bool b) { std::string s="asserted"; enumivo::check(b, s); }; 
-   test_check2(true);
-   REQUIRE_ASSERT("asserted", test_check2, false);
+   // ------------------------------------
+   // inline void check(bool, const char*)
+   CHECK_ASSERT( "asserted", []() { const char* str{"asserted"}; check(false, str);} );
 
-   auto test_check3 = [](bool b) { enumivo::check(b, "asserted with more text", 8); }; 
-   test_check3(true);
-   REQUIRE_ASSERT("asserted", test_check3, false);
+   // --------------------------------------
+   // inline void check(bool, const string&)
+   CHECK_ASSERT( "asserted", []() { const string str{"asserted"}; check(false, str);} );
 
-   auto test_check4 = [](bool b) { std::string s="asserted with more text"; enumivo::check(b, s, 8); }; 
-   test_check4(true);
-   REQUIRE_ASSERT("asserted", test_check4, false);
+   // ---------------------------------------
+   // inline void check(bool, const string&&)
+   CHECK_ASSERT( "asserted", []() { const string str{"asserted"}; check(false, move(str));} );
 
-   auto test_check5 = [](bool b) { enumivo::check(b, 13); }; 
-   test_check5(true);
-   REQUIRE_ASSERT("13", test_check5, false);
+   // --------------------------------------------
+   // inline void check(bool, const char*, size_t)
+   CHECK_ASSERT( "assert", []() { const char* str{"asserted"}; check(false, str, 6);} );
+
+   // ----------------------------------------------
+   // inline void check(bool, const string&, size_t)
+   CHECK_ASSERT( "assert", []() { const string str{"asserted"}; check(false, str, 6);} );
+
+   // ---------------------------------
+   // inline void check(bool, uint64_t)
+   CHECK_ASSERT("1", []() { check(false, 1);} );
+   CHECK_ASSERT("100", []() { check(false, 100);} );
+   CHECK_ASSERT("18446744073709551615", []() { check(false, 18446744073709551615ULL);} );
+   CHECK_ASSERT("18446744073709551615", []() { check(false, -1ULL);} );
+
    silence_output(false);
 ENUMIVO_TEST_END
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
    ENUMIVO_TEST(system_test);
    return has_failed();
 }

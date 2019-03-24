@@ -1,18 +1,19 @@
 #pragma once
 
-#include <enulib/action.h>
-#include <enulib/chain.h>
-#include <enulib/crypto.h>
-#include <enulib/db.h>
-#include <enulib/permission.h>
-#include <enulib/print.h>
-#include <enulib/privileged.h>
-#include <enulib/system.h>
-#include <enulib/transaction.h>
-#include <enulib/types.h>
+#include <enumivo/action.h>
+#include <enumivo/chain.h>
+#include <enumivo/crypto.h>
+#include <enumivo/db.h>
+#include <enumivo/permission.h>
+#include <enumivo/print.h>
+#include <enumivo/privileged.h>
+#include <enumivo/system.h>
+#include <enumivo/transaction.h>
+#include <enumivo/types.h>
 
 #include <type_traits>
 
+#warning "<enumivo/native/intrinsics_def.hpp> is deprecated use <enumivo/intrinsics_def.hpp>"
 namespace enumivo { namespace native {
    template <typename... Args, size_t... Is>
    auto get_args_full(std::index_sequence<Is...>) {

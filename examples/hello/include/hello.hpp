@@ -1,4 +1,4 @@
-#include <enulib/enu.hpp>
+#include <enumivo/enumivo.hpp>
 using namespace enumivo;
 
 CONTRACT hello : public contract {

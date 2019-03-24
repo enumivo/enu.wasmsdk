@@ -1,8 +1,9 @@
-#include <enulib/action.hpp>
+#include <enumivo/action.hpp>
 #include "intrinsics_def.hpp"
 
 #pragma once
 
+#warning "<enumivo/native/intrinsics.hpp> is deprecated use <enumivo/intrinsics.hpp>"
 namespace enumivo { namespace native {
    
    class intrinsics {
