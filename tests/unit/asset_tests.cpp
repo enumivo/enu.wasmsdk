@@ -353,8 +353,8 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
    static constexpr symbol sym_no_prec{"SYMBOLL",0};
    static constexpr symbol sym_prec{"SYMBOLL",63};
 
-   static constexpr extended_symbol ext_sym_no_prec{sym_no_prec, name{"enumivoaccoun"}};
-   static constexpr extended_symbol ext_sym_prec{sym_prec, name{"enumivoaccoun"}};
+   static constexpr extended_symbol ext_sym_no_prec{sym_no_prec, name{"enumivoaccouj"}};
+   static constexpr extended_symbol ext_sym_prec{sym_prec, name{"enumivoaccouj"}};
 
    static const asset asset_no_prec{0LL, sym_no_prec};
    static const asset asset_prec{0LL, sym_prec};
@@ -365,11 +365,11 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
 
    //// extended_asset(int64_t, extended_symbol)
    CHECK_EQUAL( (extended_asset{{},ext_sym_no_prec}.quantity), (asset{0LL, sym_no_prec}) )
-   CHECK_EQUAL( (extended_asset{{},ext_sym_no_prec}.contract), (name{"enumivoaccoun"}) )
+   CHECK_EQUAL( (extended_asset{{},ext_sym_no_prec}.contract), (name{"enumivoaccouj"}) )
 
    //// extended_asset(asset, name)
-   CHECK_EQUAL( (extended_asset{asset_no_prec, name{"enumivoaccoun"}}.quantity), (asset{ 0LL, sym_no_prec}) )
-   CHECK_EQUAL( (extended_asset{asset_no_prec, name{"enumivoaccoun"}}.contract), (name{"enumivoaccoun"}) )
+   CHECK_EQUAL( (extended_asset{asset_no_prec, name{"enumivoaccouj"}}.quantity), (asset{ 0LL, sym_no_prec}) )
+   CHECK_EQUAL( (extended_asset{asset_no_prec, name{"enumivoaccouj"}}.contract), (name{"enumivoaccouj"}) )
 
    // ------------------------------------------
    // extended_symbol get_extended_symbol()const
@@ -440,7 +440,7 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
 
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         extended_asset{asset_no_prec, name{"enumivoaccoun"}} + extended_asset{asset_no_prec, name{"jtnuoccaoisoe"}};
+         extended_asset{asset_no_prec, name{"enumivoaccouj"}} + extended_asset{asset_no_prec, name{"jtnuoccaoisoe"}};
       })
    )
 
@@ -453,7 +453,7 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
 
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         temp += extended_asset{asset_no_prec, name{"enumivoaccoun"}};
+         temp += extended_asset{asset_no_prec, name{"enumivoaccouj"}};
       })
    )
 
@@ -466,7 +466,7 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
 
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         extended_asset{asset_no_prec, name{"enumivoaccoun"}} - extended_asset{asset_no_prec, name{"jtnuoccaoisoe"}};
+         extended_asset{asset_no_prec, name{"enumivoaccouj"}} - extended_asset{asset_no_prec, name{"jtnuoccaoisoe"}};
       })
    )
 
@@ -490,16 +490,16 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
 
    // --------------------------------------------------------------------
    // friend bool operator!=(const extended_asset&, const extended_asset&)
-   CHECK_EQUAL( (extended_asset{asset_no_prec, name{"enumivoaccoun"}} != extended_asset{asset_no_prec, name{"jtnuoccaoisoe"}}), true )
+   CHECK_EQUAL( (extended_asset{asset_no_prec, name{"enumivoaccouj"}} != extended_asset{asset_no_prec, name{"jtnuoccaoisoe"}}), true )
    CHECK_EQUAL( (extended_asset{asset{1LL, sym_no_prec}, {}} != extended_asset{asset{-1LL, sym_no_prec}, {}}), true )
-   CHECK_EQUAL( (extended_asset{asset{1LL, sym_no_prec}, {}} != extended_asset{asset{ 0LL, sym_no_prec}, name{"enumivoaccoun"}}), true )
+   CHECK_EQUAL( (extended_asset{asset{1LL, sym_no_prec}, {}} != extended_asset{asset{ 0LL, sym_no_prec}, name{"enumivoaccouj"}}), true )
 
    // -------------------------------------------------------------------
    // friend bool operator<(const extended_asset&, const extended_asset&)
    CHECK_EQUAL( (extended_asset{asset_no_prec, name{}} < extended_asset{asset{ 1LL, sym_no_prec}, {}}), true )
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} < extended_asset{{}, name{"enumivoaccoun"}}};
+         bool b{extended_asset{{}, name{}} < extended_asset{{}, name{"enumivoaccouj"}}};
          return b;
       })
    )
@@ -509,7 +509,7 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
    CHECK_EQUAL( (extended_asset{asset_no_prec, name{}} <= extended_asset{asset{ 1LL, sym_no_prec}, {}}), true );
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} <= extended_asset{{}, name{"enumivoaccoun"}}};
+         bool b{extended_asset{{}, name{}} <= extended_asset{{}, name{"enumivoaccouj"}}};
          return b;
       })
    )
@@ -519,7 +519,7 @@ ENUMIVO_TEST_BEGIN(extended_asset_type_test)
    CHECK_EQUAL( (extended_asset{asset{ 1LL, sym_no_prec}, {}} >= extended_asset{asset_no_prec, name{}}), true );
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} >= extended_asset{{}, name{"enumivoaccoun"}}};
+         bool b{extended_asset{{}, name{}} >= extended_asset{{}, name{"enumivoaccouj"}}};
          return b;
       })
    )

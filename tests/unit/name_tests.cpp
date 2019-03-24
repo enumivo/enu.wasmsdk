@@ -110,7 +110,7 @@ ENUMIVO_TEST_BEGIN(name_type_test)
    CHECK_EQUAL( name{"enumivoacc"}.length(), 10 )
    CHECK_EQUAL( name{"enumivoacco"}.length(), 11 )
    CHECK_EQUAL( name{"enumivoaccou"}.length(), 12 )
-   CHECK_EQUAL( name{"enumivoaccoun"}.length(), 13 )
+   CHECK_EQUAL( name{"enumivoaccouj"}.length(), 13 )
 
    CHECK_ASSERT( "string is too long to be a valid name", ([]() {name{"12345abcdefghj"}.length();}) )
    
