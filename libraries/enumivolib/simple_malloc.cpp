@@ -1,7 +1,7 @@
 #include <memory>
-#include "core/enumivo/check.hpp"
+#include "core/eosio/check.hpp"
 
-#ifdef ENUMIVO_NATIVE
+#ifdef EOSIO_NATIVE
    extern "C" {
       size_t _current_memory();
       size_t _grow_memory(size_t);
@@ -13,7 +13,7 @@
 #define GROW_MEMORY(X) __builtin_wasm_grow_memory(X)
 #endif
 
-namespace enumivo {   
+namespace eosio {   
    struct dsmalloc {
       inline char* align(char* ptr, uint8_t align_amt) {
          return (char*)((((size_t)ptr) + align_amt-1) & ~(align_amt-1));
@@ -46,7 +46,7 @@ namespace enumivo {
             next_page++;
             pages_to_alloc++;
          }         
-         enumivo::check(GROW_MEMORY(pages_to_alloc) != -1, "failed to allocate pages");  
+         eosio::check(GROW_MEMORY(pages_to_alloc) != -1, "failed to allocate pages");  
          return ret;
       }
 
@@ -56,18 +56,18 @@ namespace enumivo {
       size_t next_page;
    }; 
    dsmalloc _dsmalloc;
-} // ns enumivo
+} // ns eosio
 
 extern "C" {
 
 void* malloc(size_t size) {
-   void* ret = enumivo::_dsmalloc(size);
+   void* ret = eosio::_dsmalloc(size);
    return ret;
 }
 
 void* memset(void*,int,size_t);
 void* calloc(size_t count, size_t size) {
-   if (void* ptr = enumivo::_dsmalloc(count*size)) {
+   if (void* ptr = eosio::_dsmalloc(count*size)) {
       memset(ptr, 0, count*size);
       return ptr;
    }
@@ -75,7 +75,7 @@ void* calloc(size_t count, size_t size) {
 }
 
 void* realloc(void* ptr, size_t size) {
-   return enumivo::_dsmalloc(size);
+   return eosio::_dsmalloc(size);
 }
 
 void free(void* ptr) {}

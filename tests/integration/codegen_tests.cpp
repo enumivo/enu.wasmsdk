@@ -19,11 +19,11 @@ using mvo = fc::mutable_variant_object;
 BOOST_AUTO_TEST_SUITE(codegen_tests)
 
 BOOST_FIXTURE_TEST_CASE( simple_tests, tester ) try {
-   create_accounts( { N(test), N(enumivo.token), N(someone), N(other) } );
+   create_accounts( { N(test), N(enu.token), N(someone), N(other) } );
    produce_block();
 
-   set_code( N(enumivo.token), contracts::transfer_wasm() );
-   set_abi(  N(enumivo.token),  contracts::transfer_abi().data() );
+   set_code( N(enu.token), contracts::transfer_wasm() );
+   set_abi(  N(enu.token),  contracts::transfer_abi().data() );
 
    set_code( N(someone), contracts::transfer_wasm() );
    set_abi(  N(someone),  contracts::transfer_abi().data() );

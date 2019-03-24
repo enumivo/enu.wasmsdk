@@ -1,9 +1,9 @@
 #pragma once
-#include <enumivo/gen.hpp>
+#include <eosio/gen.hpp>
 
-#include <enumivo/utils.hpp>
-#include <enumivo/whereami/whereami.hpp>
-#include <enumivo/abi.hpp>
+#include <eosio/utils.hpp>
+#include <eosio/whereami/whereami.hpp>
+#include <eosio/abi.hpp>
 
 #include <exception>
 #include <iostream>
@@ -16,15 +16,15 @@
 #include <jsoncons/json.hpp>
 
 using namespace llvm;
-using namespace enumivo;
-using namespace enumivo::cdt;
+using namespace eosio;
+using namespace eosio::cdt;
 using jsoncons::json;
 using jsoncons::ojson;
 
-namespace enumivo { namespace cdt {
+namespace eosio { namespace cdt {
    struct abigen_exception : public std::exception {
       virtual const char* what() const throw() {
-         return "enumivo.abigen fatal error";
+         return "eosio.abigen fatal error";
       }
    };
    extern abigen_exception abigen_ex;
@@ -49,7 +49,7 @@ namespace enumivo { namespace cdt {
 
       void add_action( const clang::CXXRecordDecl* decl ) {
          abi_action ret;
-         auto action_name = decl->getEnumivoActionAttr()->getName();
+         auto action_name = decl->getEosioActionAttr()->getName();
 
          if (rcs[get_action_name(decl)].empty())
             std::cout << "Warning, action <"+get_action_name(decl)+"> does not have a ricardian contract\n";
@@ -60,7 +60,7 @@ namespace enumivo { namespace cdt {
             try {
                validate_name( decl->getName().str(), error_handler );
             } catch (...) {
-               std::cout << "Error, name <" <<decl->getName().str() << "> is an invalid Enumivo name.\n";
+               std::cout << "Error, name <" <<decl->getName().str() << "> is an invalid EOSIO name.\n";
                throw;
             }
             ret.name = decl->getName().str();
@@ -69,7 +69,7 @@ namespace enumivo { namespace cdt {
             try {
                validate_name( action_name.str(), error_handler );
             } catch (...) {
-               std::cout << "Error, name <" << action_name.str() << "> is an invalid Enumivo name.\n";
+               std::cout << "Error, name <" << action_name.str() << "> is an invalid EOSIO name.\n";
                throw;
             }
             ret.name = action_name.str();
@@ -81,7 +81,7 @@ namespace enumivo { namespace cdt {
       void add_action( const clang::CXXMethodDecl* decl ) {
          abi_action ret;
 
-         auto action_name = decl->getEnumivoActionAttr()->getName();
+         auto action_name = decl->getEosioActionAttr()->getName();
 
          if (rcs[get_action_name(decl)].empty())
             std::cout << "Warning, action <"+get_action_name(decl)+"> does not have a ricardian contract\n";
@@ -92,7 +92,7 @@ namespace enumivo { namespace cdt {
             try {
                validate_name( decl->getNameAsString(), error_handler );
             } catch (...) {
-               std::cout << "Error, name <" <<decl->getNameAsString() << "> is an invalid Enumivo name.\n";
+               std::cout << "Error, name <" <<decl->getNameAsString() << "> is an invalid EOSIO name.\n";
             }
             ret.name = decl->getNameAsString();
          }
@@ -100,7 +100,7 @@ namespace enumivo { namespace cdt {
             try {
                validate_name( action_name.str(), error_handler );
             } catch (...) {
-               std::cout << "Error, name <" << action_name.str() << "> is an invalid Enumivo name.\n";
+               std::cout << "Error, name <" << action_name.str() << "> is an invalid EOSIO name.\n";
             }
             ret.name = action_name.str();
          }
@@ -203,7 +203,7 @@ namespace enumivo { namespace cdt {
          tables.insert(decl);
          abi_table t;
          t.type = decl->getNameAsString();
-         auto table_name = decl->getEnumivoTableAttr()->getName();
+         auto table_name = decl->getEosioTableAttr()->getName();
          if (!table_name.empty()) {
             try {
                validate_name( table_name.str(), error_handler );
@@ -218,7 +218,7 @@ namespace enumivo { namespace cdt {
       }
 
       void add_table( uint64_t name, const clang::CXXRecordDecl* decl ) {
-         if (!(decl->isEnumivoTable() && abigen::is_enumivo_contract(decl, get_contract_name())))
+         if (!(decl->isEosioTable() && abigen::is_eosio_contract(decl, get_contract_name())))
             return;
          abi_table t;
          t.type = decl->getNameAsString();
@@ -272,7 +272,7 @@ namespace enumivo { namespace cdt {
 
       std::string generate_json_comment() {
          std::stringstream ss;
-         ss << "This file was generated with enumivo-abigen.";
+         ss << "This file was generated with eosio-abigen.";
          ss << " DO NOT EDIT ";
          return ss.str(); 
       }
@@ -463,4 +463,4 @@ namespace enumivo { namespace cdt {
          std::set<abi_table>                   ctables;
          std::map<std::string, std::string>    rcs;
    };
-}} // ns enumivo::cdt
+}} // ns eosio::cdt
