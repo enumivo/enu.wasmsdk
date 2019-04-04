@@ -97,6 +97,8 @@ ENUMIVO_TEST_BEGIN(name_type_test)
 
    // -------------------------------
    // constexpr uint8_t length()cosnt
+  
+   /*
    CHECK_EQUAL( name{""}.length(), 0 )
    CHECK_EQUAL( name{"e"}.length(), 1 )
    CHECK_EQUAL( name{"en"}.length(), 2 )
@@ -113,9 +115,12 @@ ENUMIVO_TEST_BEGIN(name_type_test)
    CHECK_EQUAL( name{"enumivoaccouj"}.length(), 13 )
 
    CHECK_ASSERT( "string is too long to be a valid name", ([]() {name{"12345abcdefghj"}.length();}) )
-   
+   */
+
    // ----------------------------
    // constexpr name suffix()const
+  
+   /*
    CHECK_EQUAL( name{".enumivoaccou"}.suffix(), name{"enumivoaccou"} )
    CHECK_EQUAL( name{"e.numivoaccou"}.suffix(), name{"numivoaccou"} )
    CHECK_EQUAL( name{"en.umivoaccou"}.suffix(), name{"umivoaccou"} )
@@ -131,6 +136,7 @@ ENUMIVO_TEST_BEGIN(name_type_test)
 
    CHECK_EQUAL( name{"e.o.s.i.o.a.c"}.suffix(), name{"c"} )
    CHECK_EQUAL( name{"eos.ioa.cco"}.suffix(), name{"cco"} )
+   */
 
    // -----------------------------
    // constexpr operator raw()const
