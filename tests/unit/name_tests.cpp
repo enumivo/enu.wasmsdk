@@ -118,24 +118,22 @@ ENUMIVO_TEST_BEGIN(name_type_test)
    // ----------------------------
    // constexpr name suffix()const
   
-   CHECK_EQUAL( name{".enumivoaccou"}.suffix(), name{"enumivoaccou"} )
-   CHECK_EQUAL( name{"e.numivoaccou"}.suffix(), name{"numivoaccou"} )
-   CHECK_EQUAL( name{"en.umivoaccou"}.suffix(), name{"umivoaccou"} )
-   CHECK_EQUAL( name{"enu.mivoaccou"}.suffix(), name{"mivoaccou"} )
-   CHECK_EQUAL( name{"enum.ivoaccou"}.suffix(), name{"ivoaccou"} )
-   CHECK_EQUAL( name{"enumi.voaccou"}.suffix(), name{"voaccou"} )
-   CHECK_EQUAL( name{"enumiv.oaccou"}.suffix(), name{"oaccou"} )
-   CHECK_EQUAL( name{"enumivo.accou"}.suffix(), name{"accou"} )
-   CHECK_EQUAL( name{"enumivoa.ccou"}.suffix(), name{"ccou"} )
-   CHECK_EQUAL( name{"enumivoac.cou"}.suffix(), name{"cou"} )
-   CHECK_EQUAL( name{"enumivoacc.ou"}.suffix(), name{"ou"} )
-   CHECK_EQUAL( name{"enumivoacco.u"}.suffix(), name{"u"} )
+   CHECK_EQUAL( name{".eosioaccounj"}.suffix(), name{"eosioaccounj"} )
+   CHECK_EQUAL( name{"e.osioaccounj"}.suffix(), name{"osioaccounj"} )
+   CHECK_EQUAL( name{"eo.sioaccounj"}.suffix(), name{"sioaccounj"} )
+   CHECK_EQUAL( name{"eos.ioaccounj"}.suffix(), name{"ioaccounj"} )
+   CHECK_EQUAL( name{"eosi.oaccounj"}.suffix(), name{"oaccounj"} )
+   CHECK_EQUAL( name{"eosio.accounj"}.suffix(), name{"accounj"} )
+   CHECK_EQUAL( name{"eosioa.ccounj"}.suffix(), name{"ccounj"} )
+   CHECK_EQUAL( name{"eosioac.counj"}.suffix(), name{"counj"} )
+   CHECK_EQUAL( name{"eosioacc.ounj"}.suffix(), name{"ounj"} )
+   CHECK_EQUAL( name{"eosioacco.unj"}.suffix(), name{"unj"} )
+   CHECK_EQUAL( name{"eosioaccou.nj"}.suffix(), name{"nj"} )
+   CHECK_EQUAL( name{"eosioaccoun.j"}.suffix(), name{"j"} )
 
-   /*
    CHECK_EQUAL( name{"e.o.s.i.o.a.c"}.suffix(), name{"c"} )
    CHECK_EQUAL( name{"eos.ioa.cco"}.suffix(), name{"cco"} )
-   */
-
+   
    // -----------------------------
    // constexpr operator raw()const
    CHECK_EQUAL( name{"1"}.operator name::raw(), static_cast<name::raw>(576460752303423488ULL) )
