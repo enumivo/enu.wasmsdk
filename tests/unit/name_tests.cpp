@@ -118,7 +118,6 @@ ENUMIVO_TEST_BEGIN(name_type_test)
    // ----------------------------
    // constexpr name suffix()const
   
-   /*
    CHECK_EQUAL( name{".enumivoaccou"}.suffix(), name{"enumivoaccou"} )
    CHECK_EQUAL( name{"e.numivoaccou"}.suffix(), name{"numivoaccou"} )
    CHECK_EQUAL( name{"en.umivoaccou"}.suffix(), name{"umivoaccou"} )
@@ -132,6 +131,7 @@ ENUMIVO_TEST_BEGIN(name_type_test)
    CHECK_EQUAL( name{"enumivoacc.ou"}.suffix(), name{"ou"} )
    CHECK_EQUAL( name{"enumivoacco.u"}.suffix(), name{"u"} )
 
+   /*
    CHECK_EQUAL( name{"e.o.s.i.o.a.c"}.suffix(), name{"c"} )
    CHECK_EQUAL( name{"eos.ioa.cco"}.suffix(), name{"cco"} )
    */
